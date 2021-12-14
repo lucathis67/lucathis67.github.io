@@ -1,20 +1,28 @@
 $(function() {
 
-	function lastUpdated() {
+	jQuery.fn.switchSign = function(handle) {
+		window.setTimeout(function() {
+			handle.textContent === "+" ? handle.textContent = "-" : handle.textContent = "+";
+		}, 300);
+	}
+
+	const lastUpdated = (function() {
 		const lastUpdate = new Date(document.lastModified);
 		const options = { year: 'numeric', month: 'long', day: 'numeric' };
 		return lastUpdate.toLocaleDateString('fr-FR', options);
-	}
+	})();
 
-	document.getElementsByClassName('last-update')[0].textContent += ` ${lastUpdated()}`;
+	$('.accordion').on('click', '.accordion-control', function(e) {
+		e.stopImmediatePropagation();
+		const handle = $(this).find('.accordion-handle')[0];
+		const panel = $(this).next('.accordion-panel');
 
-	$('.accordion-panel').each(function() {
-		$(this).css("display", "none");
+		if (panel.is(':animated')) {
+			return false;
+		} else {
+			panel.slideToggle(300).switchSign(handle);
+		}
 	});
 
-	$('.accordion').on('click', '.accordion-control', function() {
-		$(this).next('.accordion-panel').not(':animated').slideToggle(200);
-	});
-
+	document.getElementsByClassName('last-update')[0].textContent += ` ${lastUpdated}`;
 });
-
