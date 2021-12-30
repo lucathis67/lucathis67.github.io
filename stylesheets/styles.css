@@ -68,7 +68,7 @@ footer {
 .main-title {
 	display: block;
 	flex-basis: 100%;
-	text-align: right;
+	text-align: center;
 	font-size: 1.8rem;
 	font-family: var(--title-font);
 	font-style: italic;
@@ -77,11 +77,20 @@ footer {
 .short-bio {
 	display: block;
 	flex-basis: 100%;
-	text-align: left;
+	text-align: center;
 	font-size: 0.9rem;
 	font-family: var(--title-font);
 	font-style: italic;
 	color: var(--brand-color);
+	padding-top: 0.5rem;
+	border-top: 2px solid var(--brand-color);
+	border-image: linear-gradient(
+		-90deg,
+		var(--background-color),
+		var(--brand-color),
+		var(--focus-color-matte),
+		var(--background-color)
+	) 1;
 }
 
 .contact {
@@ -119,7 +128,11 @@ footer {
 
 .accordion h2:hover {
 	cursor: pointer;
-	background: linear-gradient(90deg, var(--focus-color-transparent), var(--background-color));
+	background: linear-gradient(
+		90deg,
+		var(--focus-color-transparent),
+		var(--background-color)
+	);
 }
 
 .accordion h2:hover > .accordion-handle {
@@ -129,7 +142,11 @@ footer {
 .last-update {
 	display: inline-block;
 	font-size: 1em;
-	background: -webkit-linear-gradient(180deg, var(--brand-color), var(--focus-color-matte));
+	background: -webkit-linear-gradient(
+		180deg,
+		var(--brand-color),
+		var(--focus-color-matte)
+	);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color:  transparent;
 }
@@ -156,13 +173,22 @@ footer {
 	.main-title {
 		flex-basis: 40%;
 		padding-right: 1rem;
+		text-align: right;
 	}
 
 	.short-bio {
 		flex-basis: 60%;
 		padding-left: 1rem;
+		text-align: left;
+		border-top: none;
+		padding-top: none;
+		
 		border-left: 2px solid var(--brand-color);
-		border-image: linear-gradient(var(--brand-color), 40%, var(--focus-color-transparent)) 1;
+		border-image: linear-gradient(
+			var(--brand-color),
+			var(--focus-color-transparent)
+		) 1;
+
 	}
 
 	.accordion-handle {
