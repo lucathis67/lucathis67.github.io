@@ -1,4 +1,13 @@
-/* ==== MOBILE SCREEN DISPLAY ==== */
+:root {
+	--main-font: 'Atkinson Hyperlegible', sans-serif;
+	--title-font: 'Lora', serif;
+
+	--main-color:  rgb(65, 65, 65);
+	--background-color:  rgb(255, 255, 255);
+	--brand-color: rgb(75, 105, 225);
+	--focus-color-matte: rgba(250, 160, 125, 1);
+	--focus-color-transparent: rgba(250, 160, 125, 0.3);
+}
 
 * {
 	box-sizing: border-box;
@@ -10,17 +19,19 @@
 }
 
 html {
-	font-family: 'Atkinson Hyperlegible', sans-serif;
+	font-family: var(--main-font);
 	font-size: 120%;
-	color: black;
+	color: var(--main-color);
 }
+
+/* ==== MOBILE SCREEN DISPLAY ==== */
 
 body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
 	line-height: 1.6;
-	background-color: white;
+	background-color: var(--background-color);
 }
 
 header,
@@ -45,11 +56,13 @@ header {
 
 main {
 	flex: 1;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 footer {
-	font-size: 0.7rem;
-	color: dimgray;
+	font-size: 0.8rem;
 }
 
 .main-title {
@@ -57,7 +70,7 @@ footer {
 	flex-basis: 100%;
 	text-align: right;
 	font-size: 1.8rem;
-	font-family: 'Lora', serif;
+	font-family: var(--title-font);
 }
 
 .short-bio {
@@ -65,8 +78,16 @@ footer {
 	flex-basis: 100%;
 	text-align: left;
 	font-size: 0.9rem;
-	font-family: 'Lora', serif;
-	color: steelblue;
+	font-family: var(--title-font);
+	color: var(--brand-color);
+}
+
+.contact {
+	flex-basis: 100%;
+}
+
+.accordion {
+	flex-basis: 100%;
 }
 
 .accordion h2 {
@@ -74,7 +95,7 @@ footer {
 	top: 0;
 	left: 0;
 	font-size: 1.2rem;
-	font-family: 'Lora', serif;
+	font-family: var(--title-font);
 	padding-left: 1.5em;
 	transition: 0.1s;
 }
@@ -82,8 +103,9 @@ footer {
 .accordion-panel {
 	display: none;
 	padding: 3em;
+	padding-right: none;
 	font-size: 1rem;
-	color: dimgray;
+	color: var(--brand-color);
 }
 
 .accordion-handle {
@@ -94,13 +116,19 @@ footer {
 
 .accordion h2:hover {
 	cursor: pointer;
-	background-color: papayawhip;
-	color: black;
-	transition: 0.1s;
+	background: linear-gradient(90deg, var(--focus-color-transparent), var(--background-color));
 }
 
 .accordion h2:hover > .accordion-handle {
 	display: inline-block;
+}
+
+.last-update {
+	display: inline-block;
+	font-size: 1em;
+	background: -webkit-linear-gradient(180deg, var(--brand-color), var(--focus-color-matte));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color:  transparent;
 }
 
 /* ==== MEDIUM SCREEN DISPLAY ==== */
@@ -113,6 +141,14 @@ footer {
 		width: 80vw;
 	}
 
+	.contact {
+		flex-basis: 40%;
+		padding-right: 1.5em;
+	}
+
+	.accordion {
+		flex-basis: 60%;
+	}
 
 	.main-title {
 		flex-basis: 40%;
@@ -122,12 +158,12 @@ footer {
 	.short-bio {
 		flex-basis: 60%;
 		padding-left: 1rem;
-		border-left: 2px solid steelblue;
+		border-left: 2px solid var(--brand-color);
+		border-image: linear-gradient(var(--brand-color), 40%, var(--focus-color-transparent)) 1;
 	}
 
 	.accordion-handle {
 		display: none;
-		color: white;
 		opacity: 0;
 		transition: 0.1s;
 		font-weight: bold;
@@ -135,7 +171,6 @@ footer {
 
 	.accordion h2:hover > .accordion-handle {
 		display: inline-block;
-		color: black;
 		opacity: 1;
 		transition: 0.1s;
 	}
