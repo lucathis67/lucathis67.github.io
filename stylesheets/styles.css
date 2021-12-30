@@ -71,6 +71,7 @@ footer {
 	text-align: right;
 	font-size: 1.8rem;
 	font-family: var(--title-font);
+	font-style: italic;
 }
 
 .short-bio {
@@ -79,6 +80,7 @@ footer {
 	text-align: left;
 	font-size: 0.9rem;
 	font-family: var(--title-font);
+	font-style: italic;
 	color: var(--brand-color);
 }
 
@@ -96,6 +98,7 @@ footer {
 	left: 0;
 	font-size: 1.2rem;
 	font-family: var(--title-font);
+	font-style: italic;
 	padding-left: 1.5em;
 	transition: 0.1s;
 }
