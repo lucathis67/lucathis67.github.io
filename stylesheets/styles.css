@@ -44,8 +44,8 @@ footer {
 header,
 footer {
 	text-align: center;
-	margin-top: 5em;
-	margin-bottom: 5em; 
+	margin-top: 2.5em;
+	margin-bottom: 2.5em; 
 }
 
 header {
@@ -82,8 +82,8 @@ footer {
 	font-family: var(--title-font);
 	font-style: italic;
 	color: var(--brand-color);
-	padding-top: 0.5rem;
 	border-top: 2px solid var(--brand-color);
+	padding-top: 0.7em;
 	border-image: linear-gradient(
 		-90deg,
 		var(--background-color),
@@ -95,6 +95,32 @@ footer {
 
 .contact {
 	flex-basis: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.aside {
+	align-self: center;
+	text-align: center;
+	margin-bottom: 1.5em;
+	font-size: 0.8em;
+}
+
+.portrait {
+	height: 150px;
+	border-radius: 50%;
+	filter: brightness(1.2);
+}
+
+.fa {
+	display: inline-block;
+	padding-left: 1em;
+	text-decoration: none;
+	color: var(--focus-color-matte);
+}
+
+.fa:hover {
+	color: var(--focus-color-transparent);
 }
 
 .accordion {
@@ -161,6 +187,12 @@ footer {
 		width: 80vw;
 	}
 
+	header,
+	footer {
+		margin-top: 5em;
+		margin-bottom: 5em;
+	}
+
 	.contact {
 		flex-basis: 40%;
 		padding-right: 1.5em;
@@ -180,15 +212,13 @@ footer {
 		flex-basis: 60%;
 		padding-left: 1rem;
 		text-align: left;
-		border-top: none;
-		padding-top: none;
-		
+		border-top: 0px;
+		padding-top: 0;
 		border-left: 2px solid var(--brand-color);
 		border-image: linear-gradient(
 			var(--brand-color),
 			var(--focus-color-transparent)
 		) 1;
-
 	}
 
 	.accordion-handle {
