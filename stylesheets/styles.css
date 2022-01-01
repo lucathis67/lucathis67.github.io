@@ -156,6 +156,7 @@ footer {
 	cursor: pointer;
 	background: linear-gradient(
 		90deg,
+		var(--background-color), 10%,
 		var(--focus-color-transparent),
 		var(--background-color)
 	);
