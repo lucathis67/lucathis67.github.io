@@ -131,7 +131,8 @@ p {
 	color: var(--focus-color-matte);
 }
 
-.fa:hover {
+.fa:hover,
+li:focus .fa {
 	color: var(--focus-color-transparent);
 }
 
@@ -170,7 +171,8 @@ p {
 	left: 0.5em;
 }
 
-.accordion-control:hover > h2 {
+.accordion-control:hover > h2,
+.accordion-control h2:focus {
 	cursor: pointer;
 	background: linear-gradient(
 		90deg,
@@ -178,10 +180,6 @@ p {
 		var(--focus-color-transparent),
 		var(--background-color)
 	);
-}	
-
-.accordion-control:hover .accordion-handle {
-	display: inline-block;
 }
 
 .last-update {
@@ -262,7 +260,8 @@ p {
 		font-weight: bold;
 	}
 
-	.accordion-control:hover .accordion-handle {
+	.accordion-control:hover .accordion-handle,
+	.accordion-control h2:focus > .accordion-handle {
 		display: inline-block;
 		opacity: 1;
 		transition: 0.1s;

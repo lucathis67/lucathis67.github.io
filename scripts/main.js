@@ -1,6 +1,5 @@
 $(function() {
 
-	// create a string with the date of the document's last modification (if available)
 	const lastUpdated = (function() {
 		if (Date.parse(document.lastModified) != 0) {
 			const lastUpdate = new Date(document.lastModified);
@@ -11,7 +10,6 @@ $(function() {
 		}
 	})();
 
-	// 
 	if (lastUpdated) {
 		document.getElementsByClassName('last-update')[0].textContent = `Mis à jour le ${lastUpdated}`;
 	}
