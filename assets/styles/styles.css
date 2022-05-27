@@ -1,0 +1,50 @@
+:root {
+	--guide-font: 'Open Sans', sans-serif;
+	--read-font: 'Lora', serif;
+
+	--background-color: #F8ECE3;
+	--pop-color: #FF2525;
+	--read-color: #004AAD;
+	--negative-color:  #FFF;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: var(--read-color);
+	font-weight: 400;
+	color: var(--read-color);
+	background-color: var(--background-color);
+}
+
+footer {
+	border-top: 1px solid var(--read-color);
+}
+
+.title {
+	font-weight: 400;
+	color: var(--pop-color);
+}
+
+.title i {
+	color: var(--read-color);
+}
+
+.guide {
+	font-family: var(--guide-font);
+	font-weight: 400;
+}
+
+.guide i {
+	color: var(--pop-color);
+}
+
+.logo-group {
+	letter-spacing: .15rem;
+}
+
+.logo-group .title {
+	font-size: 2.5rem;
+}
