@@ -2,34 +2,65 @@
 	--guide-font: 'Open Sans', sans-serif;
 	--read-font: 'Lora', serif;
 
-	--background-color: #F8ECE3;
-	--pop-color: #FF2525;
-	--read-color: #004AAD;
-	--negative-color:  #FFF;
+	--background-color: #FFF;
+	--read-color: #000;
 }
 
 * {
 	box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    display: none; 
+}
+
 html {
-	font-family: var(--read-color);
+	font-family: var(--read-font);
 	font-weight: 400;
 	color: var(--read-color);
 	background-color: var(--background-color);
 }
 
-footer {
-	border-top: 1px solid var(--read-color);
+main {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-items: center;
+	border: 5px solid var(--read-color);
+}
+
+header, main, footer{
+	text-align: center;
+}
+
+nav a {
+	text-decoration: none;
+	margin: 0.5em 1em;
+	padding: 1em 0;
+	border-bottom: 10px solid var(--background-color);
+}
+
+nav a:link, nav a:visited, nav a:hover, nav a:active {
+	color: var(--read-color);
+}
+
+nav a:hover {
+	border-bottom-color: var(--read-color);
+	transition: 0.2s ease-in-out;
+}
+
+.logo-group img {
+	width: 160px;
 }
 
 .title {
-	font-weight: 400;
-	color: var(--pop-color);
+	font-weight: 500;
+	color: var(--read-color);
 }
 
-.title i {
-	color: var(--read-color);
+.headline {
+	font-style: italic;
 }
 
 .guide {
@@ -37,12 +68,12 @@ footer {
 	font-weight: 400;
 }
 
-.guide i {
-	color: var(--pop-color);
+.logo-group {
+	letter-spacing: .10rem;
 }
 
-.logo-group {
-	letter-spacing: .15rem;
+.logo-group h1 {
+	margin-top: 0;
 }
 
 .logo-group .title {
