@@ -1,0 +1,123 @@
+:root {
+	--guide-font: 'Open Sans', sans-serif;
+	--read-font: 'Lora', serif;
+
+	--background-color: #FFF;
+	--read-color: #000;
+}
+
+::-webkit-scrollbar {
+    display: none; 
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: var(--read-font);
+	font-weight: 400;
+	color: var(--read-color);
+	background-color: var(--background-color);
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+header {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}
+
+footer {
+	width: 100%;
+	padding: 0.5em 1em;
+	background-color: var(--read-color);
+	color: var(--background-color);
+	font-size: 0.9rem;
+	font-style: italic;
+	text-align: right;
+}
+
+footer a {
+	color: inherit;
+	text-decoration: none;
+}
+
+footer a:hover {
+	text-decoration: underline;
+}
+
+nav a {
+	text-decoration: none;
+	margin: 0 1em;
+	padding-bottom: 0.5em;
+	border-bottom: 0.5em solid var(--background-color);
+}
+
+nav a:link, nav a:visited, nav a:hover, nav a:active {
+	color: var(--read-color);
+}
+
+nav a:hover {
+	border-bottom-color: var(--read-color);
+	transition: 0.2s ease-in-out;
+}
+
+.title {
+	font-weight: 300;
+	color: var(--read-color);
+}
+
+.guide {
+	font-family: var(--guide-font);
+}
+
+.logo-group,
+.nav-group {
+	width: 100%;
+}
+
+.logo-group {
+	letter-spacing: .10rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding:  1em;
+}
+
+.nav-group {
+	margin-bottom: 1em;
+	text-align: left;
+}
+
+.logo-group a {
+	flex: 1;
+	text-align: left;
+}
+
+.logo-group img {
+	width: 100px;
+}
+
+.logo-group .title {
+	font-size: 6rem;
+	margin: 0;
+	text-align: right;
+}
+
+.logo-group .headline{
+	font-style: italic;
+	font-size: 1.2rem;
+	text-align: right;
+	flex: 1;
+}
+
+.nav-group .guide {
+	font-size: 1.5rem;
+}
