@@ -57,7 +57,7 @@ nav a {
 	text-decoration: none;
 	margin: 0 1em;
 	padding-bottom: 0.5em;
-	border-bottom: 0.5em solid var(--background-color);
+	border-bottom: 0.5em solid rgba(0, 0, 0, 0);
 }
 
 nav a:link, nav a:visited, nav a:hover, nav a:active {
@@ -125,8 +125,9 @@ nav a:hover {
 
 
 .blink {
-	opacity: 0;
-    animation: blink-animation 1.5s 3s steps(1, start) infinite;
+	padding-left: 2em;
+	opacity: 1;
+    	animation: blink-animation 1.5s 3s steps(1, start) infinite;
 }
 
 @keyframes blink-animation {
