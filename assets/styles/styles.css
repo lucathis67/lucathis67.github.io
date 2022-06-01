@@ -25,6 +25,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+	padding-bottom: calc(1em + env(safe-area-inset-bottoms));
 }
 
 header {
@@ -36,7 +37,6 @@ header {
 footer {
 	width: 100%;
 	padding: 0.5em 1em;
-	padding-bottom: calc(0.5em + env(safe-area-inset-bottoms));
 	background-color: var(--read-color);
 	color: var(--background-color);
 	font-size: 0.9rem;
@@ -112,13 +112,56 @@ nav a:hover {
 	text-align: right;
 }
 
-.logo-group .headline{
+.logo-group .headline {
 	font-style: italic;
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 	text-align: right;
 	flex: 1;
 }
 
 .nav-group .guide {
 	font-size: 1.5rem;
+}
+
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.blink {
+    animation: blink-animation 1.5s steps(1, start) infinite;
+    -webkit-animation: blink-animation 1.5s steps(1, start) infinite;
+}
+
+@keyframes blink-animation {
+
+    0% {
+         opacity: 0;
+    }
+    50% {
+         opacity: 1;
+    }
+    100% {
+         opacity: 0;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    0% {
+       opacity: 0;
+    }
+    50% {
+       opacity: 1;
+    }
+    100% {
+       opacity: 0;
+    }
 }
