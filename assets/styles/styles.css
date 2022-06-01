@@ -123,22 +123,10 @@ nav a:hover {
 	font-size: 1.5rem;
 }
 
-#background-video {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: -1;
-  opacity: 0.1;
-}
 
 .blink {
-    animation: blink-animation 1.5s steps(1, start) infinite;
-    -webkit-animation: blink-animation 1.5s steps(1, start) infinite;
+	opacity: 0;
+    animation: blink-animation 1.5s 3s steps(1, start) infinite;
 }
 
 @keyframes blink-animation {
@@ -154,14 +142,24 @@ nav a:hover {
     }
 }
 
-@-webkit-keyframes blink-animation {
-    0% {
-       opacity: 0;
-    }
-    50% {
-       opacity: 1;
-    }
-    100% {
-       opacity: 0;
-    }
+#background-image {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0;
+  animation: appear-animation 2s 1s forwards;
 }
+
+@keyframes appear-animation {
+	100% {
+		opacity: 0.15;
+	}
+}
+
+
