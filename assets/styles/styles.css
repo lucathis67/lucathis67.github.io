@@ -19,13 +19,14 @@ html {
 	font-weight: 400;
 	color: var(--read-color);
 	background-color: var(--background-color);
+	height: -webkit-fill-available;
 }
 
 body {
 	display: flex;
 	flex-direction: column;
-	min-height: calc(100vh - env(safe-area-inset-bottom));
-	padding-bottom: env(safe-area-inset-bottom);
+	min-height: 100vh;
+	min-height: -webkit-fill-available;
 }
 
 header {
