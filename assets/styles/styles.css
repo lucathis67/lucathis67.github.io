@@ -25,7 +25,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	padding-bottom: calc(0 + env(safe-area-inset-bottoms));
+	padding-bottom: calc(0 + env(safe-area-inset-bottom));
 }
 
 header {
@@ -108,7 +108,7 @@ nav a:hover {
 }
 
 .logo-group .title {
-	font-size: 6rem;
+	font-size: 4rem;
 	margin: 0;
 	padding-bottom: 1rem;
 	text-align: right;
@@ -116,7 +116,7 @@ nav a:hover {
 
 .logo-group .headline {
 	font-style: italic;
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	text-align: right;
 	flex: 1;
 }
@@ -162,6 +162,16 @@ nav a:hover {
 @keyframes appear-animation {
 	100% {
 		opacity: 0.15;
+	}
+}
+
+@media screen and (min-width:  768px) {
+	.logo-group .title {
+		font-size: 6rem;
+	}
+
+	.logo-group .headline {
+		font-size: 1.4rem;
 	}
 }
 
