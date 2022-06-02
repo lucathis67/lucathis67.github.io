@@ -57,16 +57,17 @@ nav a {
 	text-decoration: none;
 	margin: 0 1em;
 	padding-bottom: 0.5em;
-	border-bottom: 0.5em solid rgba(0, 0, 0, 0);
 }
 
-nav a:link, nav a:visited, nav a:hover, nav a:active {
+nav a:link, nav a:visited, nav a:active {
 	color: var(--read-color);
+	transition: 0.5s ease-in-out;
 }
 
 nav a:hover {
-	border-bottom-color: var(--read-color);
-	transition: 0.2s ease-in-out;
+	text-decoration: underline;
+	transition: 0.3s ease-in-out;
+	color: red;
 }
 
 .title {
@@ -109,6 +110,7 @@ nav a:hover {
 .logo-group .title {
 	font-size: 6rem;
 	margin: 0;
+	padding-bottom: 1rem;
 	text-align: right;
 }
 
@@ -162,5 +164,4 @@ nav a:hover {
 		opacity: 0.15;
 	}
 }
-
 
