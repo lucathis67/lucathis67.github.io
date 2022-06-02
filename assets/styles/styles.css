@@ -98,7 +98,7 @@ nav a:hover {
 	text-align: left;
 }
 
-.logo-group a {
+.logo-group .logo {
 	flex: 1;
 	text-align: left;
 }
