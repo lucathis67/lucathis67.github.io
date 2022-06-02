@@ -24,7 +24,8 @@ html {
 body {
 	display: flex;
 	flex-direction: column;
-	min-height: 100vh;
+	min-height: calc(100vh - env(safe-area-inset-bottom));
+	padding-bottom: env(safe-area-inset-bottom);
 }
 
 header {
@@ -36,7 +37,6 @@ header {
 footer {
 	width: 100%;
 	padding: 0.5em 1em;
-	padding-bottom: calc(0.5em + env(safe-area-inset-bottom));
 	background-color: var(--read-color);
 	color: var(--background-color);
 	font-size: 0.9rem;
