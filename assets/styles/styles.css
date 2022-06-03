@@ -116,16 +116,12 @@ nav a:hover {
 }
 
 .logo-group .headline {
+	line-height: 1.5;
 	font-style: italic;
 	font-size: 1.2rem;
 	text-align: right;
 	flex: 1;
 }
-
-.nav-group .guide {
-	font-size: 1.5rem;
-}
-
 
 .blink {
 	padding-left: 2em;
@@ -162,7 +158,7 @@ nav a:hover {
 
 @keyframes appear-animation {
 	100% {
-		opacity: 0.15;
+		opacity: 0.1;
 	}
 }
 
@@ -173,6 +169,7 @@ nav a:hover {
 
 	.logo-group .headline {
 		font-size: 1.4rem;
+		padding-left: 30%;
 	}
 }
 
