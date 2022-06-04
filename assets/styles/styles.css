@@ -105,11 +105,11 @@ nav a:hover {
 }
 
 .logo-group img {
-	width: 100px;
+	width: 60px;
 }
 
 .logo-group .title {
-	font-size: 3.5rem;
+	font-size: 3rem;
 	margin: 0;
 	padding-bottom: 1rem;
 	text-align: right;
@@ -118,8 +118,8 @@ nav a:hover {
 .logo-group .headline {
 	line-height: 1.5;
 	font-style: italic;
-	font-size: 1.2rem;
-	text-align: right;
+	font-size: 1.1rem;
+	text-align: left;
 	flex: 1;
 }
 
@@ -163,11 +163,16 @@ nav a:hover {
 }
 
 @media screen and (min-width:  768px) {
+	.logo-group img {
+		width: 100px;
+	}
+
 	.logo-group .title {
 		font-size: 6rem;
 	}
 
 	.logo-group .headline {
+		text-align: right;
 		font-size: 1.4rem;
 	}
 }
