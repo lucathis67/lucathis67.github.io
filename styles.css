@@ -1,0 +1,27 @@
+
+:root {
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+.font-editorial {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 400;
+}
+
+nav {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
