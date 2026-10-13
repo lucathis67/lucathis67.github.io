@@ -1,0 +1,37 @@
+/* Local variable fonts: normal and italic, with all available weights.
+   Cormorant Garamond: current headings 400/600 and italic title 400.
+   DM Sans: current body text 400; additional weights/styles load when used.
+   Keep each family's OFL.txt alongside its fonts.
+   Static TTF files are alternatives and are not needed by these declarations. */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 1000;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
