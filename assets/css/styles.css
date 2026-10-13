@@ -254,6 +254,10 @@ nav a:hover {
     padding: 0 15px;
   }
 
+  .contact.article-photo-text-bloc {
+    top: -300px;
+  }
+
   .brand-title {
     flex: 2;
     text-align: left;
@@ -314,6 +318,12 @@ nav a:hover {
     margin: 15px;
     padding: 15px;
     position: initial;
+  }
+
+  .contact.article-photo-text-bloc {
+    position: initial;
+    margin: 15px;
+    padding: 15px;
   }
 
   .brand-title {
