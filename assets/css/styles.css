@@ -99,10 +99,44 @@ img {
 }
 
 .photo-row img {
-    flex: 1 1 0;
-    min-width: 0;
-    width: 0;
-    height: auto;
+  flex: 1 1 0;
+  min-width: 0;
+  width: 0;
+  height: auto;
+}
+
+.photo-row-vh,
+.photo-row-hv {
+  display: flex;
+  gap: 5px;
+  padding-top: 30px;
+}
+
+.photo-row-vh img,
+.photo-row-hv img {
+  height: auto;
+  min-width: 0;
+  object-fit: cover;
+}
+
+.photo-row-vh img:first-child {
+  aspect-ratio: 2 / 3;
+  flex: 4 1 0;
+}
+
+.photo-row-vh img:last-child {
+  aspect-ratio: 3 / 2;
+  flex: 9 1 0;
+}
+
+.photo-row-hv img:first-child {
+  aspect-ratio: 3 / 2;
+  flex: 9 1 0;
+}
+
+.photo-row-hv img:last-child {
+  aspect-ratio: 2 / 3;
+  flex: 4 1 0;
 }
 
 h1, h2, h3, div.brand-title {
@@ -116,6 +150,19 @@ h1, h2, h3, div.brand-title {
   text-align: center;
   margin: 0;
   padding: 30px;
+  border-bottom: 1px solid rgb(216, 215, 204);
+}
+
+.brand-subtitle {
+  /* font-family: var(--font-sans); */
+  font-size: 1.2em;
+  font-weight: 200;
+  /* font-style: italic; */
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.085em;
+  margin: 0;
+  padding: 20px;
   border-bottom: 1px solid rgb(216, 215, 204);
 }
 
@@ -269,6 +316,10 @@ nav a:hover {
     padding-left: 15px;
   }
 
+  h2.brand-subtitle {
+    display: none;
+  }
+
   header div.nav-container {
     flex: 1;
   }
@@ -404,13 +455,17 @@ nav a:hover {
     padding: 0 16px;
   }
 
-  .photo-row {
+  .photo-row,
+  .photo-row-hv,
+  .photo-row-vh {
     flex-direction: column;
     gap: 15px;
     padding-top: 15px;
   }
 
   .photo-row img,
+  .photo-row-hv img,
+  .photo-row-vh img,
   .article-photo-text-bloc > img {
     flex: none;
     width: 100%;
