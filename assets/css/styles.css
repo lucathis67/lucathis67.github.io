@@ -624,3 +624,69 @@ html.menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .mobile-menu[open], .mobile-menu.is-closing { animation: none; }
 }
+
+/* Keep the homepage subtitle on its own row below the title/navigation. */
+@media screen and (max-width: 1400px) {
+  header.home-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: stretch;
+  }
+  .home-header .brand-title { grid-column: 1; grid-row: 1; }
+  .home-header .nav-container { grid-column: 2; grid-row: 1; }
+  .home-header h2.brand-subtitle {
+    display: block;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    line-height: 1.5;
+  }
+}
+@media screen and (max-width: 800px) {
+  header.home-header.has-mobile-menu {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 56px;
+    align-items: center;
+    padding: 0;
+    gap: 0;
+    border-bottom: none;
+  }
+  .home-header.has-mobile-menu .brand-title { padding: 20px 0 20px 16px; }
+  .home-header .menu-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+  }
+  .home-header h2.brand-subtitle {
+    padding: 10px 16px;
+    border-top: 1px solid rgb(216, 215, 204);
+    border-bottom: none;
+    font-size: clamp(12px, 3vw, 14px);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home-header + main .feature {
+    padding-top: 0;
+  }
+}
+
+/* Match tablet header/footer rules to the main content's 15px gutters. */
+@media screen and (min-width: 801px) and (max-width: 1400px) {
+  header,
+  footer {
+    margin-inline: 15px;
+  }
+  .brand-title {
+    padding-left: 0;
+  }
+  .home-header h2.brand-subtitle {
+    padding-inline: 0;
+  }
+  .nav-container ul {
+    justify-content: flex-end;
+    padding-inline: 0;
+  }
+}
