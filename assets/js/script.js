@@ -51,10 +51,15 @@ function initializeSite() {
     dialog.classList.add("is-closing");
     closeTimer = setTimeout(finishClose, 450);
   };
-  toggle.addEventListener("click", () => {
+  toggle.addEventListener("click", event => {
+    // Keep focus inside the dialog, but omit the initial ring for taps/clicks.
+    dialog.classList.toggle("pointer-open", event.detail > 0);
     dialog.showModal();
     toggle.setAttribute("aria-expanded", "true");
     document.documentElement.classList.add("menu-open");
+  });
+  dialog.addEventListener("keydown", () => {
+    dialog.classList.remove("pointer-open");
   });
   dialog.querySelector(".menu-close").addEventListener("click", closeMenu);
   dialog.addEventListener("cancel", event => {
