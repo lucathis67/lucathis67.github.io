@@ -226,7 +226,7 @@ a:active {
   color: var(--color-heading);
   font-size: 1em;
   padding-bottom: 0.625em;
-  border-bottom: 1px solid var(--color-heading);
+  border-bottom: 1px solid currentColor;
 }
 
 a:hover {
@@ -653,8 +653,20 @@ html.menu-open { overflow: hidden; }
 }
 
 @media screen and (max-width: 800px) {
-  .home-header + main .feature {
-    padding-top: 0;
+  .home-header + main .feature,
+  .home-header + main aside {
+    padding: 0;
+  }
+  .home-header + main article {
+    margin: 0;
+    padding: 0 0 40px;
+    background-color: var(--color-background);
+  }
+  .home-header + main article.article-warm {
+    background-color: #eeebe3;
+  }
+  .home-header + main article > p:last-child {
+    margin-bottom: 0;
   }
 }
 
