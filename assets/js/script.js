@@ -1,6 +1,12 @@
-$(function() {
+function initializeSite() {
   const year = new Date().getFullYear();
-  $("#copyright").html(`&copy; Lucas Mathis Art ${year}`);
+  const copyright = document.getElementById("copyright");
+  if (copyright) copyright.textContent = `© Lucas Mathis Art ${year}`;
+
+  // Count articles in reading order across both homepage columns.
+  document.querySelectorAll(".home-header + main article").forEach((article, index) => {
+    article.classList.toggle("article-warm", index % 2 === 1);
+  });
 
   const header = document.querySelector("header");
   const navigation = header?.querySelector("nav");
@@ -64,4 +70,10 @@ $(function() {
   matchMedia("(max-width: 800px)").addEventListener("change", event => {
     if (!event.matches && dialog.open) finishClose();
   });
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeSite, { once: true });
+} else {
+  initializeSite();
+}
