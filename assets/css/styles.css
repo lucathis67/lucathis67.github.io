@@ -96,6 +96,7 @@ aside {
 
 img {
   width: 100%;
+  height: auto;
 }
 
 .photo-row img {
