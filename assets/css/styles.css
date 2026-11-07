@@ -96,6 +96,7 @@ aside {
 
 img {
   width: 100%;
+  height: auto;
 }
 
 .photo-row img {
@@ -490,5 +491,202 @@ nav a:hover {
   @keyframes content-fade-in {
     from { opacity: 0.85; }
     to { opacity: 1; }
+  }
+}
+
+/* Mobile navigation: the original links remain available without JavaScript. */
+.menu-toggle { display: none; }
+.mobile-menu:not([open]) { display: none; }
+html.menu-open { overflow: hidden; }
+
+.mobile-menu {
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0 24px 32px;
+  padding-top: env(safe-area-inset-top, 0px);
+  border: 0;
+  background: var(--color-heading);
+  color: var(--color-background);
+  overflow-y: auto;
+}
+.mobile-menu[open] {
+  display: flex;
+  flex-direction: column;
+  animation: menu-wave-in 650ms cubic-bezier(.22, .75, .2, 1) both;
+}
+.mobile-menu::backdrop { background: transparent; }
+.mobile-menu.is-closing { animation: menu-wave-out 400ms ease-in both; }
+.mobile-menu-heading {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgb(248 246 241 / 20%);
+  font-family: var(--font-serif);
+  font-size: clamp(23px, 6vw, 30px);
+}
+.menu-toggle, .menu-close {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  padding: 10px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+}
+.menu-toggle span, .menu-close span {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background: currentColor;
+}
+.menu-toggle span:first-child { top: 17px; }
+.menu-toggle span:last-child { top: 26px; }
+.menu-close span:first-child { transform: rotate(45deg); }
+.menu-close span:last-child { transform: rotate(-45deg); }
+.menu-toggle:focus-visible, .menu-close:focus-visible, .mobile-menu a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+}
+.mobile-menu nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: transparent;
+  border-radius: 0;
+  padding: 40px 0;
+}
+.mobile-menu nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: clamp(18px, 4vh, 40px);
+  margin: 0;
+  padding: 0;
+}
+.mobile-menu nav li { margin: 0; padding: 0; }
+.mobile-menu nav a {
+  display: inline-block;
+  padding: 4px 0;
+  font-family: var(--font-serif);
+  font-size: clamp(42px, 12vw, 76px);
+  line-height: 1.1;
+  color: var(--color-background);
+  border: none;
+  text-align: right;
+}
+.mobile-menu nav a:hover { opacity: .75; }
+.mobile-menu nav a[aria-current="page"] { font-style: italic; }
+@keyframes menu-wave-in {
+  from { clip-path: ellipse(0% 0% at 100% 0%); }
+  to { clip-path: ellipse(150% 150% at 100% 0%); }
+}
+@keyframes menu-wave-out {
+  from { clip-path: ellipse(150% 150% at 100% 0%); }
+  to { clip-path: ellipse(0% 0% at 100% 0%); }
+}
+@media screen and (max-width: 800px) {
+  header.has-mobile-menu {
+    /* Sticky keeps the header in flow, preserving the content position. */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    padding: 0 12px 0 16px;
+    border-bottom: 1px solid rgb(216, 215, 204);
+    gap: 8px;
+  }
+  .has-mobile-menu .brand-title {
+    flex: 1;
+    min-width: 0;
+    padding: 20px 0;
+    border: none;
+    text-align: left;
+    font-size: clamp(24px, 7.5vw, 35px);
+  }
+  .has-mobile-menu .nav-container { display: none; }
+  .has-mobile-menu .menu-toggle { display: block; color: var(--color-heading); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu[open], .mobile-menu.is-closing { animation: none; }
+}
+
+/* Keep the homepage subtitle on its own row below the title/navigation. */
+@media screen and (max-width: 1400px) {
+  header.home-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: stretch;
+  }
+  .home-header .brand-title { grid-column: 1; grid-row: 1; }
+  .home-header .nav-container { grid-column: 2; grid-row: 1; }
+  .home-header h2.brand-subtitle {
+    display: block;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    line-height: 1.5;
+  }
+}
+@media screen and (max-width: 800px) {
+  header.home-header.has-mobile-menu {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 56px;
+    align-items: center;
+    padding: 0;
+    gap: 0;
+    border-bottom: none;
+  }
+  .home-header.has-mobile-menu .brand-title { padding: 20px 0 20px 16px; }
+  .home-header .menu-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+  }
+  .home-header h2.brand-subtitle {
+    padding: 10px 16px;
+    border-top: 1px solid rgb(216, 215, 204);
+    border-bottom: none;
+    font-size: clamp(12px, 3vw, 14px);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home-header + main .feature {
+    padding-top: 0;
+  }
+}
+
+/* Match tablet header/footer rules to the main content's 15px gutters. */
+@media screen and (min-width: 801px) and (max-width: 1400px) {
+  header,
+  footer {
+    margin-inline: 15px;
+  }
+  .brand-title {
+    padding-left: 0;
+  }
+  .home-header h2.brand-subtitle {
+    padding-inline: 0;
+  }
+  .nav-container ul {
+    justify-content: flex-end;
+    padding-inline: 0;
   }
 }
