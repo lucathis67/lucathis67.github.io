@@ -544,6 +544,7 @@ html.menu-open { overflow: hidden; }
   outline: 2px solid currentColor;
   outline-offset: 5px;
 }
+.mobile-menu.pointer-open .menu-close:focus-visible { outline: none; }
 .mobile-menu nav {
   flex: 1;
   display: flex;
