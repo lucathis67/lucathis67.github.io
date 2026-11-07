@@ -745,5 +745,11 @@ html.menu-open { overflow: hidden; }
   .profile-panel { display: flex; flex-direction: column; gap: 24px; margin: 0 0 32px; padding: 24px 16px 0; }
   .profile-intro p:last-child, .profile-details p:last-child { margin-bottom: 0; }
   .profile-details .section-title:first-child { margin-top: 0; }
-  .profile-portrait { max-width: 480px; align-self: center; }
+  .profile-portrait {
+    max-width: 480px;
+    align-self: center;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+  }
 }
