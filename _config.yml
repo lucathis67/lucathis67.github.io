@@ -6,7 +6,7 @@ locale: fr_FR
 email: hello@lucathis.art
 instagram_url: https://www.instagram.com/lucasmathisart
 instagram_handle: "@lucasmathisart"
-subtitle: Photographe de mariages & couples en Alsace.
+subtitle: Photographe de mariages & couples en Alsace
 footer_description: Photographies de mariages, portraits et reportages en Alsace.
 exclude:
   - Gemfile

@@ -1,5 +1,19 @@
 @use "breakpoints" as bp;
 
+.home-introduction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-block: 18px;
+}
+.home-introduction p {
+  margin: 0;
+}
+.home-introduction .text-link {
+  font-size: 0.7rem;
+}
+
 .main-container-row {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
@@ -8,12 +22,12 @@
 .feature, .main-container-row aside {
   min-width: 0;
 }
-// Padding belongs to the columns so the divider meets the subtitle rule.
+// Shared column gutters below the slim introduction row.
 .feature {
-  padding: 32px 32px 0 0;
+  padding: 0 32px 0 0;
 }
 .main-container-row aside {
-  padding: 32px 0 0 32px;
+  padding: 0 0 0 32px;
   border-left: var(--border-default);
 }
 .story-card {
@@ -140,11 +154,22 @@
 
 
 @include bp.mobile {
+  .home-introduction {
+    padding: 16px var(--gutter-mobile);
+    gap: 12px;
+  }
+  .home-introduction .eyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+  .home-introduction .text-link {
+    font-size: 0.65rem;
+  }
   .main-container-row {
     display: block;
   }
   .feature {
-    padding: 24px 0 0;
+    padding: 0;
   }
   .main-container-row aside {
     border: 0;
