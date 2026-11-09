@@ -1,0 +1,6 @@
+<article>
+  {% include image.html src=include.image alt=include.alt height=include.height width=include.width loading="eager" %}
+  <h2 class="article-title">{{ include.title | escape }}</h2>
+  {{ include.body }}
+  <p><a href="{{ include.url | relative_url }}">{{ include.label | escape }}</a></p>
+</article>

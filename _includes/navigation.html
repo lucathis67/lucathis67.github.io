@@ -1,0 +1,9 @@
+<div class="nav-container">
+  <nav aria-label="Navigation principale">
+    <ul>
+      {% for item in site.data.navigation %}
+      <li><a{% if page.url == item.url %} class="current" aria-current="page"{% endif %} href="{{ item.url | relative_url }}">{{ item.title | escape }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+</div>

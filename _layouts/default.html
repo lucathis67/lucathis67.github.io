@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | escape }}">
+<head>
+  {% include head.html %}
+</head>
+<body>
+  {% include header.html %}
+  <main{% if page.main_class %} class="{{ page.main_class | escape }}"{% endif %}>
+    {{ content }}
+  </main>
+  {% include footer.html %}
+  <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
+</body>
+</html>

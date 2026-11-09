@@ -1,0 +1,4 @@
+<section class="profile-hero" aria-labelledby="profile-title">
+  <img src="{{ page.hero_image | relative_url }}" alt="{{ page.hero_alt | default: '' | escape }}" width="{{ page.hero_width | default: 2400 }}" height="{{ page.hero_height | default: 1350 }}">
+  <h1 id="profile-title" class="page-title">{{ page.heading | escape }}</h1>
+</section>

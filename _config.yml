@@ -1,0 +1,19 @@
+title: Lucas Mathis Art
+url: "https://www.lucathis.art"
+baseurl: ""
+lang: fr
+locale: fr_FR
+email: hello@lucathis.art
+instagram_url: https://www.instagram.com/lucasmathisart
+instagram_handle: "@lucasmathisart"
+subtitle: Photographe de mariages & couples en Alsace.
+footer_description: Photographies de mariages, portraits et reportages en Alsace.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - work
+  - scripts
+  - templates
+  - .bundle
