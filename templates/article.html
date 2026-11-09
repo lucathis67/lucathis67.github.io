@@ -1,0 +1,27 @@
+---
+layout: article
+title: "Titre du reportage | Lucas Mathis Art"
+heading: "Titre du reportage"
+description: "Une courte description du reportage."
+permalink: /articles/mon-reportage.html
+---
+
+<div class="photo-row">
+  <img src="{{ '/images/mon-reportage/photo-01.jpg' | relative_url }}"
+       alt="Décrivez la photographie"
+       width="2400" height="1600">
+</div>
+
+<div class="article-text-bloc">
+  <h2 class="section-title">Un premier chapitre</h2>
+  <p>Votre texte, écrit directement en HTML.</p>
+</div>
+
+<div class="photo-row">
+  {% include image.html src="/images/mon-reportage/photo-02.jpg"
+     alt="Décrivez la photographie" width=1600 height=1067 %}
+</div>
+
+<div class="article-text-bloc">
+  <p><a href="{{ '/contact.html' | relative_url }}">Me contacter</a></p>
+</div>
