@@ -9,11 +9,13 @@ page_script: /assets/js/archive.js
 {% assign categories = articles | map: 'category' | compact | uniq | sort %}
 <div class="article-archive" data-archive>
   <div class="archive-heading">
-    <div>
-      <p class="eyebrow">Articles &amp; reportages</p>
+    <div class="archive-title-block">
       <h1>Au fil des rencontres</h1>
     </div>
-    <p class="archive-introduction">Des mariages, des promenades à deux, des instants étincellants de vie. Retrouvez les histoires et les lieux qui traversent mon travail de photographe.</p>
+    <div class="archive-heading-introduction">
+      <p class="eyebrow">Articles &amp; reportages</p>
+      <p class="archive-introduction">Des mariages, des promenades à deux, des instants étincellants de vie. Retrouvez les histoires et les lieux qui traversent mon travail de photographe.</p>
+    </div>
   </div>
 
   <div class="archive-layout">
