@@ -3,8 +3,8 @@
 // Shared About/Contact hero, overlapping panel and portrait.
 
 .profile-page {
-  --profile-hero-height: clamp(460px, 46vw, 560px);
-  --profile-overlap: clamp(270px, 27.5vw, 330px);
+  --profile-hero-height: clamp(340px, 32vw, 420px);
+  --profile-overlap: clamp(120px, 12vw, 160px);
 }
 
 .profile-hero {
@@ -28,11 +28,12 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(25 28 22 / 70%), rgb(25 28 22 / 20%) 65%, transparent);
+  background: linear-gradient(180deg, rgb(25 28 22 / 48%), rgb(25 28 22 / 12%) 65%, transparent);
   z-index: -1;
 }
 
 .profile-hero .page-title {
+  max-width: none;
   margin: 0;
   position: absolute;
   inset-inline: 0;
@@ -51,10 +52,16 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   grid-template-rows: auto 1fr;
-  column-gap: var(--space-8);
+  column-gap: 48px;
   margin: calc(-1 * var(--profile-overlap)) clamp(var(--space-5), 5vw, 60px) var(--space-9);
-  padding: var(--space-7);
+  padding: 40px;
   background: var(--color-background);
+}
+
+.profile-intro > p:first-child {
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: var(--color-heading);
 }
 
 .profile-intro {
@@ -81,7 +88,7 @@
 }
 
 .profile-details .section-title:first-child {
-  margin-top: 1em;
+  margin-top: 1.6em;
 }
 
 @include bp.mobile {
@@ -92,6 +99,11 @@
 
   .profile-hero {
     margin-top: 0;
+  }
+
+  .profile-hero::before {
+    // Keep white headings readable against the bright Contact photograph.
+    background: linear-gradient(90deg, rgb(25 28 22 / 72%), rgb(25 28 22 / 28%));
   }
 
   .profile-hero .page-title {

@@ -1,0 +1,259 @@
+@use "breakpoints" as bp;
+
+// Archive-specific styles stay separate from the homepage's featured stories.
+.article-archive [hidden] {
+  display: none;
+}
+.archive-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 64px;
+  padding: 60px 0 48px;
+  border-bottom: var(--border-default);
+}
+.archive-heading .eyebrow {
+  margin: 0 0 16px;
+}
+.archive-heading h1 {
+  max-width: 16ch;
+  margin: 0;
+  font-size: clamp(2.5rem, 4.6vw, 4rem);
+  line-height: 1.02;
+  font-weight: 400;
+  text-wrap: balance;
+}
+.archive-introduction {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+.archive-layout {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 56px;
+  padding-top: 32px;
+}
+// If enhancement is unavailable, the full list takes the available width.
+.archive-layout:has(.archive-sidebar[hidden]) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.archive-sidebar {
+  align-self: start;
+  position: sticky;
+  top: 32px;
+}
+.archive-categories {
+  min-width: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.archive-categories legend {
+  margin-bottom: 20px;
+  padding: 0;
+}
+.archive-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 0;
+  border: 0;
+  border-bottom: var(--border-default);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+.archive-category span {
+  font-size: 0.65rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.archive-category[aria-pressed="true"] {
+  color: var(--color-heading);
+  border-bottom-color: var(--color-heading);
+  font-weight: 600;
+}
+.archive-category:hover {
+  color: var(--color-heading);
+}
+.archive-sidebar-note {
+  margin: 32px 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+.archive-content {
+  min-width: 0;
+}
+.archive-results-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  min-height: 28px;
+  padding-bottom: 12px;
+  border-bottom: var(--border-default);
+}
+.archive-results-heading p {
+  margin: 0;
+}
+.archive-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.archive-entry {
+  border-bottom: var(--border-default);
+}
+.archive-story {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  padding: 32px 0;
+}
+.archive-story-text-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+a.archive-image-link:link,
+a.archive-image-link:visited,
+a.archive-image-link:active {
+  display: block;
+  padding: 0;
+  border: 0;
+}
+.archive-image-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.archive-story-copy {
+  align-self: center;
+  min-width: 0;
+}
+.archive-story h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  line-height: 1.1;
+  font-weight: 400;
+  text-wrap: balance;
+}
+.archive-story h2 a:link,
+.archive-story h2 a:visited,
+.archive-story h2 a:active {
+  border: 0;
+  padding: 0;
+}
+.archive-empty {
+  margin-top: 24px;
+  padding: 40px 32px;
+  background: var(--color-background-warm);
+}
+.archive-empty h2 {
+  margin: 0 0 12px;
+  font-size: 1.9rem;
+  font-weight: 400;
+}
+.archive-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.archive-more {
+  padding-top: 32px;
+  text-align: center;
+}
+.archive-more p {
+  font-size: 0.75rem;
+}
+.archive-more-button {
+  padding: 14px 24px;
+  border: 1px solid var(--color-heading);
+  background: transparent;
+  color: var(--color-heading);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.archive-more-button:hover {
+  background: var(--color-background-warm);
+}
+.archive-more-button span {
+  margin-left: 16px;
+}
+
+@include bp.tablet-only {
+  .archive-layout {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 32px;
+  }
+  .archive-story {
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 24px;
+  }
+}
+@include bp.mobile {
+  .archive-heading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 28px var(--gutter-mobile);
+  }
+  .archive-heading h1 {
+    font-size: clamp(2.25rem, 9vw, 3rem);
+  }
+  .archive-introduction {
+    max-width: 48ch;
+    font-size: 0.85rem;
+  }
+  .archive-layout {
+    display: block;
+    padding: 24px var(--gutter-mobile) 0;
+  }
+  .archive-sidebar {
+    position: static;
+    margin-bottom: 28px;
+  }
+  .archive-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+  }
+  .archive-categories legend {
+    margin-bottom: 8px;
+  }
+  .archive-category {
+    width: auto;
+    min-height: 44px;
+    padding: 12px 0;
+    font-size: 0.75rem;
+    border-bottom-color: transparent;
+  }
+  .archive-sidebar-note {
+    display: none;
+  }
+  .archive-story {
+    grid-template-columns: clamp(88px, 24vw, 140px) minmax(0, 1fr);
+    gap: 20px;
+    padding: 28px 0;
+  }
+  .archive-story-text-only {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .archive-image-link {
+    max-width: 480px;
+  }
+  .archive-story h2 {
+    font-size: 1.55rem;
+  }
+  .archive-empty {
+    padding: 28px 24px;
+  }
+}

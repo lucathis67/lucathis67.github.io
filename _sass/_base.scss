@@ -1,131 +1,105 @@
 @use "breakpoints" as bp;
 
-// Document, typography, links and footer. Browser defaults are intentionally retained.
-
+// Shared type and reading rhythm. Components supply their own layouts.
 body {
-  background-color: var(--color-background);
+  background: var(--color-background);
+  color: var(--color-text);
   max-width: var(--layout-max-width);
-  margin: auto;
   min-height: 100vh;
+  margin: auto;
   display: flex;
   flex-direction: column;
 }
 
 main {
   flex: 1;
+  min-width: 0;
 }
-
-.page-title {
-  padding-top: var(--space-6);
-  text-align: center;
-}
-
 img {
   width: 100%;
   height: auto;
 }
-
-h1,
-h2,
-h3 {
+h1, h2, h3, .brand-title {
   font-family: var(--font-serif);
   color: var(--color-heading);
 }
-
-.article-title,
-.page-title {
-  margin: 0.625em 0;
-  font-size: 2.5em;
-  font-weight: 400;
-  line-height: 1.05;
-}
-
-.section-title {
-  font-size: 1.75em;
-  font-weight: 600;
-}
-
 p {
   font-family: var(--font-sans);
-  font-size: 1.125em;
-  color: var(--color-text);
+  font-size: 1rem;
   line-height: 1.8;
 }
-
-footer p {
-  margin: 0 auto;
-  text-align: center;
-  font-size: 1em;
-  padding: var(--space-6) 0;
-  border-top: var(--border-default);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+a:link, a:visited, a:active {
+  color: var(--color-heading);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.4em;
 }
-
-footer a:link,
-footer a:visited,
-footer a:active {
-  border-bottom: none;
+a:hover {
   color: var(--color-text);
 }
-
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 5px;
+}
 address {
   display: inline;
 }
-
-a:link,
-a:visited,
-a:active {
-  text-decoration: none;
-  color: var(--color-heading);
-  font-size: 1em;
-  padding-bottom: 0.625em;
-  border-bottom: 1px solid currentColor;
+.page-title {
+  max-width: 24ch;
+  margin: 48px auto 32px;
+  padding-inline: var(--gutter-mobile);
+  text-align: center;
+  font-size: clamp(2rem, 3.4vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.12;
+  text-wrap: balance;
 }
-
-a:hover {
+.section-title {
+  margin: 1.6em 0 0.6em;
+  font-size: clamp(1.5rem, 2.1vw, 1.875rem);
+  line-height: 1.2;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  line-height: 1.7;
+  text-transform: uppercase;
   color: var(--color-text);
+}
+.eyebrow span {
+  padding-inline: 0.45em;
+  color: var(--color-text);
+}
+.text-link {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.text-link span {
+  display: inline-block;
+  margin-left: 0.5em;
 }
 
 @include bp.tablet-and-below {
   main {
-    padding: 0 var(--space-3);
+    padding-inline: var(--space-5);
   }
 }
-
 @include bp.mobile {
   main {
     padding: 0;
   }
-
-  .page-title {
-    padding: var(--space-4) var(--gutter-mobile) 0;
-    font-size: 2.25em;
-    line-height: 1.15;
-  }
-
-  .section-title {
-    line-height: 1.2;
-  }
-
-  p {
-    line-height: 1.7;
-    overflow-wrap: anywhere;
-  }
-
   main img {
     display: block;
   }
-
-  footer p {
-    padding: var(--space-5) var(--gutter-mobile);
-    gap: 6px;
+  p {
+    overflow-wrap: anywhere;
   }
-}
-
-@include bp.tablet-only {
-  footer {
-    margin-inline: var(--space-3);
+  .page-title {
+    margin-block: 36px 28px;
   }
 }

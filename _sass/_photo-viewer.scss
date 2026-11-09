@@ -1,0 +1,171 @@
+@use "breakpoints" as bp;
+
+// Gallery enhancement leaves the hand-authored image rows intact.
+.photo-viewer-trigger {
+  cursor: zoom-in;
+}
+.photo-viewer-trigger:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 5px;
+}
+html.photo-viewer-open {
+  overflow: hidden;
+}
+.photo-viewer:not([open]),
+.photo-viewer [hidden] {
+  display: none;
+}
+.photo-viewer {
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  border: 0;
+  background: transparent;
+  color: var(--color-background);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+.photo-viewer[open] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 80px minmax(0, 1fr) 80px;
+}
+.photo-viewer::backdrop {
+  background: var(--color-viewer-backdrop);
+  opacity: 0.99;
+}
+.photo-viewer-toolbar {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 0 28px 0 32px;
+}
+.photo-viewer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgb(248 246 241 / 30%);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.photo-viewer-button:hover {
+  background: rgb(248 246 241 / 10%);
+}
+.photo-viewer-button:focus-visible {
+  outline: 2px solid var(--color-background);
+  outline-offset: 5px;
+}
+.photo-viewer-close {
+  border-color: transparent;
+}
+.photo-viewer-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  margin-inline: 96px;
+  touch-action: pan-y;
+}
+.photo-viewer-paper {
+  --print-edge-feather: 0.85px;
+  box-sizing: content-box;
+  line-height: 0;
+  // Background-only grain never overlays or filters the photograph.
+  background-color: #fff;
+  background-image: url("../textures/fine-art-paper.svg");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  // A subpixel paper-coloured halo softens the cut edge without blurring it.
+  box-shadow:
+    0 0 1px 0.5px rgb(255 255 255 / 65%),
+    0 16px 60px rgb(0 0 0 / 20%);
+}
+.photo-viewer-image {
+  background: #fff;
+  display: block;
+  max-width: none;
+  height: auto;
+  object-fit: contain;
+}
+// Feather only the outermost pixel of the image into the textured mat.
+// The centre remains fully opaque and sharp; no blur filter is applied.
+@supports (mask-composite: intersect) {
+  .photo-viewer-image {
+    mask-image:
+      linear-gradient(to right, transparent, #000 var(--print-edge-feather), #000 calc(100% - var(--print-edge-feather)), transparent),
+      linear-gradient(to bottom, transparent, #000 var(--print-edge-feather), #000 calc(100% - var(--print-edge-feather)), transparent);
+    mask-composite: intersect;
+  }
+}
+.photo-viewer-message {
+  position: absolute;
+  max-width: 38ch;
+  margin: 0;
+  color: inherit;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  text-align: center;
+}
+.photo-viewer-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+.photo-viewer-counter {
+  font-family: var(--font-serif);
+  min-width: 70px;
+  margin: 0;
+  color: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+.photo-viewer-previous,
+.photo-viewer-next {
+  position: absolute;
+  top: calc(50% - 24px);
+  border: 0;
+  border-radius: 0;
+  opacity: 0.8;
+}
+.photo-viewer-previous:hover,
+.photo-viewer-next:hover {
+  background: transparent;
+  opacity: 1;
+}
+.photo-viewer-previous { left: 24px; }
+.photo-viewer-next { right: 24px; }
+
+@include bp.mobile {
+  .photo-viewer[open] {
+    grid-template-rows: 72px minmax(0, 1fr) 80px;
+  }
+  .photo-viewer-toolbar {
+    gap: 12px;
+    padding-inline: 20px 12px;
+  }
+  .photo-viewer-stage {
+    margin-inline: 16px;
+  }
+  .photo-viewer-previous,
+  .photo-viewer-next {
+    position: static;
+  }
+}

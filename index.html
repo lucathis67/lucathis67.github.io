@@ -1,60 +1,54 @@
 ---
-layout: "home"
+layout: home
 title: "Lucas Mathis Art | Photographe à Strasbourg et en Alsace"
 description: "Lucas Mathis — photographe de mariages, couples, portraits, en Alsace; des images spontanées à travers une expérience simple, calme et humaine."
-permalink: "/"
-main_class: "main-container-row"
+permalink: /
+main_class: home-page
 ---
 
-<section class="feature">
-
+<section class="feature" aria-label="Reportage à la une">
   {% capture card_body %}<p>Quelques mois avant leur mariage, Julie et Adrien se sont retrouvés au parc de l'Orangerie à Strasbourg pour une séance photo de fiançailles. Nous étions alors en pleine période automnale et les arbres du parc arboraient leurs couleurs les plus spectaculaires !</p>
     <p>Une promenade à deux… à laquelle je me suis discrètement invité, appareil photo à la main. Au fil des images, la séance s'est peu à peu éloignée des poses traditionnelles pour laisser place aux regards, aux gestes tendres et à la complicité qui les unit.</p>
     <p>Une séance avant le mariage, pour prendre le temps d'être ensemble, pour mettre les émotions en valeur, et garder une trace de cette période particulière de leur histoire.</p>
   {% endcapture %}
-
+  {% assign article = site.pages | where: 'url', '/articles/fiancailles-orangerie.html' | first %}
   {% include article-card.html
     image="/images/fiancailles-orangerie/fiancailles-orangerie-1.jpg"
-    alt="Julie et Adrien sont assis sur un banc et s'embrassent."
-    height="1067"
-    width="1600"
-    title="Une séance photo de fiancailles au parc de l'Orangerie de Strasbourg."
+    alt="Julie et Adrien sont assis sur un banc et s’embrassent."
+    width=1600 height=1067 loading="eager"
+    category="Fiançailles" location="Strasbourg"
+    title=article.heading
     url="/articles/fiancailles-orangerie.html"
-    label="Découvrir le reportage"
-    body=card_body
+    label="Découvrir le reportage" body=card_body
   %}
-
 </section>
 
-<aside>
-
+<aside aria-label="Autres reportages">
   {% capture card_body %}
     <p>La Cathédrale Notre-Dame de Strasbourg, trésor historique de la capitale alsacienne, est un monument bien connu de tous les visiteurs de cette ville. C'est aussi un lieu de culte bien vivant, enraciné dans la vie paroissiale de ses habitants. La Cathédrale offre un décor splendide, majestueux et solennel, pour célebrer un sacrement aussi beau et important que celui du mariage. </p>
   {% endcapture %}
-  
+  {% assign article = site.pages | where: 'url', '/articles/mariage-cathedrale-strasbourg.html' | first %}
   {% include article-card.html
     image="/images/mariage-cathedrale/mariage-cathedrale-336.jpg"
-    alt="Groupe de personnes attendant devant l'entrée de la chapelle de la Cathédrale de Strasbourg."
-    height="1067"
-    width="1600"
-    title="Un mariage à la Cathédrale Notre-Dame de Strasbourg"
+    alt="Les invités devant l’entrée de la chapelle de la cathédrale de Strasbourg."
+    width=1600 height=1067
+    category="Mariage" location="Strasbourg"
+    title=article.heading
     url="/articles/mariage-cathedrale-strasbourg.html"
-    label="Découvrir la cérémonie"
-    body=card_body
+    label="Découvrir la cérémonie" body=card_body
   %}
 
   {% capture card_body %}
     <p>Quelques semaines par an, Strasbourg se pare de couleurs extraordinaires. C'est dans cette lumière douce, à l'occasion d'une promenade dans les jardins de la Neustadt, que j'ai retrouvé Mathilde et Tanguy pour une séance photo de couple pleine de complicité et de spontanéité.</p>
   {% endcapture %}
-
+  {% assign article = site.pages | where: 'url', '/articles/portraits-en-automne.html' | first %}
   {% include article-card.html
     image="/images/portraits-en-automne/article-1-239.jpg"
-    alt="Mathilde et Tanguy se tiennent debout et se regardent devant la place de la République en arrière plan."
-    height="1067"
-    width="1600"
-    title="Séance photo couple à Strasbourg : portraits à la lumière de l'automne"
+    alt="Mathilde et Tanguy devant la place de la République, à Strasbourg."
+    width=1600 height=1067
+    category="Séance de couple" location="Strasbourg"
+    title=article.heading
     url="/articles/portraits-en-automne.html"
-    label="Voir les photos de cette journée"
-    body=card_body
+    label="Voir les photos de cette journée" body=card_body
   %}
 </aside>

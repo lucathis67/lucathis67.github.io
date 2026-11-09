@@ -1,181 +1,201 @@
 @use "breakpoints" as bp;
 
-// Homepage cards, article text, equal-width image rows and mixed-aspect image rows.
-
 .main-container-row {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 0;
 }
-
+.feature, .main-container-row aside {
+  min-width: 0;
+}
+// Padding belongs to the columns so the divider meets the subtitle rule.
 .feature {
-  flex: 2;
-  padding: var(--space-6) var(--space-6) var(--space-6) 0;
+  padding: 32px 32px 0 0;
 }
-
-aside {
-  flex: 1;
-  padding: var(--space-6) 0 var(--space-6) var(--space-6);
+.main-container-row aside {
+  padding: 32px 0 0 32px;
   border-left: var(--border-default);
 }
+.story-card {
+  margin: 0 0 40px;
+  padding-bottom: 40px;
+  border-bottom: var(--border-default);
+}
+.story-card:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.story-image-link:link, .story-image-link:visited, .story-image-link:active {
+  display: block;
+  padding: 0;
+  border: 0;
+}
+.story-image-link img {
+  display: block;
+}
+.story-copy {
+  padding-top: 22px;
+}
+.story-copy .eyebrow {
+  margin: 0 0 12px;
+}
+.article-title {
+  font-size: clamp(2rem, 3vw, 2.65rem);
+  line-height: 1.1;
+  font-weight: 400;
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+.article-title a:link, .article-title a:visited, .article-title a:active {
+  padding: 0;
+  border: 0;
+}
+.main-container-row aside .article-title {
+  font-size: 1.9rem;
+}
+.story-copy > p:not(.eyebrow) {
+  font-size: 0.94rem;
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+.story-copy .story-action {
+  margin-top: 24px;
+  margin-bottom: 0;
+}
 
+// Openings and narrative chapters have distinct spacing; photographs stay uncropped.
+.reportage-heading {
+  max-width: 920px;
+  padding: 52px 24px 48px;
+  margin: auto;
+  text-align: center;
+}
+.reportage-heading .eyebrow {
+  margin: 0 0 20px;
+}
+.reportage-heading .page-title {
+  margin: 0 auto 24px;
+  padding: 0;
+}
+.reportage-intro {
+  max-width: 50ch;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
 .article-text-bloc {
-  width: 60%;
-  margin: var(--space-6) auto;
-  padding: var(--space-3) 0;
-}
-
-.article-photo-text-bloc {
-  margin: var(--space-6) auto;
-  padding: var(--space-3);
-  display: flex;
-  gap: var(--space-6);
-}
-
-.article-photo-text-bloc > div,
-.article-photo-text-bloc > img {
-  flex: 1 1 0;
-  min-width: 0;
-  align-self: center;
-}
-
-.article-photo-text-bloc > img {
-  width: 0;
   box-sizing: border-box;
+  width: min(100%, var(--reading-width));
+  margin: 64px auto;
 }
-
+.article-text-bloc .section-title:first-child {
+  margin-top: 0;
+}
+.article-text-bloc p:last-child {
+  margin-bottom: 0;
+}
+.photo-row, .photo-row-vh, .photo-row-hv {
+  display: flex;
+  gap: 10px;
+  padding-top: 0;
+  margin-top: 24px;
+}
+.reportage-content > .photo-row:first-child {
+  margin-top: 0;
+}
 .photo-row img {
   flex: 1 1 0;
   min-width: 0;
   width: 0;
 }
-
-.photo-row,
-.photo-row-vh,
-.photo-row-hv {
-  display: flex;
-  gap: var(--space-1);
-  padding-top: var(--space-6);
-}
-
-.photo-row-vh img,
-.photo-row-hv img {
+.photo-row-vh img, .photo-row-hv img {
   min-width: 0;
   object-fit: cover;
 }
-
-// Flex weights keep mixed portrait/landscape rows at a common height.
-.photo-row-vh img:first-child,
-.photo-row-hv img:last-child {
+.photo-row-vh img:first-child, .photo-row-hv img:last-child {
   aspect-ratio: 2 / 3;
   flex: 4 1 0;
 }
-
-.photo-row-vh img:last-child,
-.photo-row-hv img:first-child {
+.photo-row-vh img:last-child, .photo-row-hv img:first-child {
   aspect-ratio: 3 / 2;
   flex: 9 1 0;
 }
-
-aside .article-title {
-  font-size: 2em;
+.article-photo-text-bloc {
+  display: flex;
+  gap: 48px;
+  margin: 64px auto;
+}
+.article-photo-text-bloc > div, .article-photo-text-bloc > img {
+  flex: 1 1 0;
+  min-width: 0;
+  align-self: center;
+}
+.article-photo-text-bloc > div {
+  padding: 24px;
+}
+.article-photo-text-bloc > img {
+  width: 0;
 }
 
-article {
-  padding-bottom: var(--space-6);
-  margin-bottom: var(--space-6);
-  border-bottom: var(--border-default);
-}
-
-article:last-of-type {
-  border-bottom: none;
-}
 
 @include bp.mobile {
   .main-container-row {
     display: block;
   }
-
-  .feature,
-  aside {
-    border: none;
-    padding: var(--space-3) 0;
+  .feature {
+    padding: 24px 0 0;
   }
-
-  article {
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: var(--border-default);
-    border-bottom: none;
-  }
-
-  .main-container-row article {
-    border-top: none;
-  }
-
-  .article-title,
-  aside .article-title {
-    font-size: 2em;
-    line-height: 1.15;
-  }
-
-  .main-container-row article > :not(img) {
-    margin-left: var(--gutter-mobile);
-    margin-right: var(--gutter-mobile);
-  }
-
-  .article-text-bloc {
-    box-sizing: border-box;
-    width: 100%;
-    margin: var(--space-4) 0;
-    padding: 0 var(--gutter-mobile);
-  }
-
-  .article-photo-text-bloc {
-    flex-direction: column;
-    gap: var(--space-4);
-    margin: var(--space-4) 0;
+  .main-container-row aside {
+    border: 0;
     padding: 0;
-    position: static;
   }
-
-  .article-photo-text-bloc > div {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0 var(--gutter-mobile);
+  .story-card, .story-card:last-child {
+    border: 0;
+    margin: 0;
+    padding: 0 0 40px;
   }
-
-  .photo-row,
-  .photo-row-hv,
-  .photo-row-vh {
+  .story-card.article-warm {
+    background: var(--color-background-warm);
+  }
+  .story-copy {
+    padding: 28px var(--gutter-mobile) 0;
+  }
+  .article-title, .main-container-row aside .article-title {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+  .reportage-heading {
+    padding: 36px var(--gutter-mobile);
+  }
+  .reportage-heading .eyebrow {
+    font-size: 0.6rem;
+  }
+  .reportage-heading .page-title {
+    font-size: clamp(2rem, 8.5vw, 2.6rem);
+  }
+  .reportage-intro {
+    font-size: 0.95rem;
+  }
+  .article-text-bloc {
+    margin: 40px auto;
+    padding-inline: var(--gutter-mobile);
+  }
+  .photo-row, .photo-row-hv, .photo-row-vh {
     flex-direction: column;
-    gap: var(--space-3);
-    padding-top: var(--space-3);
+    gap: 12px;
+    margin-top: 12px;
   }
-
-  .photo-row img,
-  .photo-row-hv img,
-  .photo-row-vh img,
-  .article-photo-text-bloc > img {
+  .photo-row img, .photo-row-hv img, .photo-row-vh img, .article-photo-text-bloc > img {
     flex: none;
     width: 100%;
-    }
-
-  .home-header + main .feature,
-  .home-header + main aside {
-    padding: 0;
   }
-
-  .home-header + main article {
-    margin: 0;
-    padding: 0 0 var(--space-8);
-    background-color: var(--color-background);
+  .article-photo-text-bloc {
+    flex-direction: column;
+    gap: 24px;
+    margin-block: 40px;
   }
-
-  .home-header + main article.article-warm {
-    background-color: var(--color-background-warm);
-  }
-
-  .home-header + main article > p:last-child {
-    margin-bottom: 0;
+  .article-photo-text-bloc > div {
+    padding: 0 var(--gutter-mobile);
   }
 }

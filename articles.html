@@ -1,14 +1,52 @@
 ---
-layout: page
-title: "Reportages | Lucas Mathis Art"
-heading: Reportages
+layout: default
+title: "Articles | Lucas Mathis Art"
+description: "Mariages, promenades à deux et portraits : retrouvez les articles et reportages de Lucas Mathis Art en Alsace."
 permalink: /articles.html
+page_script: /assets/js/archive.js
 ---
-<div class="article-text-bloc">
-  <ul>
-    {% assign articles = site.pages | where: 'layout', 'article' | sort: 'title' %}
-    {% for article in articles %}
-    <li><a href="{{ article.url | relative_url }}">{{ article.heading | escape }}</a></li>
-    {% endfor %}
-  </ul>
+{% assign articles = site.pages | where: 'layout', 'article' | sort: 'publication_order' | reverse %}
+{% assign categories = articles | map: 'category' | compact | uniq | sort %}
+<div class="article-archive" data-archive>
+  <div class="archive-heading">
+    <div>
+      <p class="eyebrow">Articles &amp; reportages</p>
+      <h1>Au fil des rencontres</h1>
+    </div>
+    <p class="archive-introduction">Des mariages, des promenades à deux, des instants étincellants de vie. Retrouvez les histoires et les lieux qui traversent mon travail de photographe.</p>
+  </div>
+
+  <div class="archive-layout">
+    <div class="archive-sidebar" data-archive-controls hidden>
+      <fieldset class="archive-categories">
+        <legend class="eyebrow">Parcourir par thème</legend>
+        <button type="button" class="archive-category" data-category="" aria-pressed="true">Tous les articles <span>{{ articles.size }}</span></button>
+        {% for category in categories %}
+          {% assign category_articles = articles | where: 'category', category %}
+          <button type="button" class="archive-category" data-category="{{ category | escape }}" aria-pressed="false">{{ category | escape }} <span>{{ category_articles.size }}</span></button>
+        {% endfor %}
+      </fieldset>
+      <p class="archive-sidebar-note">Prendre le temps de regarder,<br>et de faire connaissance.</p>
+    </div>
+
+    <div class="archive-content">
+      <div class="archive-results-heading">
+        <p class="eyebrow" data-archive-count role="status" aria-live="polite" aria-atomic="true">{{ articles.size }} articles</p>
+      </div>
+      <ol class="archive-list" id="archive-results">
+        {% for article in articles %}
+          {% include archive-entry.html article=article %}
+        {% endfor %}
+      </ol>
+      <div class="archive-empty" data-archive-empty hidden>
+        <h2>Aucune histoire trouvée pour le moment.</h2>
+        <p>Choisissez un autre thème pour poursuivre la lecture.</p>
+      </div>
+      <div class="archive-more" data-archive-more hidden>
+        <p data-archive-progress></p>
+        <button type="button" class="archive-more-button" data-archive-load>Afficher les articles suivants <span aria-hidden="true">↓</span></button>
+      </div>
+    </div>
+  </div>
 </div>
+{% include contact-invitation.html %}
