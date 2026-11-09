@@ -44,7 +44,8 @@ Open http://127.0.0.1:4000/preview/.
 - `_layouts/default.html`: shared document shell.
 - `_layouts/home.html`, `page.html`, `article.html`, `profile.html`: page variants.
 - `_includes/`: metadata, header, navigation, footer, profile banner, homepage cards and optional image component.
-- `assets/css/` and `assets/js/`: original styling and behaviour.
+- `assets/css/styles.scss` and `_sass/`: styling, compiled by Jekyll into `/assets/css/styles.css`.
+- `assets/js/`: existing behaviour.
 - `index.html`: manually selected homepage cards and HTML introductions.
 - `a-propos.html`, `contact.html`, `mentions-legales.html`: metadata followed by editable HTML content.
 - `articles/*.html`: metadata followed by editable HTML reportage content.
@@ -111,3 +112,49 @@ git push -u origin article/mon-reportage
 ```
 
 Use your usual review/merge process. These commands do not merge or publish anything on their own.
+
+## Styling system
+
+Edit `assets/css/styles.scss` only to change the stylesheet's module order. Jekyll's existing Sass support compiles it automatically; no npm command or additional dependency is needed. The public stylesheet URL remains `/assets/css/styles.css`. Do not recreate a source `styles.css` alongside `styles.scss`, because both would target the same output file.
+
+| Source | Responsibility |
+| --- | --- |
+| `assets/css/fonts.css` | Local font declarations, included in the compiled stylesheet |
+| `_sass/_tokens.scss` | Shared colours, border, fonts, spacing scale, content width and mobile gutter |
+| `_sass/_breakpoints.scss` | Shared responsive mixins: `mobile`, `tablet-and-below`, `tablet-only` |
+| `_sass/_base.scss` | Document flow, typography, links and footer |
+| `_sass/_header.scss` | Branding and normal/homepage headers |
+| `_sass/_navigation.scss` | Desktop menu and inline navigation fallback |
+| `_sass/_editorial.scss` | Homepage cards, article text and photograph arrangements |
+| `_sass/_profile.scss` | About/Contact hero, panel and portrait |
+| `_sass/_mobile-menu.scss` | Mobile dialog, controls and keyboard focus |
+| `_sass/_motion.scss` | Animation keyframes and content animation |
+
+### Conventions
+
+- Keep selectors flat. Existing HTML class names remain supported, so articles can still be composed manually.
+- Keep responsive overrides beside the component they change, using the shared mixins rather than copying breakpoint numbers.
+- The layout is desktop-first: tablet-and-below applies through 1400px, mobile through 800px, and tablet-only from 801px through 1400px. Keep the 800px boundary aligned with `assets/js/script.js`.
+- Use `var(--color-...)`, `var(--border-default)` and `var(--space-...)` for shared design decisions. The spacing scale is 5, 10, 15, 20, 24, 30, 32, 40 and 48px. Type sizes, image ratios and component-specific geometry remain explicit rather than borrowing spacing values.
+- Responsive root font sizes intentionally retain the original layout. Do not replace fixed spacing with rem without reviewing all three layouts.
+- The `photo-row` class provides equal-width images. `photo-row-vh` and `photo-row-hv` use portrait/landscape flex weights to align their heights on desktop; all variants stack on mobile.
+- Header/navigation selectors and JavaScript state classes (`has-mobile-menu`, `article-warm`, `is-closing`, `pointer-open`, `menu-open`) are part of the existing behaviour. Keep those contracts when extending components.
+- Preserve focus indicators, the no-JavaScript navigation fallback and reduced-motion rules.
+
+For a new component with responsive styles:
+
+```scss
+@use "breakpoints" as bp;
+
+.my-component {
+  padding: var(--space-6);
+}
+
+@include bp.mobile {
+  .my-component {
+    padding: var(--gutter-mobile);
+  }
+}
+```
+
+Add its module to `assets/css/styles.scss` with `@use`. Component modules follow the foundations; mobile-menu enhancements follow navigation. Preview with `bundle exec jekyll serve --livereload`, and run `bundle exec jekyll build` before publishing.

@@ -1,0 +1,127 @@
+@use "breakpoints" as bp;
+
+// Shared About/Contact hero, overlapping panel and portrait.
+
+.profile-page {
+  --profile-hero-height: clamp(460px, 46vw, 560px);
+  --profile-overlap: clamp(270px, 27.5vw, 330px);
+}
+
+.profile-hero {
+  position: relative;
+  isolation: isolate;
+  height: var(--profile-hero-height);
+  margin-top: var(--space-6);
+  background: var(--color-heading);
+}
+
+.profile-hero > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.profile-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(25 28 22 / 70%), rgb(25 28 22 / 20%) 65%, transparent);
+  z-index: -1;
+}
+
+.profile-hero .page-title {
+  margin: 0;
+  position: absolute;
+  inset-inline: 0;
+  top: calc((var(--profile-hero-height) - var(--profile-overlap)) / 2);
+  transform: translateY(-50%);
+  padding: 0 var(--space-7);
+  color: var(--color-background);
+  font-size: clamp(32px, 3.5vw, 48px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.profile-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--space-8);
+  margin: calc(-1 * var(--profile-overlap)) clamp(var(--space-5), 5vw, 60px) var(--space-9);
+  padding: var(--space-7);
+  background: var(--color-background);
+}
+
+.profile-intro {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.profile-details {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.profile-portrait {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: start;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.profile-panel .section-title:first-child {
+  margin-top: 0;
+}
+
+.profile-details .section-title:first-child {
+  margin-top: 1em;
+}
+
+@include bp.mobile {
+  .profile-page {
+    --profile-hero-height: 210px;
+    --profile-overlap: 0px;
+  }
+
+  .profile-hero {
+    margin-top: 0;
+  }
+
+  .profile-hero .page-title {
+    padding: 0 var(--gutter-mobile);
+    font-size: clamp(30px, 7.5vw, 40px);
+    text-align: left;
+  }
+
+  .profile-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin: 0 0 var(--space-7);
+    padding: var(--space-5) var(--gutter-mobile) 0;
+  }
+
+  .profile-intro p:last-child,
+  .profile-details p:last-child {
+    margin-bottom: 0;
+  }
+
+  .profile-details .section-title:first-child {
+    margin-top: 0;
+  }
+
+  .profile-portrait {
+    max-width: 480px;
+    align-self: center;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
+  }
+}

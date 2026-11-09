@@ -1,0 +1,98 @@
+@use "breakpoints" as bp;
+
+// Persistent desktop navigation and the inline tablet/no-JavaScript fallback.
+
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+nav {
+  background-color: var(--color-heading);
+  display: block;
+  border-radius: 0 5px 5px 0;
+}
+
+nav ul {
+  margin: var(--space-3) 0;
+  padding: var(--space-2);
+}
+
+nav li {
+  list-style-type: none;
+  padding-bottom: 0.625em;
+}
+
+nav li:last-of-type {
+  padding-bottom: 0;
+}
+
+nav a:link,
+nav a:visited,
+nav a:active {
+  color: var(--color-background);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.125em;
+  border-bottom: none;
+}
+
+nav a:hover {
+  color: var(--color-text);
+}
+
+@include bp.tablet-and-below {
+  nav {
+    background-color: inherit;
+  }
+
+  .nav-container {
+    position: initial;
+    height: initial;
+    border-bottom: var(--border-default);
+    flex-direction: row;
+  }
+
+  .nav-container nav {
+    flex: 1;
+  }
+
+  .nav-container ul {
+    margin: var(--space-2) 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-6);
+  }
+
+  .nav-container li {
+    padding-bottom: 0;
+    margin: 0;
+  }
+
+  nav a:link,
+  nav a:visited,
+  nav a:active {
+    font-size: 1.250em;
+    color: var(--color-heading);
+  }
+}
+
+@include bp.mobile {
+  .nav-container ul {
+    gap: var(--space-5);
+  }
+}
+
+@include bp.tablet-only {
+  .nav-container ul {
+    justify-content: flex-end;
+    padding-inline: 0;
+  }
+}

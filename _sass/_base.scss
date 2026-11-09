@@ -1,0 +1,131 @@
+@use "breakpoints" as bp;
+
+// Document, typography, links and footer. Browser defaults are intentionally retained.
+
+body {
+  background-color: var(--color-background);
+  max-width: var(--layout-max-width);
+  margin: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.page-title {
+  padding-top: var(--space-6);
+  text-align: center;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  color: var(--color-heading);
+}
+
+.article-title,
+.page-title {
+  margin: 0.625em 0;
+  font-size: 2.5em;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.section-title {
+  font-size: 1.75em;
+  font-weight: 600;
+}
+
+p {
+  font-family: var(--font-sans);
+  font-size: 1.125em;
+  color: var(--color-text);
+  line-height: 1.8;
+}
+
+footer p {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1em;
+  padding: var(--space-6) 0;
+  border-top: var(--border-default);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+footer a:link,
+footer a:visited,
+footer a:active {
+  border-bottom: none;
+  color: var(--color-text);
+}
+
+address {
+  display: inline;
+}
+
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: var(--color-heading);
+  font-size: 1em;
+  padding-bottom: 0.625em;
+  border-bottom: 1px solid currentColor;
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+@include bp.tablet-and-below {
+  main {
+    padding: 0 var(--space-3);
+  }
+}
+
+@include bp.mobile {
+  main {
+    padding: 0;
+  }
+
+  .page-title {
+    padding: var(--space-4) var(--gutter-mobile) 0;
+    font-size: 2.25em;
+    line-height: 1.15;
+  }
+
+  .section-title {
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+  main img {
+    display: block;
+  }
+
+  footer p {
+    padding: var(--space-5) var(--gutter-mobile);
+    gap: 6px;
+  }
+}
+
+@include bp.tablet-only {
+  footer {
+    margin-inline: var(--space-3);
+  }
+}

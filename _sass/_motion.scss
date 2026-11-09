@@ -1,0 +1,23 @@
+// Content and menu animations, including reduced-motion behaviour.
+
+@media (prefers-reduced-motion: no-preference) {
+
+  main {
+    animation: content-fade-in 450ms ease-out;
+  }
+
+  @keyframes content-fade-in {
+    from { opacity: 0.85; }
+    to { opacity: 1; }
+  }
+}
+
+@keyframes menu-wave-in {
+  from { clip-path: ellipse(0% 0% at 100% 0%); }
+  to { clip-path: ellipse(150% 150% at 100% 0%); }
+}
+
+@keyframes menu-wave-out {
+  from { clip-path: ellipse(150% 150% at 100% 0%); }
+  to { clip-path: ellipse(0% 0% at 100% 0%); }
+}

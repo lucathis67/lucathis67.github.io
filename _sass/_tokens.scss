@@ -1,0 +1,38 @@
+@use "breakpoints" as bp;
+
+// Site-wide design values. Fixed px spacing preserves the existing rhythm as
+// root font size changes between desktop, tablet and mobile.
+:root {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "DM Sans", Arial, sans-serif;
+
+  --color-background: #f8f6f1;
+  --color-background-warm: #eeebe3;
+  --color-heading: #37392f;
+  --color-text: #68695e;
+  --color-border: #d8d7cc;
+  --border-default: 1px solid var(--color-border);
+
+  --layout-max-width: 1200px;
+  --gutter-mobile: 16px;
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 30px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+
+  font-size: 0.875em;
+}
+
+// Breakpoints are shared with the mobile-menu JavaScript (800px).
+@include bp.tablet-and-below {
+  :root { font-size: 0.75em; }
+}
+
+@include bp.mobile {
+  :root { font-size: 0.875em; }
+}

@@ -1,0 +1,181 @@
+@use "breakpoints" as bp;
+
+// Homepage cards, article text, equal-width image rows and mixed-aspect image rows.
+
+.main-container-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.feature {
+  flex: 2;
+  padding: var(--space-6) var(--space-6) var(--space-6) 0;
+}
+
+aside {
+  flex: 1;
+  padding: var(--space-6) 0 var(--space-6) var(--space-6);
+  border-left: var(--border-default);
+}
+
+.article-text-bloc {
+  width: 60%;
+  margin: var(--space-6) auto;
+  padding: var(--space-3) 0;
+}
+
+.article-photo-text-bloc {
+  margin: var(--space-6) auto;
+  padding: var(--space-3);
+  display: flex;
+  gap: var(--space-6);
+}
+
+.article-photo-text-bloc > div,
+.article-photo-text-bloc > img {
+  flex: 1 1 0;
+  min-width: 0;
+  align-self: center;
+}
+
+.article-photo-text-bloc > img {
+  width: 0;
+  box-sizing: border-box;
+}
+
+.photo-row img {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 0;
+}
+
+.photo-row,
+.photo-row-vh,
+.photo-row-hv {
+  display: flex;
+  gap: var(--space-1);
+  padding-top: var(--space-6);
+}
+
+.photo-row-vh img,
+.photo-row-hv img {
+  min-width: 0;
+  object-fit: cover;
+}
+
+// Flex weights keep mixed portrait/landscape rows at a common height.
+.photo-row-vh img:first-child,
+.photo-row-hv img:last-child {
+  aspect-ratio: 2 / 3;
+  flex: 4 1 0;
+}
+
+.photo-row-vh img:last-child,
+.photo-row-hv img:first-child {
+  aspect-ratio: 3 / 2;
+  flex: 9 1 0;
+}
+
+aside .article-title {
+  font-size: 2em;
+}
+
+article {
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+  border-bottom: var(--border-default);
+}
+
+article:last-of-type {
+  border-bottom: none;
+}
+
+@include bp.mobile {
+  .main-container-row {
+    display: block;
+  }
+
+  .feature,
+  aside {
+    border: none;
+    padding: var(--space-3) 0;
+  }
+
+  article {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: var(--border-default);
+    border-bottom: none;
+  }
+
+  .main-container-row article {
+    border-top: none;
+  }
+
+  .article-title,
+  aside .article-title {
+    font-size: 2em;
+    line-height: 1.15;
+  }
+
+  .main-container-row article > :not(img) {
+    margin-left: var(--gutter-mobile);
+    margin-right: var(--gutter-mobile);
+  }
+
+  .article-text-bloc {
+    box-sizing: border-box;
+    width: 100%;
+    margin: var(--space-4) 0;
+    padding: 0 var(--gutter-mobile);
+  }
+
+  .article-photo-text-bloc {
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: var(--space-4) 0;
+    padding: 0;
+    position: static;
+  }
+
+  .article-photo-text-bloc > div {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 var(--gutter-mobile);
+  }
+
+  .photo-row,
+  .photo-row-hv,
+  .photo-row-vh {
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+  }
+
+  .photo-row img,
+  .photo-row-hv img,
+  .photo-row-vh img,
+  .article-photo-text-bloc > img {
+    flex: none;
+    width: 100%;
+    }
+
+  .home-header + main .feature,
+  .home-header + main aside {
+    padding: 0;
+  }
+
+  .home-header + main article {
+    margin: 0;
+    padding: 0 0 var(--space-8);
+    background-color: var(--color-background);
+  }
+
+  .home-header + main article.article-warm {
+    background-color: var(--color-background-warm);
+  }
+
+  .home-header + main article > p:last-child {
+    margin-bottom: 0;
+  }
+}

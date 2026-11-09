@@ -1,0 +1,160 @@
+@use "breakpoints" as bp;
+
+// Brand and header layout. The home variant keeps its subtitle on a second row.
+
+.brand-title {
+  font-family: var(--font-serif);
+  color: var(--color-heading);
+  font-size: 3em;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  padding: var(--space-6);
+  border-bottom: var(--border-default);
+}
+
+.brand-subtitle {
+  font-size: 1.2em;
+  font-weight: 200;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.085em;
+  margin: 0;
+  padding: var(--space-4);
+  border-bottom: var(--border-default);
+}
+
+.brand-title a:link,
+.brand-title a:visited,
+.brand-title a:active {
+  border: none;
+}
+
+@include bp.tablet-and-below {
+  header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .brand-title {
+    flex: 2;
+    text-align: left;
+    padding-left: var(--space-3);
+  }
+
+  h2.brand-subtitle {
+    display: none;
+  }
+
+  header div.nav-container {
+    flex: 1;
+  }
+
+  header.home-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: stretch;
+  }
+
+  .home-header .brand-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-header .nav-container {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .home-header h2.brand-subtitle {
+    display: block;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    font-size: 1.1em;
+    line-height: 1.5;
+  }
+}
+
+@include bp.mobile {
+  header {
+    display: block;
+  }
+
+  .brand-title {
+    padding: var(--space-4) var(--gutter-mobile);
+    text-align: center;
+    font-size: 2.5em;
+  }
+
+  header.has-mobile-menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    padding: 0 12px 0 var(--gutter-mobile);
+    border-bottom: var(--border-default);
+    gap: 8px;
+  }
+
+  .has-mobile-menu .brand-title {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-4) 0;
+    border: none;
+    text-align: left;
+    font-size: clamp(24px, 7.5vw, 35px);
+  }
+
+  .has-mobile-menu .nav-container {
+    display: none;
+  }
+
+  .has-mobile-menu .menu-toggle {
+    display: block;
+    color: var(--color-heading);
+  }
+
+  header.home-header.has-mobile-menu {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 56px;
+    align-items: center;
+    padding: 0;
+    gap: 0;
+    border-bottom: none;
+  }
+
+  .home-header.has-mobile-menu .brand-title {
+    padding: var(--space-4) 0 var(--space-4) var(--gutter-mobile);
+  }
+
+  .home-header .menu-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .home-header h2.brand-subtitle {
+    padding: var(--space-2) var(--gutter-mobile);
+    border-top: var(--border-default);
+    border-bottom: none;
+    font-size: clamp(12px, 3vw, 14px);
+  }
+}
+
+@include bp.tablet-only {
+  header {
+    margin-inline: var(--space-3);
+  }
+
+  .brand-title {
+    padding-left: 0;
+  }
+
+  .home-header h2.brand-subtitle {
+    padding-inline: 0;
+  }
+}

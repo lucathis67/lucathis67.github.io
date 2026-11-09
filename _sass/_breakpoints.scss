@@ -1,0 +1,15 @@
+// Keep the 800px mobile boundary aligned with assets/js/script.js.
+$mobile-max: 800px;
+$tablet-max: 1400px;
+
+@mixin tablet-and-below {
+  @media screen and (max-width: $tablet-max) { @content; }
+}
+
+@mixin mobile {
+  @media screen and (max-width: $mobile-max) { @content; }
+}
+
+@mixin tablet-only {
+  @media screen and (min-width: ($mobile-max + 1px)) and (max-width: $tablet-max) { @content; }
+}
