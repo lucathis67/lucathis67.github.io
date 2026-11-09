@@ -1,11 +1,15 @@
-<footer>
-  <p>
+<footer class="site-footer">
+  <div class="footer-identity">
+    <a class="footer-brand" href="{{ '/' | relative_url }}">Lucas Mathis <em>Art</em></a>
+    <p>Photographe de mariages, de couples et de portraits.<br>Près de Saverne, à Strasbourg et partout en Alsace.</p>
+  </div>
+  <div class="footer-contact">
+    <p class="eyebrow">Restons en contact</p>
+    <a href="mailto:{{ site.email | escape }}">{{ site.email | escape }}</a>
+    <a href="{{ site.instagram_url | escape }}" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="footer-bottom">
     <span id="copyright">&copy; {{ site.title | escape }}</span>
-    <span>{{ site.footer_description | escape }}</span>
-    <span>
-      <a href="mailto:{{ site.email | escape }}">{{ site.email | escape }}</a> |
-      <a href="{{ site.instagram_url | escape }}" target="_blank" rel="noopener noreferrer">{{ site.instagram_handle | escape }}</a> |
-      <a href="{{ '/mentions-legales.html' | relative_url }}">Mentions légales</a>
-    </span>
-  </p>
+    <a href="{{ '/mentions-legales.html' | relative_url }}">Mentions légales</a>
+  </div>
 </footer>

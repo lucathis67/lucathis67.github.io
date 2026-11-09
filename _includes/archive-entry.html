@@ -1,0 +1,13 @@
+{% assign entry = include.article %}
+<li class="archive-entry" data-archive-entry data-category="{{ entry.category | escape }}">
+  <article class="archive-story{% unless entry.cover_image %} archive-story-text-only{% endunless %}">
+    {% if entry.cover_image %}
+      <a class="archive-image-link" href="{{ entry.url | relative_url }}" tabindex="-1" aria-hidden="true">
+        <img src="{{ entry.cover_image | relative_url }}" alt="{{ entry.cover_alt | default: '' | escape }}" width="1600" height="1067" loading="lazy">
+      </a>
+    {% endif %}
+    <div class="archive-story-copy">
+      <h2><a href="{{ entry.url | relative_url }}">{{ entry.heading | default: entry.title | escape }}</a></h2>
+    </div>
+  </article>
+</li>

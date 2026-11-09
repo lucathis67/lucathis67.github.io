@@ -1,5 +1,7 @@
 - title: Accueil
   url: /
+- title: Articles
+  url: /articles.html
 - title: À propos
   url: /a-propos.html
 - title: Contact

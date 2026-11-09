@@ -115,6 +115,7 @@ html.menu-open {
 }
 
 .mobile-menu nav ul {
+  list-style: none;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

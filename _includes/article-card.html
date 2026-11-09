@@ -1,6 +1,11 @@
-<article>
-  {% include image.html src=include.image alt=include.alt height=include.height width=include.width loading="eager" %}
-  <h2 class="article-title">{{ include.title | escape }}</h2>
-  {{ include.body }}
-  <p><a href="{{ include.url | relative_url }}">{{ include.label | escape }}</a></p>
+<article class="story-card">
+  <a class="story-image-link" href="{{ include.url | relative_url }}" tabindex="-1" aria-hidden="true">
+    {% include image.html src=include.image alt=include.alt height=include.height width=include.width loading=include.loading %}
+  </a>
+  <div class="story-copy">
+    {% if include.category or include.location %}<p class="eyebrow">{{ include.category | escape }}{% if include.category and include.location %}<span aria-hidden="true"> / </span>{% endif %}{{ include.location | escape }}</p>{% endif %}
+    <h2 class="article-title"><a href="{{ include.url | relative_url }}">{{ include.title | escape }}</a></h2>
+    {{ include.body }}
+    <p class="story-action"><a class="text-link" href="{{ include.url | relative_url }}">{{ include.label | escape }} <span aria-hidden="true">↗</span></a></p>
+  </div>
 </article>
