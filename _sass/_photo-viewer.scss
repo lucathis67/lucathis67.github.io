@@ -90,7 +90,7 @@ html.photo-viewer-open {
   background-color: #fff;
   background-image: url("../textures/fine-art-paper.svg");
   background-repeat: repeat;
-  background-size: 256px 256px;
+  background-size: var(--paper-texture-size);
   // A subpixel paper-coloured halo softens the cut edge without blurring it.
   box-shadow:
     0 0 1px 0.5px rgb(255 255 255 / 65%),

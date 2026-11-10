@@ -1,9 +1,26 @@
-<header{% if page.layout == 'home' %} class="home-header"{% endif %}>
-  {% if page.layout == 'home' %}
-  <h1 class="brand-title">Lucas Mathis <em>Art</em></h1>
-  <h2 class="brand-subtitle">{{ site.subtitle | escape }}</h2>
+{% capture brand %}
+  <div class="site-brand">
+    <div class="brand-title"><a href="{{ '/' | relative_url }}">Lucas Mathis <em>Art</em></a></div>
+    <p class="brand-subtitle">{{ site.subtitle | escape }}</p>
+  </div>
+{% endcapture %}
+<header class="site-header{% if page.inline_navigation %} slideshow-header{% endif %}">
+  {% if page.inline_navigation %}
+  <nav class="split-navigation" aria-label="Navigation principale">
+    <div class="split-links">
+      {% for item in site.data.navigation offset:1 limit:2 %}
+      <a href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
+      {% endfor %}
+    </div>
+    {{ brand }}
+    <div class="split-links">
+      {% for item in site.data.navigation offset:3 limit:2 %}
+      <a href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
+      {% endfor %}
+    </div>
+  </nav>
   {% else %}
-  <div class="brand-title"><a href="{{ '/' | relative_url }}">Lucas Mathis <em>Art</em></a></div>
+    {{ brand }}
+    {% include navigation.html %}
   {% endif %}
-  {% include navigation.html %}
 </header>

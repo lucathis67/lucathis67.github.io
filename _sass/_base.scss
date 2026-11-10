@@ -1,8 +1,12 @@
 @use "breakpoints" as bp;
 
 // Shared type and reading rhythm. Components supply their own layouts.
+html {
+  background: var(--surface-paper);
+  background-size: var(--paper-texture-size);
+}
 body {
-  background: var(--color-background);
+  background: transparent;
   color: var(--color-text);
   max-width: var(--layout-max-width);
   min-height: 100vh;

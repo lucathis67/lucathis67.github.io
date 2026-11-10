@@ -5,7 +5,8 @@
   margin-top: 80px;
   padding: 64px 32px;
   border-top: var(--border-default);
-  background: var(--color-background-warm);
+  background: var(--color-background-warm) var(--paper-texture) repeat;
+  background-size: var(--paper-texture-size);
   text-align: center;
 }
 .contact-invitation .eyebrow {

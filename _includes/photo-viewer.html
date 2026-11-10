@@ -12,17 +12,11 @@
   </div>
   <div class="photo-viewer-footer">
     <button class="photo-viewer-button photo-viewer-previous" type="button" aria-label="Photographie précédente">
-      <svg width="40" height="24" viewBox="0 0 40 24" fill="none" aria-hidden="true">
-        <path d="M34 11 8 11.7V12.3L34 13Z" fill="currentColor"/>
-        <path d="m15 5-8 7 8 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      {% include gallery-arrow.html direction="previous" %}
     </button>
     <p class="photo-viewer-counter" role="status" aria-live="polite" aria-atomic="true"></p>
     <button class="photo-viewer-button photo-viewer-next" type="button" aria-label="Photographie suivante">
-      <svg width="40" height="24" viewBox="0 0 40 24" fill="none" aria-hidden="true">
-        <path d="m6 11 26 0.7v0.6L6 13Z" fill="currentColor"/>
-        <path d="m25 5 8 7-8 7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      {% include gallery-arrow.html direction="next" %}
     </button>
   </div>
 </dialog>
