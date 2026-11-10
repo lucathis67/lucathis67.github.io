@@ -3,9 +3,7 @@ layout: default
 ---
 <div class="reportage">
   <div class="reportage-heading">
-    {% if page.category or page.location %}<p class="eyebrow">{{ page.category | escape }}{% if page.category and page.location %}<span aria-hidden="true"> / </span>{% endif %}{{ page.location | escape }}</p>{% endif %}
     <h1 class="page-title">{{ page.heading | default: page.title | escape }}</h1>
-    {% if page.intro %}<p class="reportage-intro">{{ page.intro | escape }}</p>{% endif %}
   </div>
   <div class="reportage-content">
     {{ content }}

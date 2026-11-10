@@ -173,7 +173,7 @@ Navigation labels and destinations come from `_data/navigation.yml`, including t
 
 The active design uses white paper texture and warm charcoal text. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
 
-For new articles, set a unique numeric `publication_order` in front matter. Archives update automatically; Portfolio feature selection remains manual. `heading` supplies the article title in its page, Portfolio card and archive entry. `category`, `location`, `intro`, `cover_image` and `cover_alt` provide supporting metadata. Image includes and the article template remain available for future content.
+For new articles, set a unique numeric `publication_order` in front matter. Archives update automatically; Portfolio feature selection remains manual. `heading` supplies the article title in its page, Portfolio card and archive entry. `category`, `location`, `cover_image` and `cover_alt` provide supporting metadata. Image includes and the article template remain available for future content.
 
 The archive retains the `theme` URL parameter, progressive batches and a complete list without JavaScript. Its implementation lives in `_sass/_archive.scss` and `assets/js/archive.js`.
 
