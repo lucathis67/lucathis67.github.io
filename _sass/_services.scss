@@ -1,0 +1,41 @@
+@use "breakpoints" as bp;
+
+.service-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  padding: 48px 0;
+  border-top: var(--border-default);
+}
+.service-photograph {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.service-description .section-title {
+  margin-top: 0;
+}
+.service-description > p:last-child {
+  margin-bottom: 0;
+}
+.service-section-reverse .service-photograph {
+  grid-column: 2;
+  grid-row: 1;
+}
+.service-section-reverse .service-description {
+  grid-column: 1;
+  grid-row: 1;
+}
+@include bp.mobile {
+  .service-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 32px var(--gutter-mobile);
+  }
+  .service-section-reverse .service-photograph,
+  .service-section-reverse .service-description {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}

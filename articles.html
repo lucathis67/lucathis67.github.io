@@ -8,15 +8,9 @@ page_script: /assets/js/archive.js
 {% assign articles = site.pages | where: 'layout', 'article' | sort: 'publication_order' | reverse %}
 {% assign categories = articles | map: 'category' | compact | uniq | sort %}
 <div class="article-archive" data-archive>
-  <div class="archive-heading">
-    <div class="archive-title-block">
-      <p class="eyebrow">Articles &amp; reportages</p>
-      <h1>Au fil des rencontres</h1>
-    </div>
-    <div class="archive-heading-introduction">
-      
-      <p class="archive-introduction">Des mariages, des promenades à deux, des instants étincellants de vie. Retrouvez les histoires et les lieux qui traversent mon travail de photographe.</p>
-    </div>
+  <div class="page-introduction">
+    <h1 class="page-title">Au fil des rencontres</h1>
+    <p>Des mariages, des promenades à deux, des instants étincellants de vie. Retrouvez les histoires et les lieux qui traversent mon travail de photographe.</p>
   </div>
 
   <div class="archive-layout">
@@ -29,7 +23,6 @@ page_script: /assets/js/archive.js
           <button type="button" class="archive-category" data-category="{{ category | escape }}" aria-pressed="false">{{ category | escape }} <span>{{ category_articles.size }}</span></button>
         {% endfor %}
       </fieldset>
-      <p class="archive-sidebar-note">Prendre le temps de regarder,<br>et de faire connaissance.</p>
     </div>
 
     <div class="archive-content">
