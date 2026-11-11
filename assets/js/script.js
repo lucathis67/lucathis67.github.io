@@ -26,7 +26,7 @@ function initializeSite() {
   dialog.id = "mobile-menu";
   dialog.className = "mobile-menu";
   dialog.setAttribute("aria-label", "Menu de navigation");
-  dialog.innerHTML = '<div class="mobile-menu-heading"><div class="mobile-menu-brand"><span>Lucas Mathis <em>Art</em></span></div><button class="menu-close" type="button" aria-label="Fermer le menu" autofocus><span></span><span></span></button></div>';
+  dialog.innerHTML = '<div class="mobile-menu-heading"><div class="mobile-menu-brand"><span>Lucas Mathis Art</span></div><button class="menu-close" type="button" aria-label="Fermer le menu" autofocus><span></span><span></span></button></div>';
   const subtitle = header.querySelector('.brand-subtitle');
   if (subtitle) {
     const menuSubtitle = subtitle.cloneNode(true);
