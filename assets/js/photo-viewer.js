@@ -11,6 +11,7 @@ function initializePhotoViewer() {
 
   // Below 800px, preserve the ordinary inline photographs without triggers.
   const viewerBreakpoint = matchMedia('(min-width: 800px)');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const managedAttributes = ['tabindex', 'role', 'aria-haspopup', 'aria-controls', 'aria-label'];
   const originalAttributes = new Map(photographs.map(image => [
     image, new Map(managedAttributes.map(name => [name, image.getAttribute(name)]))
@@ -31,6 +32,18 @@ function initializePhotoViewer() {
   let dimensions;
   let touchStart;
   let suppressClickUntil = 0;
+  let transitions = [];
+  let outgoing;
+  let closing = false;
+  let closeTimer;
+  const fadeDuration = 410;
+  function clearTransition() {
+    transitions.forEach(animation => animation.cancel());
+    transitions = [];
+    outgoing?.remove();
+    outgoing = undefined;
+  }
+  reducedMotion.addEventListener('change', clearTransition);
 
   // The image occupies 80% of the paper's width: a 10% white mat on each side.
   // Equal physical padding on all edges creates the fine-art print treatment.
@@ -59,13 +72,15 @@ function initializePhotoViewer() {
     image.src = sourceFor(neighbour);
   }
 
-  async function showPhotograph(newIndex) {
+  async function showPhotograph(newIndex, direction = 0) {
+    if (closing) return;
+    clearTransition();
     index = (newIndex + photographs.length) % photographs.length;
     const current = photographs[index];
     const token = ++request;
     clearTimeout(loadingTimer);
     stage.setAttribute('aria-busy', 'true');
-    paper.hidden = true;
+    const canTransition = direction && !paper.hidden && !reducedMotion.matches;
     message.hidden = true;
     counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(photographs.length).padStart(2, '0')}`;
     counter.setAttribute('aria-label', `Photographie ${index + 1} sur ${photographs.length}`);
@@ -80,11 +95,47 @@ function initializePhotoViewer() {
     try {
       await image.decode();
       if (token !== request || !dialog.open) return;
+      if (canTransition && !reducedMotion.matches) {
+        const printBounds = paper.getBoundingClientRect();
+        const stageBounds = stage.getBoundingClientRect();
+        outgoing = paper.cloneNode(true);
+        outgoing.classList.add('photo-viewer-transition');
+        outgoing.setAttribute('aria-hidden', 'true');
+        outgoing.style.left = `${printBounds.left - stageBounds.left}px`;
+        outgoing.style.top = `${printBounds.top - stageBounds.top}px`;
+        stage.append(outgoing);
+      }
       dimensions = { width: image.naturalWidth, height: image.naturalHeight };
       displayed.src = image.src;
       displayed.alt = current.alt;
       paper.hidden = false;
       fitPrint();
+      if (outgoing) {
+        // Fade the old print away completely before revealing the new one.
+        // Both halves share the same brief transition duration.
+        const options = { duration: fadeDuration, easing: 'linear' };
+        transitions = [
+          outgoing.animate([
+            { opacity: 1, offset: 0, easing: 'ease-in-out' },
+            { opacity: 0, offset: 0.5 },
+            { opacity: 0, offset: 1 }
+          ], { ...options, fill: 'forwards' }),
+          paper.animate([
+            { opacity: 0, offset: 0 },
+            { opacity: 0, offset: 0.5, easing: 'ease-in-out' },
+            { opacity: 1, offset: 1 }
+          ], options)
+        ];
+        Promise.allSettled(transitions.map(animation => animation.finished)).then(() => {
+          if (token === request) clearTransition();
+        });
+      }
+      if (!direction && !reducedMotion.matches) {
+        const entrance = paper.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: fadeDuration, easing: 'ease-in-out'
+        });
+        transitions.push(entrance);
+      }
       warmNeighbour(1);
       warmNeighbour(-1);
     } catch {
@@ -106,14 +157,33 @@ function initializePhotoViewer() {
     opener = image;
     dimensions = undefined;
     paper.hidden = true;
+    closing = false;
+    dialog.classList.remove('is-closing');
+    dialog.classList.add('is-opening');
     dialog.showModal();
     document.documentElement.classList.add('photo-viewer-open');
     showPhotograph(position);
   }
-  function closeViewer() {
-    if (dialog.open) dialog.close();
+  function closeViewer(immediate = false) {
+    if (!dialog.open) return;
+    if (immediate === true || reducedMotion.matches) { dialog.close(); return; }
+    if (closing) return;
+    closing = true;
+    ++request;
+    clearTimeout(loadingTimer);
+    clearTransition();
+    dialog.classList.remove('is-opening');
+    dialog.classList.add('is-closing');
+    closeTimer = setTimeout(() => dialog.close(), fadeDuration);
   }
+  dialog.addEventListener('animationend', event => {
+    if (event.target === dialog && event.animationName === 'viewer-fade-in') dialog.classList.remove('is-opening');
+  });
   dialog.addEventListener('close', () => {
+    clearTimeout(closeTimer);
+    closing = false;
+    dialog.classList.remove('is-opening', 'is-closing');
+    clearTransition();
     ++request; // Ignore pending image loads after closing or reopening.
     clearTimeout(loadingTimer);
     stage.setAttribute('aria-busy', 'false');
@@ -123,7 +193,7 @@ function initializePhotoViewer() {
 
   function updateInteraction() {
     const enabled = viewerBreakpoint.matches;
-    if (!enabled) closeViewer();
+    if (!enabled) closeViewer(true);
     photographs.forEach((image, position) => {
       image.classList.toggle('photo-viewer-trigger', enabled);
       if (enabled) {
@@ -152,8 +222,8 @@ function initializePhotoViewer() {
   updateInteraction();
 
   close.addEventListener('click', closeViewer);
-  previous.addEventListener('click', () => showPhotograph(index - 1));
-  next.addEventListener('click', () => showPhotograph(index + 1));
+  previous.addEventListener('click', () => showPhotograph(index - 1, -1));
+  next.addEventListener('click', () => showPhotograph(index + 1, 1));
   previous.hidden = next.hidden = photographs.length < 2;
   dialog.addEventListener('cancel', event => {
     event.preventDefault();
@@ -177,7 +247,7 @@ function initializePhotoViewer() {
     const destinations = { ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: photographs.length - 1 };
     if (!(event.key in destinations)) return;
     event.preventDefault();
-    showPhotograph(destinations[event.key]);
+    showPhotograph(destinations[event.key], event.key === 'ArrowLeft' || event.key === 'Home' ? -1 : 1);
   });
   dialog.addEventListener('click', event => {
     if (performance.now() < suppressClickUntil) return;
@@ -195,7 +265,7 @@ function initializePhotoViewer() {
     touchStart = undefined;
     if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     suppressClickUntil = performance.now() + 350;
-    showPhotograph(index + (dx < 0 ? 1 : -1));
+    showPhotograph(index + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
   });
 
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fitPrint).observe(stage);

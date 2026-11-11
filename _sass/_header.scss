@@ -1,121 +1,120 @@
 @use "breakpoints" as bp;
 
-// Large screens keep a quiet masthead and independent lateral navigation.
+// Shared masthead typography for the header and navigation dialog.
 .brand-title {
-  font-size: 2.7rem;
-  font-weight: 400;
-  text-align: center;
   margin: 0;
-  padding: 32px 0 24px;
-  border-bottom: var(--border-default);
-  line-height: 1.15;
+  font-family: var(--font-serif);
+  font-size: var(--brand-title-size);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-heading);
 }
 .brand-title a:link, .brand-title a:visited, .brand-title a:active {
   border: 0;
   padding: 0;
 }
-.brand-subtitle {
+.brand-subtitle, .mobile-menu-subtitle {
+  margin: 8px 0 0;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  text-align: center;
+  font-size: var(--brand-subtitle-size);
+  font-weight: 400;
   letter-spacing: 0.14em;
-  line-height: 1.6;
-  margin: 0;
-  padding: 16px 0;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+.site-header {
   border-bottom: var(--border-default);
 }
-
+.site-brand {
+  padding: 28px 24px;
+  text-align: center;
+}
 @include bp.tablet-and-below {
-  header {
-    display: flex;
-    align-items: stretch;
+  .site-header {
+    position: relative;
     margin-inline: var(--space-5);
   }
-  .brand-title {
-    flex: 2;
+  .site-brand {
     text-align: left;
-    font-size: 2.1rem;
-    padding-block: 28px;
+    padding-left: 0;
+    padding-right: 64px;
   }
-  header div.nav-container {
-    flex: 1;
-  }
-  header.home-header {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-  }
-  .home-header .brand-title {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .home-header .nav-container {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .home-header .brand-subtitle {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    text-align: left;
-  }
-}
-
-@include bp.mobile {
-  header {
-    display: block;
-    margin-inline: 0;
-  }
-  .brand-title {
-    padding: 24px;
-    text-align: center;
-    font-size: 2rem;
-  }
-  header.has-mobile-menu {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 12px 0 var(--gutter-mobile);
-    border-bottom: var(--border-default);
-    background: var(--color-background);
-  }
-  .has-mobile-menu .brand-title {
-    flex: 1;
-    min-width: 0;
-    padding: 22px 0;
-    border: 0;
-    text-align: left;
-    font-size: clamp(24px, 7.5vw, 32px);
+  .site-header .nav-container {
+    border-bottom: 0;
   }
   .has-mobile-menu .nav-container {
     display: none;
   }
   .has-mobile-menu .menu-toggle {
     display: block;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--color-heading);
   }
-  header.home-header.has-mobile-menu {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 56px;
-    padding: 0;
-    gap: 0;
+}
+@include bp.mobile {
+  :root {
+    --brand-title-size: clamp(23px, 6vw, 28px);
   }
-  .home-header.has-mobile-menu .brand-title {
-    padding-left: var(--gutter-mobile);
+  .site-header {
+    margin-inline: 0;
   }
-  .home-header .menu-toggle {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: start;
+  .site-brand {
+    padding: 22px 64px 22px 24px;
   }
-  .home-header .brand-subtitle {
-    padding: 12px var(--gutter-mobile);
-    border-top: var(--border-default);
-    border-bottom: 0;
-    font-size: 0.56rem;
-    letter-spacing: 0.11em;
+  .brand-subtitle {
+    max-width: 34ch;
+    margin-left: 0;
+    margin-right: 0;
   }
+  .site-header.has-mobile-menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--surface-paper);
+    background-size: var(--paper-texture-size);
+  }
+}
+
+// Homepage masthead with links on either side of the brand.
+.slideshow-header {
+  border-bottom: 0;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  box-sizing: border-box;
+  padding-inline: clamp(24px, 4vw, 64px);
+}
+
+.split-navigation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+}
+.split-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+}
+.split-links:last-child { justify-content: flex-end; }
+.split-links a:link, .split-links a:visited, .split-links a:active {
+  padding: 12px 0;
+  border: 0;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+}
+
+@include bp.tablet-and-below {
+  .slideshow-header.has-mobile-menu .split-links { display: none; }
+  .slideshow-header.has-mobile-menu .split-navigation { display: block; }
+  .slideshow-header .site-brand { text-align: left; }
+  .slideshow-header .menu-toggle { right: 24px; }
+}
+@include bp.mobile {
+  .slideshow-header { padding-inline: 0; }
+  .slideshow-header .menu-toggle { right: 8px; }
+  .slideshow-header .brand-subtitle { margin-inline: 0; }
 }

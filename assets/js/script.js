@@ -3,8 +3,8 @@ function initializeSite() {
   const copyright = document.getElementById("copyright");
   if (copyright) copyright.textContent = `© Lucas Mathis Art ${year}`;
 
-  // Count articles in reading order across both homepage columns.
-  document.querySelectorAll(".home-header + main article").forEach((article, index) => {
+  // Alternate portfolio story backgrounds in reading order on mobile.
+  document.querySelectorAll(".main-container-row .story-card").forEach((article, index) => {
     article.classList.toggle("article-warm", index % 2 === 1);
   });
 
@@ -26,8 +26,25 @@ function initializeSite() {
   dialog.id = "mobile-menu";
   dialog.className = "mobile-menu";
   dialog.setAttribute("aria-label", "Menu de navigation");
-  dialog.innerHTML = '<div class="mobile-menu-heading"><span>Lucas Mathis <em>Art</em></span><button class="menu-close" type="button" aria-label="Fermer le menu" autofocus><span></span><span></span></button></div>';
+  dialog.innerHTML = '<div class="mobile-menu-heading"><div class="mobile-menu-brand"><span>Lucas Mathis <em>Art</em></span></div><button class="menu-close" type="button" aria-label="Fermer le menu" autofocus><span></span><span></span></button></div>';
+  const subtitle = header.querySelector('.brand-subtitle');
+  if (subtitle) {
+    const menuSubtitle = subtitle.cloneNode(true);
+    menuSubtitle.className = 'mobile-menu-subtitle';
+    dialog.querySelector('.mobile-menu-brand').append(menuSubtitle);
+  }
   const mobileNav = navigation.cloneNode(true);
+  if (navigation.classList.contains('split-navigation')) {
+    mobileNav.removeAttribute('class');
+    const links = [...navigation.querySelectorAll('.split-links a')];
+    const list = document.createElement('ul');
+    links.forEach(link => {
+      const item = document.createElement('li');
+      item.append(link.cloneNode(true));
+      list.append(item);
+    });
+    mobileNav.replaceChildren(list);
+  }
   mobileNav.setAttribute("aria-label", "Navigation mobile");
   mobileNav.querySelectorAll(".current").forEach(link => link.setAttribute("aria-current", "page"));
   dialog.append(mobileNav);
@@ -72,7 +89,7 @@ function initializeSite() {
   mobileNav.addEventListener("click", event => {
     if (event.target.closest("a")) finishClose();
   });
-  matchMedia("(max-width: 800px)").addEventListener("change", event => {
+  matchMedia("(max-width: 1400px)").addEventListener("change", event => {
     if (!event.matches && dialog.open) finishClose();
   });
 }

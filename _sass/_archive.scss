@@ -4,44 +4,12 @@
 .article-archive [hidden] {
   display: none;
 }
-.archive-heading {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 64px;
-  padding: 52px 0 48px;
-  border-bottom: var(--border-default);
-}
-.archive-heading .eyebrow {
-  margin: 0 0 16px;
-}
-.archive-heading h1 {
-  max-width: 16ch;
-  margin: 0;
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  line-height: 1.02;
-  font-weight: 400;
-  text-wrap: balance;
-}
-.archive-introduction {
-  max-width: 48ch;
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.8;
-}
-.archive-heading-introduction {
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 12px 0 12px 40px;
-  border-left: var(--border-default);
-}
 .archive-layout {
   display: grid;
   grid-template-columns: 180px minmax(0, 1fr);
   gap: 56px;
   padding-top: 32px;
+  border-top: var(--border-default);
 }
 // If enhancement is unavailable, the full list takes the available width.
 .archive-layout:has(.archive-sidebar[hidden]) {
@@ -91,13 +59,6 @@
 .archive-category:hover {
   color: var(--color-heading);
 }
-.archive-sidebar-note {
-  margin: 32px 0 0;
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  line-height: 1.5;
-  font-style: italic;
-}
 .archive-content {
   min-width: 0;
 }
@@ -140,8 +101,6 @@ a.archive-image-link:active {
 }
 .archive-image-link img {
   display: block;
-  width: 100%;
-  height: auto;
   aspect-ratio: 3 / 2;
   object-fit: cover;
 }
@@ -174,14 +133,13 @@ a.archive-image-link:active {
 }
 .archive-empty p {
   margin: 0;
-  font-size: 0.9rem;
 }
 .archive-more {
   padding-top: 32px;
   text-align: center;
 }
 .archive-more p {
-  font-size: 0.75rem;
+  font-size: var(--text-size-small);
 }
 .archive-more-button {
   padding: 14px 24px;
@@ -200,12 +158,6 @@ a.archive-image-link:active {
 }
 
 @include bp.tablet-only {
-  .archive-heading {
-    gap: 32px;
-  }
-  .archive-heading-introduction {
-    padding-left: 32px;
-  }
   .archive-layout {
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 32px;
@@ -216,23 +168,6 @@ a.archive-image-link:active {
   }
 }
 @include bp.mobile {
-  .archive-heading {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-    padding: 28px var(--gutter-mobile);
-  }
-  .archive-heading h1 {
-    font-size: clamp(2.25rem, 9vw, 3rem);
-  }
-  .archive-introduction {
-    max-width: 48ch;
-    font-size: 0.85rem;
-  }
-  .archive-heading-introduction {
-    padding: 24px 0 0;
-    border-left: 0;
-    border-top: var(--border-default);
-  }
   .archive-layout {
     display: block;
     padding: 24px var(--gutter-mobile) 0;
@@ -255,9 +190,6 @@ a.archive-image-link:active {
     padding: 12px 0;
     font-size: 0.75rem;
     border-bottom-color: transparent;
-  }
-  .archive-sidebar-note {
-    display: none;
   }
   .archive-story {
     grid-template-columns: clamp(88px, 24vw, 140px) minmax(0, 1fr);

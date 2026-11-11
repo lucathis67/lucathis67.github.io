@@ -160,49 +160,22 @@ For a new component with responsive styles:
 
 Add its module to `assets/css/styles.scss` with `@use`. Component modules follow the foundations; mobile-menu enhancements follow navigation. Preview with `bundle exec jekyll serve --livereload`, and run `bundle exec jekyll build` before publishing.
 
-## Editorial design preview (dev)
+## Current pages and design
 
-The large-screen navigation remains fixed in the left margin above 1400px, with a fine rule and an active-page marker. Tablet navigation sits in the header; the mobile menu retains its existing behaviour. Card copy and image arrangements are still manually editable HTML.
+- `index.html`: scrollable homepage with the manual slideshow, introduction, About excerpt and shared contact section.
+- `articles.html`: curated Portfolio with manually written feature summaries.
+- `archives.html`: automatically generated archive, newest `publication_order` first, with category filters and batches of 12.
+- `prestations.html`: hand-authored services page; About and Contact share the profile layout.
 
-Article metadata now supports `category`, `location`, `intro`, `display_title`, `cover_image` and `cover_alt`. The full `heading` stays on the article; `display_title` is used in the visual reportages index. Homepage titles and summaries are still chosen manually in `index.html`. Image loading defaults to lazy, with the featured homepage image explicitly eager.
+Homepage photographs are configured in `_data/home_slides.yml`. Portraits and landscapes use the same selection at every screen size and share one row height while retaining their proportions. `assets/js/slideshow.js` handles neighbour clicks, keyboard navigation, swipes and reduced-motion-aware transitions; there is no autoplay. `_sass/_landing.scss` styles homepage content; `_sass/_header.scss` styles the shared and split mastheads.
 
-`_includes/contact-invitation.html` provides the shared closing section for the homepage, reportages index, articles and About page. Edit this one file to change its invitation. Contact retains the direct email action instead of inviting visitors back to the same page.
+Navigation labels and destinations come from `_data/navigation.yml`, including the homepage's split links. Large screens retain the lateral navigation on internal pages; tablet and mobile use the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
 
-The design keeps the local fonts, ivory/olive palette and original image files. Publication settings and workflows have not changed.
+The active design uses warm ivory, brown charcoal text and an earthy menu background with the shared paper texture. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
 
-### Light mint palette experiment
+For new articles, set a unique numeric `publication_order` in front matter. Archives update automatically; Portfolio feature selection remains manual. `heading` supplies the article title in its page, Portfolio card and archive entry. `category`, `location`, `cover_image` and `cover_alt` provide supporting metadata. Image includes and the article template remain available for future content.
 
-The first green variant uses white (`#ffffff`), warm taupe (`#74605a`), and the soft mint (`#a6d2b9`) from the photographic proposal. Large panels use a diluted mint (`#edf6f0`); buttons use dark green text (`#354e43`) for readability. The mobile menu also uses a light surface.
-
-For the previous ivory appearance, restore the five original colour tokens in `_sass/_tokens.scss`: background `#f8f6f1`, warm surface `#eeebe3`, heading `#37392f`, text `#68695e`, border `#d8d7cc`. To return the button/menu treatment too, use the corresponding uncommitted changes in `_sass/_closing.scss` and `_sass/_mobile-menu.scss` as the comparison. Homepage headings, teasers and reading-link labels have been restored to the author's original wording; the introduction row is slimmer (18px vertical padding on desktop, 16px on mobile).
-
-### Palette preferences and second green preview
-
-Ivory remains the preferred overall direction. The ivory, first green and second green palettes are recorded in `_design/palettes.json`, including subtitle, button and menu treatments. This is a design reference, not a public page or runtime switcher; `_sass/` controls the active preview.
-
-Green v2 keeps white and pale mint surfaces, uses the dark taupe heading colour for shared borders (including buttons), darkens body text to `#514b47`, and replaces the homepage subtitle's surrounding rules with a mint band. Its text is dark green because white on this light mint has insufficient contrast. All original homepage titles and teasers remain unchanged.
-
-Active choice: restored the ivory palette and original ruled subtitle treatment. The slimmer introductory row, author’s original homepage copy and layout refinements are retained. Both green experiments remain saved in `_design/palettes.json`.
-
-### Articles navigation and publication order
-
-The shared navigation includes **Articles**, linking to `/articles.html`. The index sorts article pages by numeric `publication_order`, highest first. The existing sequence follows the homepage: fiançailles à l’Orangerie (3), mariage à la cathédrale (2), portraits d’automne (1). These are relative publication positions, not invented dates.
-
-When publishing a new article, set `publication_order` to the next unused number (4 for the next article, then 5, etc.). The article template includes this field. Keep values unique; the index updates automatically. The homepage remains manually curated.
-
-## Article archive
-
-`articles.html` uses the archive layout, with entries rendered by `_includes/archive-entry.html`. Archive styles live in `_sass/_archive.scss`; the optional page-specific script is `assets/js/archive.js`.
-
-The index is generated from pages using `layout: article`, with `publication_order` descending, always newest first. The only controls are the category filters. Categories and their counts are generated from article metadata, so use consistent category names.
-
-The selected theme is saved in the page URL (`theme`) for shareable links and refresh persistence. Results are revealed in batches of 12. After showing more, keyboard focus moves to the first newly revealed title. The complete ordered list exists in the generated HTML; without the archive script, all entries remain readable and controls stay hidden.
-
-The existing articles have no fabricated publication dates. A real `published_on: YYYY-MM-DD` field can be displayed when supplied; `publication_order` still determines ordering. The ivory palette, fixed navigation and original homepage content are unchanged.
-
-### Consistent article titles
-
-`heading` is the single visible title for the article, its homepage card and its archive entry. Homepage cards look up the article by URL and use `article.heading`; teaser paragraphs remain manual HTML. The archive now shows only photographs and linked titles. Categories remain available in the side filters, while per-entry teasers, location labels and repeated reading links have been removed. The earlier short `display_title` metadata has been retired.
+The archive retains the `theme` URL parameter, progressive batches and a complete list without JavaScript. Its implementation lives in `_sass/_archive.scss` and `assets/js/archive.js`.
 
 ## Fine-art photograph viewer
 
@@ -231,3 +204,13 @@ The viewer is enabled only at viewport widths of **800px and above**. Below 800p
 The white mat has a very faint, seamless paper grain from `assets/textures/fine-art-paper.svg`. It is applied only as the paper container’s background; the image has its own solid white backing, with no texture overlay, blend mode or colour filter. The texture is generated locally with SVG noise and adds no external requests or dependencies. Its intensity can be adjusted through the SVG’s component-transfer values.
 
 The print boundaries are slightly softened: a subpixel white halo on the paper edge, and a 0.85px opacity feather around the photograph. The image centre remains sharp, with no blur filter and no modification to the source file. Adjust `--print-edge-feather` in `_sass/_photo-viewer.scss` to tune the photograph boundary. Browsers without intersecting CSS masks keep a normal image edge.
+
+## Search and sharing metadata
+
+`_includes/head.html` emits canonical URLs, descriptions, Open Graph and Twitter cards for every page. Titles and descriptions use page front matter, with site defaults as a fallback. Sharing images are chosen in this order: `og_image`, `cover_image`, `hero_image`, then the site's default image. Article layouts automatically use `og:type=article`; other pages use `website`. Existing `og_title`, `og_description`, `og_type` and `og_image_alt` overrides remain supported. Supply an accurate `og_image_alt` when selecting a custom sharing photograph.
+
+`sitemap.xml` automatically includes pages with layouts except those marked `noindex`; `robots.txt` points to it. Keep the legal page's `noindex` metadata rather than blocking crawling, so search engines can read that directive. Canonicals use `site.url` and `site.baseurl`. Verify production URLs with `JEKYLL_ENV=production bundle exec jekyll build`; local preview builds may use localhost URLs.
+
+### Validated typography
+
+The site locally hosts EB Garamond for headings and reading text, and Source Sans 3 for supporting text and controls. Normal and italic variable files cover the declared weights; each family retains its license. `assets/css/fonts.css` registers them, and `_sass/_tokens.scss` defines the active families, shared paragraph sizing and brand scale. Retired Cormorant Garamond and DM Sans assets have been removed.

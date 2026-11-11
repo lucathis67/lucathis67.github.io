@@ -25,7 +25,7 @@ html.menu-open {
   padding: 0 var(--space-5) var(--space-7);
   padding-top: env(safe-area-inset-top, 0px);
   border: 0;
-  background: var(--color-heading);
+  background: var(--color-menu-background);
   color: var(--color-background);
   overflow-y: auto;
 }
@@ -52,7 +52,9 @@ html.menu-open {
   gap: 12px;
   border-bottom: 1px solid rgb(248 246 241 / 20%);
   font-family: var(--font-serif);
-  font-size: clamp(23px, 6vw, 30px);
+  font-size: var(--brand-title-size);
+  font-weight: 400;
+  line-height: 1.1;
 }
 
 .menu-toggle,
@@ -109,8 +111,6 @@ html.menu-open {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background: transparent;
-  border-radius: 0;
   padding: var(--space-8) 0;
 }
 
@@ -131,9 +131,11 @@ html.menu-open {
 
 .mobile-menu nav a {
   display: inline-block;
-  padding: 4px 0;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 6px 0;
   font-family: var(--font-serif);
-  font-size: clamp(42px, 12vw, 76px);
+  font-size: clamp(32px, 9vw, 56px);
   line-height: 1.1;
   color: var(--color-background);
   border: none;
@@ -153,4 +155,13 @@ html.menu-open {
   .mobile-menu.is-closing {
     animation: none;
   }
+}
+
+.mobile-menu-brand {
+  min-width: 0;
+  padding-block: 20px;
+}
+.mobile-menu-subtitle {
+  max-width: 34ch;
+  color: inherit;
 }

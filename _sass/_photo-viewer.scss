@@ -90,7 +90,7 @@ html.photo-viewer-open {
   background-color: #fff;
   background-image: url("../textures/fine-art-paper.svg");
   background-repeat: repeat;
-  background-size: 256px 256px;
+  background-size: var(--paper-texture-size);
   // A subpixel paper-coloured halo softens the cut edge without blurring it.
   box-shadow:
     0 0 1px 0.5px rgb(255 255 255 / 65%),
@@ -168,4 +168,30 @@ html.photo-viewer-open {
   .photo-viewer-next {
     position: static;
   }
+}
+
+// A temporary, inaccessible print preserves the outgoing image during a change.
+.photo-viewer-transition {
+  position: absolute;
+  margin: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .photo-viewer.is-opening,
+  .photo-viewer.is-opening::backdrop {
+    animation: viewer-fade-in 410ms ease-in-out both;
+  }
+  .photo-viewer.is-closing,
+  .photo-viewer.is-closing::backdrop {
+    animation: viewer-fade-out 410ms ease-in-out both;
+  }
+}
+@keyframes viewer-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes viewer-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }

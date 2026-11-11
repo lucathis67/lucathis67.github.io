@@ -1,8 +1,12 @@
 @use "breakpoints" as bp;
 
 // Shared type and reading rhythm. Components supply their own layouts.
+html {
+  background: var(--surface-paper);
+  background-size: var(--paper-texture-size);
+}
 body {
-  background: var(--color-background);
+  background: transparent;
   color: var(--color-text);
   max-width: var(--layout-max-width);
   min-height: 100vh;
@@ -24,9 +28,10 @@ h1, h2, h3, .brand-title {
   color: var(--color-heading);
 }
 p {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.8;
+  font-family: var(--font-body);
+  font-size: var(--text-size);
+  line-height: var(--text-leading);
+  letter-spacing: 0.025em;
 }
 a:link, a:visited, a:active {
   color: var(--color-heading);
@@ -49,7 +54,7 @@ address {
   margin: 48px auto 32px;
   padding-inline: var(--gutter-mobile);
   text-align: center;
-  font-size: clamp(2rem, 3.4vw, 3.25rem);
+  font-size: clamp(1.85rem, 3vw, 2.9rem);
   font-weight: 400;
   line-height: 1.12;
   text-wrap: balance;
@@ -101,5 +106,32 @@ address {
   }
   .page-title {
     margin-block: 36px 28px;
+  }
+}
+
+// A shared, compact opening for the Articles and Prestations pages.
+.page-introduction {
+  max-width: 720px;
+  margin: 36px auto;
+  text-align: center;
+}
+.page-introduction .page-title {
+  max-width: 26ch;
+  margin: 0 auto 20px;
+  padding: 0;
+  font-size: clamp(1.8rem, 2.7vw, 2.5rem);
+  line-height: 1.15;
+}
+.page-introduction > p {
+  margin: 0;
+  color: var(--color-heading);
+}
+@include bp.mobile {
+  .page-introduction {
+    margin: 28px auto;
+    padding-inline: var(--gutter-mobile);
+  }
+  .page-introduction .page-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.1rem);
   }
 }

@@ -1,7 +1,9 @@
 - title: Accueil
   url: /
-- title: Articles
+- title: Portfolio
   url: /articles.html
+- title: Prestations
+  url: /prestations.html
 - title: À propos
   url: /a-propos.html
 - title: Contact

@@ -1,0 +1,93 @@
+@use "breakpoints" as bp;
+
+// A scrollable homepage with neighbouring photographs visible across the strip.
+.slideshow-window {
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+.slideshow-track {
+  --slide-height: clamp(240px, 42vw, 520px);
+  position: relative;
+  left: 50%;
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  gap: 24px;
+}
+.slideshow-slide {
+  flex: none;
+  height: var(--slide-height);
+  min-width: 0;
+  margin: 0;
+}
+.slideshow-slide picture {
+  display: block;
+  height: 100%;
+}
+.slideshow-slide img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: none;
+}
+.slideshow-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+// The full-bleed strip is clipped at the viewport, without a horizontal scrollbar.
+html:has(.landing-page) { overflow-x: clip; }
+.landing-introduction {
+  margin-block: 48px 64px;
+}
+.landing-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px 32px;
+  margin-top: 28px;
+}
+@include bp.mobile {
+  .slideshow-track {
+    --slide-height: clamp(300px, 110vw, 540px);
+    gap: 12px;
+  }
+
+  .landing-introduction { margin-block: 32px 40px; }
+}
+
+.slideshow-slide.is-neighbour { cursor: pointer; }
+.slideshow-slide:focus-visible { outline: 2px solid var(--color-heading); outline-offset: -4px; }
+
+.landing-about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  align-items: center;
+  gap: 64px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-block: 48px;
+  border-top: var(--border-default);
+}
+.landing-about > img {
+  display: block;
+}
+.landing-about .section-title { margin-top: 0; }
+@include bp.mobile {
+  .landing-about {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    margin-inline: var(--gutter-mobile);
+    padding-block: 32px;
+  }
+  .landing-about > img { max-width: 320px; margin-inline: auto; }
+}
+
+.slideshow-window.is-dragging, .slideshow-window.is-dragging .slideshow-slide { cursor: grabbing; }

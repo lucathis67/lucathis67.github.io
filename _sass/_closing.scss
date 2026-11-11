@@ -5,7 +5,8 @@
   margin-top: 80px;
   padding: 64px 32px;
   border-top: var(--border-default);
-  background: var(--color-background-warm);
+  background: var(--color-background-warm) var(--paper-texture) repeat;
+  background-size: var(--paper-texture-size);
   text-align: center;
 }
 .contact-invitation .eyebrow {
@@ -22,7 +23,6 @@
 .contact-invitation > p:not(.eyebrow) {
   max-width: 58ch;
   margin: 0 auto 32px;
-  font-size: 0.95rem;
 }
 a.button-link:link, a.button-link:visited, a.button-link:active {
   display: inline-flex;
@@ -59,7 +59,7 @@ a.button-link:hover {
   padding: 0;
 }
 .footer-identity p {
-  font-size: 0.8rem;
+  font-size: var(--text-size-small);
   margin: 16px 0 0;
 }
 .footer-contact {

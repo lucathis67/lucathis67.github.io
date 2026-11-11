@@ -1,7 +1,7 @@
 {
   "note": "Design reference only; not used at runtime. Active styles are in _sass/. Keep original homepage copy and current layouts when comparing.",
   "preferred": "ivory",
-  "currently_previewing": "ivory",
+  "currently_previewing": "warm-ivory",
   "variants": {
     "ivory": {
       "colors": {
@@ -77,6 +77,28 @@
         "background": "background-warm",
         "text": "heading"
       }
+    },
+    "white-paper": {
+      "colors": {
+        "color-background": "#ffffff",
+        "color-background-warm": "#f5f3ef",
+        "color-heading": "#292724",
+        "color-text": "#4e4b47",
+        "color-border": "#e4e0db"
+      },
+      "texture": "assets/textures/fine-art-paper.svg at 256px",
+      "note": "Site-wide white paper with warm charcoal text. Cover retains its ivory surround."
+    },
+    "warm-ivory": {
+      "colors": {
+        "color-background": "#f8f6f1",
+        "color-background-warm": "#eeebe3",
+        "color-heading": "#3d3630",
+        "color-text": "#6a6056",
+        "color-border": "#dcd4c9",
+        "color-menu-background": "#352b25"
+      },
+      "note": "Original ivory surfaces with subtly warmer ink and separators; deeper earthy brown menu."
     }
   }
 }
