@@ -25,7 +25,7 @@ html.menu-open {
   padding: 0 var(--space-5) var(--space-7);
   padding-top: env(safe-area-inset-top, 0px);
   border: 0;
-  background: var(--color-heading);
+  background: var(--color-menu-background);
   color: var(--color-background);
   overflow-y: auto;
 }

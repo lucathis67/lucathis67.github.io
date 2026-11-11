@@ -1,37 +1,36 @@
-/* Local variable fonts: normal and italic, with all available weights.
-   Cormorant Garamond: current headings 400/600 and italic title 400.
-   DM Sans: current body text 400; additional weights/styles load when used.
-   Keep each family's OFL.txt alongside its fonts.
-   Static TTF files are alternatives and are not needed by these declarations. */
+/* Locally hosted variable fonts, normal and italic.
+   EB Garamond: headings, navigation and paragraphs, weights 400–800.
+   Source Sans 3: supporting text and controls, weights 200–900.
+   Each family includes its SIL Open Font License. */
 
 @font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype");
-  font-weight: 300 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf") format("truetype");
-  font-weight: 300 700;
+  font-family: "EB Garamond";
+  src: url("../fonts/EB_Garamond/EBGaramond-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 800;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "DM Sans";
-  src: url("../fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf") format("truetype");
-  font-weight: 100 1000;
+  font-family: "EB Garamond";
+  src: url("../fonts/EB_Garamond/EBGaramond-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 800;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "DM Sans";
-  src: url("../fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf") format("truetype");
-  font-weight: 100 1000;
+  font-family: "Source Sans 3";
+  src: url("../fonts/Source_Sans_3/SourceSans3-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 900;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/Source_Sans_3/SourceSans3-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: italic;
   font-display: swap;
 }

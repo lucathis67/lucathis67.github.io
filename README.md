@@ -171,7 +171,7 @@ Homepage photographs are configured in `_data/home_slides.yml`. Portraits and la
 
 Navigation labels and destinations come from `_data/navigation.yml`, including the homepage's split links. Large screens retain the lateral navigation on internal pages; tablet and mobile use the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
 
-The active design uses white paper texture and warm charcoal text. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
+The active design uses warm ivory, brown charcoal text and an earthy menu background with the shared paper texture. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
 
 For new articles, set a unique numeric `publication_order` in front matter. Archives update automatically; Portfolio feature selection remains manual. `heading` supplies the article title in its page, Portfolio card and archive entry. `category`, `location`, `cover_image` and `cover_alt` provide supporting metadata. Image includes and the article template remain available for future content.
 
@@ -210,3 +210,7 @@ The print boundaries are slightly softened: a subpixel white halo on the paper e
 `_includes/head.html` emits canonical URLs, descriptions, Open Graph and Twitter cards for every page. Titles and descriptions use page front matter, with site defaults as a fallback. Sharing images are chosen in this order: `og_image`, `cover_image`, `hero_image`, then the site's default image. Article layouts automatically use `og:type=article`; other pages use `website`. Existing `og_title`, `og_description`, `og_type` and `og_image_alt` overrides remain supported. Supply an accurate `og_image_alt` when selecting a custom sharing photograph.
 
 `sitemap.xml` automatically includes pages with layouts except those marked `noindex`; `robots.txt` points to it. Keep the legal page's `noindex` metadata rather than blocking crawling, so search engines can read that directive. Canonicals use `site.url` and `site.baseurl`. Verify production URLs with `JEKYLL_ENV=production bundle exec jekyll build`; local preview builds may use localhost URLs.
+
+### Validated typography
+
+The site locally hosts EB Garamond for headings and reading text, and Source Sans 3 for supporting text and controls. Normal and italic variable files cover the declared weights; each family retains its license. `assets/css/fonts.css` registers them, and `_sass/_tokens.scss` defines the active families, shared paragraph sizing and brand scale. Retired Cormorant Garamond and DM Sans assets have been removed.

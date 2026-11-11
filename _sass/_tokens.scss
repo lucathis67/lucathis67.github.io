@@ -1,18 +1,23 @@
 // Site-wide design values. Fixed px spacing preserves the existing rhythm as
 // headings and layouts adapt between desktop, tablet and mobile.
-// Preview palette: white paper and warm charcoal.
+// Active palette: ivory, warm charcoal and an earthy menu background.
 // Saved variants and the preference for ivory live in _design/palettes.json.
 :root {
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "DM Sans", Arial, sans-serif;
-  --brand-title-size: clamp(1.9rem, 3.5vw, 3rem);
+  --text-size: 1.125rem;
+  --text-size-small: 1rem;
+  --text-leading: 1.8;
+  --font-body: "EB Garamond", Georgia, serif;
+  --font-serif: "EB Garamond", Georgia, serif;
+  --font-sans: "Source Sans 3", Arial, sans-serif;
+  --brand-title-size: clamp(1.75rem, 3.1vw, 2.65rem);
   --brand-subtitle-size: 0.6rem;
 
-  --color-background: #ffffff;
-  --color-background-warm: #f5f3ef;
-  --color-heading: #292724;
-  --color-text: #4e4b47;
-  --color-border: #e4e0db;
+  --color-background: #f8f6f1;
+  --color-background-warm: #eeebe3;
+  --color-heading: #3d3630;
+  --color-text: #6a6056;
+  --color-border: #dcd4c9;
+  --color-menu-background: #352b25;
   --color-viewer-backdrop: #292521;
   --paper-texture-size: 256px;
   --paper-texture: url("../textures/fine-art-paper.svg");

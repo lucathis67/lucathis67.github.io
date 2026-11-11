@@ -56,7 +56,7 @@
 }
 @include bp.mobile {
   :root {
-    --brand-title-size: clamp(24px, 6.5vw, 30.4px);
+    --brand-title-size: clamp(23px, 6vw, 28px);
   }
   .site-header {
     margin-inline: 0;

@@ -2,6 +2,10 @@
 
 // A scrollable homepage with neighbouring photographs visible across the strip.
 .slideshow-window {
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
   overflow: hidden;
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -85,3 +89,5 @@ html:has(.landing-page) { overflow-x: clip; }
   }
   .landing-about > img { max-width: 320px; margin-inline: auto; }
 }
+
+.slideshow-window.is-dragging, .slideshow-window.is-dragging .slideshow-slide { cursor: grabbing; }

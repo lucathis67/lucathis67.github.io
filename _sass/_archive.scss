@@ -133,14 +133,13 @@ a.archive-image-link:active {
 }
 .archive-empty p {
   margin: 0;
-  font-size: 0.9rem;
 }
 .archive-more {
   padding-top: 32px;
   text-align: center;
 }
 .archive-more p {
-  font-size: 0.75rem;
+  font-size: var(--text-size-small);
 }
 .archive-more-button {
   padding: 14px 24px;

@@ -69,8 +69,6 @@
   font-size: 1.9rem;
 }
 .story-copy > p:not(.eyebrow) {
-  font-size: 0.94rem;
-  line-height: 1.8;
   margin: 0 0 16px;
 }
 .story-copy .story-action {
@@ -87,7 +85,7 @@
 }
 .reportage-heading .page-title {
   max-width: 36ch;
-  font-size: clamp(1.9rem, 3.1vw, 3rem);
+  font-size: clamp(1.8rem, 2.8vw, 2.7rem);
   margin: 0 auto;
   padding: 0;
 }
@@ -187,7 +185,7 @@
     padding: 36px var(--gutter-mobile);
   }
   .reportage-heading .page-title {
-    font-size: clamp(1.85rem, 7.8vw, 2.4rem);
+    font-size: clamp(1.75rem, 7vw, 2.2rem);
   }
   .article-text-bloc {
     margin: 40px auto;
