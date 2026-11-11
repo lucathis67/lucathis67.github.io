@@ -130,6 +130,10 @@
   };
   windowElement.addEventListener('pointerup', event => finishDrag(event));
   windowElement.addEventListener('pointercancel', event => finishDrag(event, true));
-  windowElement.addEventListener('lostpointercapture', event => finishDrag(event, true));
+  windowElement.addEventListener('lostpointercapture', event => {
+    // Touch implicitly captures on the image. Its capture-loss event bubbles
+    // here when we transfer capture to the window; that is not a cancelled drag.
+    if (event.target === windowElement) finishDrag(event, true);
+  });
   render();
 })();
