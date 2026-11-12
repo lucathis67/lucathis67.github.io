@@ -11,6 +11,7 @@
   {% include footer.html %}
   <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
   {% if page.layout == 'article' %}<script src="{{ '/assets/js/photo-viewer.js' | relative_url }}" defer></script>{% endif %}
+  {% for script in page.page_scripts %}<script src="{{ script | relative_url }}" defer></script>{% endfor %}
   {% if page.page_script %}<script src="{{ page.page_script | relative_url }}" defer></script>{% endif %}
 </body>
 </html>
