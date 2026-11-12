@@ -5,19 +5,21 @@ description: "Photographies de mariages, de couples et de fiançailles en Alsace
 permalink: /
 main_class: landing-page
 inline_navigation: true
-page_script: /assets/js/slideshow.js
+page_scripts:
+  - /assets/vendor/glide/glide.min.js
+  - /assets/js/home-carousel.js
+page_stylesheets:
+  - /assets/vendor/glide/glide.core.min.css
 ---
-<section class="home-slideshow" aria-label="Photographies à la une" aria-roledescription="carrousel" tabindex="0">
-  <div class="slideshow-window" id="home-slides">
-    <div class="slideshow-track">
-      {% assign last_slide = site.data.home_slides | last %}
-      {% for position in (0..2) %}
-        {% if position == 0 %}{% assign slide = last_slide %}{% elsif position == 1 %}{% assign slide = site.data.home_slides[0] %}{% else %}{% assign slide = site.data.home_slides[1] %}{% endif %}
-        <figure class="slideshow-slide"{% unless position == 1 %} aria-hidden="true"{% endunless %}>
-          <picture><img src="{{ slide.image | relative_url }}" alt="{% if position == 1 %}{{ slide.alt | escape }}{% endif %}" width="{{ slide.width }}" height="{{ slide.height }}"{% if position == 1 %} fetchpriority="high"{% endif %}></picture>
-        </figure>
+<section class="home-slideshow glide" aria-label="Photographies à la une" aria-roledescription="carrousel" tabindex="0">
+  <div class="slideshow-window glide__track" data-glide-el="track" id="home-slides">
+    <ul class="slideshow-track glide__slides">
+      {% for slide in site.data.home_slides %}
+      <li class="slideshow-slide glide__slide" data-slide-index="{{ forloop.index0 }}" style="--slide-ratio: {{ slide.width | times: 1.0 | divided_by: slide.height }}">
+        <img src="{{ slide.image | relative_url }}" alt="{{ slide.alt | escape }}" width="{{ slide.width }}" height="{{ slide.height }}" draggable="false"{% if forloop.first %} fetchpriority="high"{% endif %}>
+      </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
   <span class="slideshow-status" role="status" aria-live="polite" aria-atomic="true">1 / {{ site.data.home_slides.size }}</span>
 </section>
@@ -39,8 +41,3 @@ page_script: /assets/js/slideshow.js
   </div>
 </section>
 {% include contact-invitation.html %}
-<script type="application/json" id="slideshow-data">[
-{% for slide in site.data.home_slides %}
-  {"src": {{ slide.image | relative_url | jsonify }}, "alt": {{ slide.alt | jsonify }}}{% unless forloop.last %},{% endunless %}
-{% endfor %}
-]</script>

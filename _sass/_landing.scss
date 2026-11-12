@@ -10,30 +10,30 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
 }
-.slideshow-track {
+.home-slideshow {
   --slide-height: clamp(240px, 42vw, 520px);
-  position: relative;
-  left: 50%;
-  display: flex;
+}
+.slideshow-track {
+  // Intrinsic widths override Glide's equal-width slots; its Translate extension
+  // centres these measured photographs while Glide manages drag and looping.
+  width: max-content !important;
   align-items: stretch;
-  width: max-content;
-  gap: 24px;
+  margin: 0;
+  padding: 0;
 }
 .slideshow-slide {
+  box-sizing: content-box;
   flex: none;
+  width: calc(var(--slide-height) * var(--slide-ratio)) !important;
   height: var(--slide-height);
   min-width: 0;
-  margin: 0;
-}
-.slideshow-slide picture {
-  display: block;
-  height: 100%;
+  margin-block: 0;
 }
 .slideshow-slide img {
   display: block;
-  width: auto;
+  width: 100%;
   height: 100%;
-  max-width: none;
+  object-fit: contain;
 }
 .slideshow-status {
   position: absolute;
@@ -55,9 +55,8 @@ html:has(.landing-page) { overflow-x: clip; }
   margin-top: 28px;
 }
 @include bp.mobile {
-  .slideshow-track {
+  .home-slideshow {
     --slide-height: clamp(300px, 110vw, 540px);
-    gap: 12px;
   }
 
   .landing-introduction { margin-block: 32px 40px; }
@@ -90,4 +89,4 @@ html:has(.landing-page) { overflow-x: clip; }
   .landing-about > img { max-width: 320px; margin-inline: auto; }
 }
 
-.slideshow-window.is-dragging, .slideshow-window.is-dragging .slideshow-slide { cursor: grabbing; }
+.glide--dragging .slideshow-window, .glide--dragging .slideshow-slide { cursor: grabbing; }

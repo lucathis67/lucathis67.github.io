@@ -12,6 +12,7 @@
 <meta name="description" content="{{ meta_description | escape }}">
 {% if page.robots %}<meta name="robots" content="{{ page.robots | escape }}">{% endif %}
 <link rel="canonical" href="{{ page.url | absolute_url }}">
+{% for stylesheet in page.page_stylesheets %}<link rel="stylesheet" href="{{ stylesheet | relative_url }}">{% endfor %}
 <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
 <meta property="og:type" content="{{ page.og_type | default: share_type | escape }}">
 <meta property="og:title" content="{{ share_title | escape }}">

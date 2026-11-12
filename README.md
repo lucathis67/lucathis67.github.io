@@ -167,7 +167,7 @@ Add its module to `assets/css/styles.scss` with `@use`. Component modules follow
 - `archives.html`: automatically generated archive, newest `publication_order` first, with category filters and batches of 12.
 - `prestations.html`: hand-authored services page; About and Contact share the profile layout.
 
-Homepage photographs are configured in `_data/home_slides.yml`. Portraits and landscapes use the same selection at every screen size and share one row height while retaining their proportions. `assets/js/slideshow.js` handles neighbour clicks, keyboard navigation, swipes and reduced-motion-aware transitions; there is no autoplay. `_sass/_landing.scss` styles homepage content; `_sass/_header.scss` styles the shared and split mastheads.
+Homepage photographs are configured in `_data/home_slides.yml`. Portraits and landscapes use the same selection at every screen size and share one row height while retaining their proportions. `assets/js/home-carousel.js` initializes the locally hosted Glide.js 3.7.1 dependency for dragging, looping and transitions; it adds neighbouring-image clicks, scoped keyboard controls and accessibility labels. A documented Translate component extension preserves mixed image widths at a common height. There is no autoplay. `_sass/_landing.scss` styles homepage content; `_sass/_header.scss` styles the shared and split mastheads.
 
 Navigation labels and destinations come from `_data/navigation.yml`, including the homepage's split links. Large screens retain the lateral navigation on internal pages; tablet and mobile use the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
 
@@ -214,3 +214,7 @@ The print boundaries are slightly softened: a subpixel white halo on the paper e
 ### Validated typography
 
 The site locally hosts EB Garamond for headings and reading text, and Source Sans 3 for supporting text and controls. Normal and italic variable files cover the declared weights; each family retains its license. `assets/css/fonts.css` registers them, and `_sass/_tokens.scss` defines the active families, shared paragraph sizing and brand scale. Retired Cormorant Garamond and DM Sans assets have been removed.
+
+### Homepage carousel dependency
+
+Glide.js 3.7.1 is pinned and locally hosted in `assets/vendor/glide/`, with its MIT license and original package metadata. The homepage lists its core stylesheet and scripts in `page_stylesheets` and `page_scripts`, so other pages do not load Glide. No npm install or new build step is required. To upgrade, replace the distribution JS, core CSS, license and package metadata together from the official `@glidejs/glide` package, then verify dragging, end-to-start looping, resizing and reduced motion with both portrait and landscape slides. Photographs remain configured in `_data/home_slides.yml`.
