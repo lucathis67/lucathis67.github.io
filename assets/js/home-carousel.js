@@ -1,6 +1,17 @@
 (() => {
   const carousel = document.querySelector('.home-slideshow');
-  if (!carousel || typeof Glide === 'undefined') return;
+  if (!carousel) return;
+
+  const header = document.querySelector('.slideshow-header');
+  const introduction = document.querySelector('.landing-introduction');
+  const openingObserver = new ResizeObserver(() => {
+    const occupiedHeight = header.getBoundingClientRect().height + introduction.getBoundingClientRect().height;
+    carousel.style.setProperty('--landing-masthead-and-intro', `${occupiedHeight}px`);
+  });
+  openingObserver.observe(header, { box: 'border-box' });
+  openingObserver.observe(introduction, { box: 'border-box' });
+
+  if (typeof Glide === 'undefined') return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const status = carousel.querySelector('.slideshow-status');
   const track = carousel.querySelector('.slideshow-window');
@@ -34,7 +45,15 @@
       }
     });
     events.on(['mount.after', 'resize', 'update'], () => requestAnimationFrame(() => set(true)));
-    events.on('destroy', () => { components.Html.wrapper.style.transform = ''; });
+    const trackObserver = new ResizeObserver(() => {
+      set(true);
+      updateAccessibility();
+    });
+    events.on('mount.after', () => trackObserver.observe(track));
+    events.on('destroy', () => {
+      trackObserver.disconnect();
+      components.Html.wrapper.style.transform = '';
+    });
     return { set };
   }
 
