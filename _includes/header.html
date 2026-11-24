@@ -9,13 +9,13 @@
   <nav class="split-navigation" aria-label="Navigation principale">
     <div class="split-links">
       {% for item in site.data.navigation offset:1 limit:2 %}
-      <a href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
+      <a{% if item.url == '/contact.html' %} class="split-cta"{% endif %} href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
       {% endfor %}
     </div>
     {{ brand }}
     <div class="split-links">
       {% for item in site.data.navigation offset:3 limit:2 %}
-      <a href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
+      <a{% if item.url == '/contact.html' %} class="split-cta"{% endif %} href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
       {% endfor %}
     </div>
   </nav>

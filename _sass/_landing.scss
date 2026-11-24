@@ -21,6 +21,12 @@
   margin: 0;
   padding: 0;
 }
+// Until the script has measured the photographs and mounted the carousel, the
+// first photograph is centred (not left-aligned) so its opening frame is never
+// cropped. Once mounted, the inline transform set by home-carousel.js replaces it.
+.slideshow-track {
+  transform: translate3d(calc(50vw - var(--slide-height) * var(--first-slide-ratio, 1.5) / 2), 0, 0);
+}
 .slideshow-slide {
   box-sizing: content-box;
   flex: none;
