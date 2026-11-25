@@ -1,6 +1,7 @@
-/* Locally hosted variable fonts, normal and italic.
+/* Locally hosted variable fonts.
    EB Garamond: headings, navigation and paragraphs, weights 400–800.
-   Source Sans 3: supporting text and controls, weights 200–900.
+   Source Sans 3: supporting text and controls, weights 200–900 (no italic
+   file: the site never sets this family in italic).
    Each family includes its SIL Open Font License. */
 
 @font-face {
@@ -24,13 +25,5 @@
   src: url("../fonts/Source_Sans_3/SourceSans3-VariableFont_wght.ttf") format("truetype");
   font-weight: 200 900;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Source Sans 3";
-  src: url("../fonts/Source_Sans_3/SourceSans3-Italic-VariableFont_wght.ttf") format("truetype");
-  font-weight: 200 900;
-  font-style: italic;
   font-display: swap;
 }
