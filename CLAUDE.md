@@ -56,9 +56,9 @@ Ce fichier donne à Claude Code le contexte, l'analyse déjà faite et les règl
 
 | Page | Fichier / URL | Rôle |
 |---|---|---|
-| Accueil | `index.html` → `/` | Carrousel de 8 photos (Glide), présentation courte, extrait « À propos », invitation à écrire |
-| Portfolio | `articles.html` | Conçu comme **la une d'un journal** : articles mis en avant choisis à la main, rubrique « Mariage / Strasbourg », lien « Tous les reportages » |
-| Archives | `archives.html` | « Au fil des rencontres » : liste générée automatiquement (tri par `publication_order`), filtres par catégorie, lots de 12. Pas dans le menu : on y arrive par « Tous les reportages » |
+| Accueil | `index.html` → `/` | Navigation latérale comme les autres pages, phrase d'accroche, **la une d'un journal** (cathédrale en tête, articles choisis à la main, lien « Tous les reportages »), rangée Prestations, extrait « À propos », invitation à écrire. Le carrousel (Glide, `_data/home_slides.yml`) n'est plus utilisé depuis le 25 novembre 2026 |
+| (ancien Portfolio) | `articles.html` | Redirige vers `/#a-la-une`, `noindex` |
+| Portfolio (ex-Archives) | `portfolio.html` (`archives.html` redirige) | « Au fil des rencontres » : liste générée automatiquement (tri par `publication_order`), filtres par catégorie, lots de 12. Lien « Portfolio » du menu |
 | Prestations | `prestations.html` | Trois offres sans tarif : mariage, fiançailles, couple |
 | À propos | `a-propos.html` (layout `profile`) | Parcours, approche, formation auprès d'une photographe américaine (Leslie Maron) |
 | Contact | `contact.html` (layout `profile`) | E-mail uniquement (`hello@lucathis.art`) + Instagram `@lucasmathisart` |
@@ -123,7 +123,7 @@ Cette analyse repose sur le **texte** public des pages (structure, copie, alt). 
 
 Corrigées par la PR #28 (`dev` → `main`, ouverte au 25 novembre 2026) : « un petit mot **de** ce que » dans le bloc d'invitation ; dans `prestations.html` « profondément », « lors d'une promenade », « ou un lieu » ; « célébrer » dans le portfolio. « donnaient à » était déjà juste.
 
-Encore présentes sur `dev` (à corriger sans réécrire le sens) :
+Corrigées le 25 novembre 2026 dans l'arbre de travail local, avec un scan complet du site (« séance de fiançailles », « arrière-plan », « portrait en pied », « par-dessus », « bulles de savon », « donnaient à », « regard : je suis », « rue du Moulin », minuscule après les deux-points du titre de Laure et Nicolas). Liste d'origine :
 - `articles/fiancailles-orangerie.html` : « suffisament » → suffisamment ; **« +1. » parasite** après « promenade à deux… » ; « couleurs des parc » → parcs ; « tout aussi important » → « tout aussi importante » (rapporté à « la décision »).
 - `articles/portraits-en-automne.html` : « Mathile » → Mathilde (2 alts) ; « Ginko » → Ginkgo (alt) ; « chercher a fabriquer » → « à fabriquer ».
 - `articles/mariage-laure-et-nicolas.html` : « ballustrade » → balustrade (alt).
@@ -151,6 +151,7 @@ Seules informations utilisables sur les prestations ; tout le reste reste à dem
 - **Premier e-mail :** réponse sous 48 h.
 - **Faire connaissance :** un appel ou un échange par SMS ; pour un mariage, Lucas conseille une rencontre dans un café.
 - **Déplacements hors Alsace :** frais sur devis.
+- **Droits sur les photos :** les photos restent la propriété de Lucas ; les clients peuvent en faire ce qu'ils veulent. Ne jamais écrire qu'elles « appartiennent » aux clients ni parler de cession de droits. Lucas a le statut d'artisan (pas artiste-auteur) et doit vérifier lui-même le cadre juridique avant toute formulation plus précise.
 - **Ton :** Lucas trouve lourdes les formulations administratives (« jusqu'à environ le double ») : préférer des phrases à la première personne, simples et chaleureuses, comme le reste du site.
 - **Réservation :** le plus tôt possible pour s'assurer qu'il est libre, mais dans le doute il suffit de demander.
 
@@ -169,9 +170,10 @@ Seules informations utilisables sur les prestations ; tout le reste reste à dem
 
 ## 10. Questions ouvertes (à poser à Lucas, pas à deviner)
 
-- Souhaite-t-il ajouter une offre « portraits » (grossesse, famille, individuel) ou retirer le mot ?
 - A-t-il des témoignages de couples, et leur accord pour les publier ?
 - Souhaite-t-il mettre en avant son aisance dans les mariages religieux traditionnels ?
 - Formulaire de contact : acceptable ? Quel service et quelles contraintes RGPD ?
+
+Réglé : **« portraits »** (25 novembre 2026) : Lucas ne communique pas encore sur ce service. La mention est retirée des titres, du pied de page, de `_config.yml` et de la présentation de l'accueil. Il reste des mentions dans `a-propos.html`, `contact.html` et la méta-description d'`archives.html`, à traiter avec lui.
 
 Réglé : durées, volume de photos, livraison, délai de réponse, déplacements et réservation (voir §8, « Faits confirmés »). La techno (Jekyll 4.4), le dépôt (`lucathis67/lucathis67.github.io`) et le déploiement (GitHub Actions, `main` uniquement) sont décrits en §3.
