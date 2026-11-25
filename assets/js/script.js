@@ -34,17 +34,6 @@ function initializeSite() {
     dialog.querySelector('.mobile-menu-brand').append(menuSubtitle);
   }
   const mobileNav = navigation.cloneNode(true);
-  if (navigation.classList.contains('split-navigation')) {
-    mobileNav.removeAttribute('class');
-    const links = [...navigation.querySelectorAll('.split-links a')];
-    const list = document.createElement('ul');
-    links.forEach(link => {
-      const item = document.createElement('li');
-      item.append(link.cloneNode(true));
-      list.append(item);
-    });
-    mobileNav.replaceChildren(list);
-  }
   mobileNav.setAttribute("aria-label", "Navigation mobile");
   mobileNav.querySelectorAll(".current").forEach(link => link.setAttribute("aria-current", "page"));
   dialog.append(mobileNav);

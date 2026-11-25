@@ -38,9 +38,9 @@ Ce fichier donne à Claude Code le contexte, l'analyse déjà faite et les règl
 
 ## 3. Techno et publication
 
-- Jekyll 4.4 (`Gemfile`), sans thème gem : layouts dans `_layouts/` (`default`, `home`, `page`, `article`, `profile`), morceaux partagés dans `_includes/`, styles Sass dans `_sass/` compilés en `/assets/css/styles.css`, scripts dans `assets/js/`.
+- Jekyll 4.4 (`Gemfile`), sans thème gem : layouts dans `_layouts/` (`default`, `page`, `article`, `profile`), morceaux partagés dans `_includes/`, styles Sass dans `_sass/` compilés en `/assets/css/styles.css`, scripts dans `assets/js/`.
 - Le contenu des pages et des articles est du HTML écrit à la main, sans CMS. Les articles sont des pages ordinaires (`layout: article`) dans `articles/`, pas des posts Jekyll.
-- Données : `_config.yml` (e-mail, Instagram, textes partagés), `_data/navigation.yml` (menu), `_data/home_slides.yml` (carrousel d'accueil).
+- Données : `_config.yml` (e-mail, Instagram, textes partagés), `_data/navigation.yml` (menu).
 - Déploiement : `.github/workflows/pages.yml` construit les pushes sur `main` et `migration/jekyll` et les pull requests **vers `main`**, et ne déploie que les pushes sur `main`. Une PR vers `dev` ne déclenche donc pas de build : construire en local pour vérifier.
 - Flux de branches observé : travail sur `dev` (ou `article/…`), puis PR `dev` → `main`.
 - Jekyll copie dans le site publié les fichiers `.md` placés à la racine, sauf s'ils sont listés dans `exclude` de `_config.yml`. `CLAUDE.md` et `PASSATION.md` y sont listés : faire de même pour tout nouveau document interne.
@@ -56,7 +56,7 @@ Ce fichier donne à Claude Code le contexte, l'analyse déjà faite et les règl
 
 | Page | Fichier / URL | Rôle |
 |---|---|---|
-| Accueil | `index.html` → `/` | Navigation latérale comme les autres pages, phrase d'accroche, **la une d'un journal** (cathédrale en tête, articles choisis à la main, lien « Tous les reportages »), rangée Prestations, extrait « À propos », invitation à écrire. Le carrousel (Glide, `_data/home_slides.yml`) n'est plus utilisé depuis le 25 novembre 2026 |
+| Accueil | `index.html` → `/` | Navigation latérale comme les autres pages, phrase d'accroche, **la une d'un journal** (cathédrale en tête, articles choisis à la main, lien « Tous les reportages »), rangée Prestations, extrait « À propos », invitation à écrire. L'ancien carrousel (Glide) a été supprimé le 25 novembre 2026 ; il reste dans l'historique git |
 | (ancien Portfolio) | `articles.html` | Redirige vers `/#a-la-une`, `noindex` |
 | Portfolio (ex-Archives) | `portfolio.html` (`archives.html` redirige) | « Au fil des rencontres » : liste générée automatiquement (tri par `publication_order`), filtres par catégorie, lots de 12. Lien « Portfolio » du menu |
 | Prestations | `prestations.html` | Trois offres sans tarif : mariage, fiançailles, couple |
@@ -78,8 +78,7 @@ Le bloc d'invitation commun à toutes les pages est `_includes/contact-invitatio
 - Polices : EB Garamond (titres et texte), Source Sans 3 (étiquettes, boutons, liens d'action). Fond ivoire `#f8f6f1` avec texture papier, titres `#3d3630`, texte `#6a6056`. Utiliser les variables de `_sass/_tokens.scss`, pas de couleurs en dur.
 - Points de rupture : mobile jusqu'à 800 px, tablette jusqu'à 1400 px, desktop au-delà (`_sass/_breakpoints.scss`). La limite de 800 px doit rester alignée avec `assets/js/script.js`.
 - Flèches des liens : → pour les liens internes, ↗ uniquement pour les liens externes (Instagram). Décidé le 24 novembre 2026.
-- En-tête de l'accueil : le lien Contact est un bouton (`.split-cta`). Le menu latéral des pages intérieures garde des liens simples, et le menu mobile est inchangé.
-- Carrousel d'accueil : Glide 3.7.1 + `assets/js/home-carousel.js`, photos dans `_data/home_slides.yml`. La première photo est centrée en CSS (`--first-slide-ratio`) avant que le script monte le carrousel.
+- En-tête : toutes les pages, accueil compris, utilisent le même en-tête avec menu latéral (liens simples) et le même menu mobile. L'ancien en-tête d'accueil à liens partagés et bouton Contact (`.split-cta`) a été supprimé le 25 novembre 2026, avec le carrousel Glide.
 - Accessibilité et SEO : un seul H1 par page, méta-descriptions uniques, Open Graph cohérents (gérés par `_includes/head.html` à partir du front matter), liens explicites.
 - **Textes alternatifs** : ceux du site sont exemplaires (précis, descriptifs). En écrire de même niveau pour tout nouveau visuel.
 
@@ -111,7 +110,7 @@ Cette analyse repose sur le **texte** public des pages (structure, copie, alt). 
 7. **« Portraits » a disparu** : `_config.yml` (description, pied de page) annonce « mariages, couples et portraits », les prestations n'offrent que mariage, fiançailles et couple.
 8. **Formules qui se répètent** d'un article à l'autre (« Je crois profondément que… », « les photos prennent de la valeur avec les années », « vous reconnaître »).
 9. **Le même bloc d'invitation** (`contact-invitation.html`) est repris mot pour mot partout et ne s'adapte pas à l'article.
-10. **Le hero est un carrousel**, souvent peu regardé au-delà de la première image (il n'y a pas de défilement automatique).
+10. **Le hero est un carrousel**, souvent peu regardé au-delà de la première image (il n'y a pas de défilement automatique). Réglé le 25 novembre 2026 : l'accueil ouvre sur la une du journal.
 11. **Les articles de conseil ne sont pas du reportage** : les tons diffèrent (pédagogique vs narratif). À séparer ou à assumer.
 
 ### Constats techniques (lecture du dépôt)

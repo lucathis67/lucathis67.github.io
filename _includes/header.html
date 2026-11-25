@@ -1,26 +1,7 @@
-{% capture brand %}
+<header class="site-header">
   <div class="site-brand">
     <div class="brand-title"><a href="{{ '/' | relative_url }}">Lucas Mathis Art</a></div>
     <p class="brand-subtitle">{{ site.subtitle | escape }}</p>
   </div>
-{% endcapture %}
-<header class="site-header{% if page.inline_navigation %} slideshow-header{% endif %}">
-  {% if page.inline_navigation %}
-  <nav class="split-navigation" aria-label="Navigation principale">
-    <div class="split-links">
-      {% for item in site.data.navigation offset:1 limit:2 %}
-      <a{% if item.url == '/contact.html' %} class="split-cta"{% endif %} href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
-      {% endfor %}
-    </div>
-    {{ brand }}
-    <div class="split-links">
-      {% for item in site.data.navigation offset:3 limit:2 %}
-      <a{% if item.url == '/contact.html' %} class="split-cta"{% endif %} href="{{ item.url | relative_url }}">{{ item.title | escape }}</a>
-      {% endfor %}
-    </div>
-  </nav>
-  {% else %}
-    {{ brand }}
-    {% include navigation.html %}
-  {% endif %}
+  {% include navigation.html %}
 </header>
