@@ -107,6 +107,21 @@
   font-size: 1rem;
 }
 
+// Homepage only: Contact is the masthead's one primary action and reuses the
+// button of the closing invitation. The side menu keeps its plain links.
+.split-links a.split-cta:link, .split-links a.split-cta:visited, .split-links a.split-cta:active {
+  padding: 10px 22px;
+  border: 1px solid var(--color-heading);
+  background: var(--color-heading);
+  color: var(--color-background);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+}
+.split-links a.split-cta:hover {
+  background: transparent;
+  color: var(--color-heading);
+}
+
 @include bp.tablet-and-below {
   .slideshow-header.has-mobile-menu .split-links { display: none; }
   .slideshow-header.has-mobile-menu .split-navigation { display: block; }
