@@ -17,6 +17,7 @@ exclude:
   - vendor
   - README.md
   - CLAUDE.md
+  - PASSATION.md
   - work
   - scripts
   - templates
