@@ -1,39 +1,339 @@
 @use "breakpoints" as bp;
 
+// Prestations page, written mobile first: base rules target phones,
+// bp.above-mobile adds the tablet and desktop layouts.
+
+// Quick overview of the three offers, linking to each section.
+.service-overview {
+  margin: 0 var(--gutter-mobile) 8px;
+}
+.service-overview ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-default);
+}
+.service-overview li {
+  border-bottom: var(--border-default);
+}
+.service-overview a:link, .service-overview a:visited, .service-overview a:active {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border: 0;
+}
+.service-overview-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--color-heading);
+}
+.service-overview-price {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+// One section per offer: photograph, then text.
 .service-section {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 48px;
-  padding: 48px 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  padding: 32px 0 40px;
   border-top: var(--border-default);
+  scroll-margin-top: 16px;
+}
+.service-section:first-of-type {
+  border-top: 0;
 }
 .service-photograph {
   display: block;
 }
+.service-description {
+  padding-inline: var(--gutter-mobile);
+}
 .service-description .section-title {
   margin-top: 0;
+  margin-bottom: 8px;
 }
-.service-description > p:last-child {
-  margin-bottom: 0;
+.service-price {
+  margin: 0 0 1.2em;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-heading);
 }
-.service-section-reverse .service-photograph {
-  grid-column: 2;
-  grid-row: 1;
+.service-price-note {
+  margin: -0.6em 0 1.4em;
+  font-size: var(--text-size-small);
+  font-style: italic;
 }
-.service-section-reverse .service-description {
-  grid-column: 1;
-  grid-row: 1;
+.service-price .a-completer {
+  display: block;
+  font-size: 0.85rem;
+  width: fit-content;
+  margin-top: 10px;
 }
-@include bp.mobile {
-  .service-section {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-    padding: 32px var(--gutter-mobile);
+
+.service-included {
+  margin: 28px 0;
+  padding: 20px 0;
+  border-block: var(--border-default);
+}
+.service-included-title {
+  margin: 0 0 10px;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  line-height: 1.7;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+.service-included ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.service-included li {
+  position: relative;
+  padding: 4px 0 4px 1.1em;
+  font-family: var(--font-body);
+  font-size: var(--text-size);
+  line-height: 1.6;
+}
+.service-included li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.95em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+
+// The contact button leads; the reportage link follows, quieter.
+.service-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  margin: 28px 0 0;
+}
+.service-actions .text-link {
+  align-self: flex-start;
+}
+a.button-link.button-link-quiet:link,
+a.button-link.button-link-quiet:visited,
+a.button-link.button-link-quiet:active {
+  background: transparent;
+  color: var(--color-heading);
+}
+a.button-link.button-link-quiet:hover {
+  background: var(--color-heading);
+  color: var(--color-background);
+}
+
+// How it works: four numbered steps.
+.service-steps {
+  padding: 40px var(--gutter-mobile);
+  border-top: var(--border-default);
+}
+.service-steps .section-title {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+.service-steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: service-step;
+}
+.service-steps li {
+  counter-increment: service-step;
+  padding: 24px 0;
+  border-bottom: var(--border-default);
+}
+.service-steps li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.service-steps li::before {
+  content: counter(service-step, decimal-leading-zero);
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--color-border);
+}
+.service-steps h3 {
+  margin: 0 0 6px;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.service-steps li p {
+  margin: 0;
+}
+.service-steps-more {
+  margin: 32px 0 0;
+}
+
+// Frequently asked questions, folded so the page stays short on phones.
+.service-faq {
+  padding: 40px var(--gutter-mobile) 0;
+  border-top: var(--border-default);
+}
+.service-faq .section-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+.service-faq details {
+  border-bottom: var(--border-default);
+}
+.service-faq summary {
+  position: relative;
+  padding: 18px 36px 18px 0;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  line-height: 1.35;
+  color: var(--color-heading);
+  list-style: none;
+  cursor: pointer;
+}
+.service-faq summary::-webkit-details-marker {
+  display: none;
+}
+.service-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-sans);
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--color-text);
+}
+.service-faq details[open] summary::after {
+  content: "−";
+}
+.service-faq summary:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 4px;
+}
+.service-faq details p {
+  margin: 0 0 20px;
+}
+
+// Information still to be supplied by Lucas: deliberately visible, never to be published as is.
+.a-completer {
+  padding: 0.1em 0.4em;
+  outline: 1px dashed var(--color-heading);
+  outline-offset: -1px;
+  background: var(--color-background-warm);
+  color: var(--color-heading);
+  font-family: var(--font-sans);
+  font-size: 0.8em;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@include bp.above-mobile {
+  .service-overview {
+    max-width: 960px;
+    margin: 8px auto 24px;
   }
-  .service-section-reverse .service-photograph,
+  .service-overview ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: var(--border-default);
+  }
+  .service-overview li {
+    border-bottom: 0;
+  }
+  .service-overview li + li {
+    border-left: var(--border-default);
+  }
+  .service-overview a:link, .service-overview a:visited, .service-overview a:active {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 18px 12px;
+    text-align: center;
+  }
+  .service-overview a:hover .service-overview-name {
+    color: var(--color-text);
+  }
+
+  .service-section {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 48px;
+    padding: 56px 0;
+  }
+  .service-description {
+    padding-inline: 0;
+  }
+  .service-section-reverse .service-photograph {
+    grid-column: 2;
+    grid-row: 1;
+  }
   .service-section-reverse .service-description {
-    grid-column: auto;
-    grid-row: auto;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .service-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 32px;
+  }
+  .service-actions .text-link {
+    align-self: auto;
+  }
+
+  .service-steps {
+    padding: 56px 0;
+  }
+  .service-steps .section-title {
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .service-steps ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+  }
+  .service-steps li, .service-steps li:last-child {
+    padding: 20px 0 0;
+    border-top: var(--border-default);
+    border-bottom: 0;
+  }
+  .service-steps-more {
+    text-align: center;
+  }
+
+  .service-faq {
+    padding: 56px 0 0;
+  }
+  .service-faq > * {
+    max-width: var(--reading-width);
+    margin-inline: auto;
+  }
+  .service-faq .section-title {
+    text-align: center;
   }
 }

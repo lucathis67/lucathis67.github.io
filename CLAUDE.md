@@ -138,12 +138,26 @@ Encore présentes sur `dev` (à corriger sans réécrire le sens) :
 - **Varier** les formules récurrentes. Garder « Je crois… » là où il compte, pas à chaque page.
 - Typographie française : accents sur les majuscules (À, É), apostrophes typographiques (’), guillemets « », espace insécable avant `:` `;` `?` `!` si le gabarit le fait déjà (respecter l'existant).
 - Différencier **conseil** (articles pédagogiques) et **reportage** (récit d'une journée).
-- Seuls tarifs confirmés : **Reportage de mariage « à partir de 950 € »**, **Séance de fiançailles « à partir de 150 € »**, **Séance de couple « à partir de 150 € »**.
+- Tarifs confirmés : **Reportage de mariage « à partir de 950 € »**, **Séance de fiançailles « à partir de 150 € »**, **Séance de couple « à partir de 150 € »**.
+
+### Faits confirmés par Lucas (25 novembre 2026)
+
+Seules informations utilisables sur les prestations ; tout le reste reste à demander.
+
+- **Mariage :** forfait de base de 950 € pour 6 h : cérémonie, photos officielles et vin d'honneur. Au-delà, **100 € par heure supplémentaire** (préparatifs, soirée), jusqu'à 12 h environ.
+- **Séances (fiançailles, couple) :** environ une heure.
+- **Volume :** une centaine de photos par heure de couverture, pour chaque offre.
+- **Livraison :** sous 4 semaines, galerie numérique privée protégée par mot de passe, liens de téléchargement en taille web et en haute résolution. Toujours en couleurs et en noir et blanc. Les clients utilisent les photos comme ils le veulent.
+- **Premier e-mail :** réponse sous 48 h.
+- **Faire connaissance :** un appel ou un échange par SMS ; pour un mariage, Lucas conseille une rencontre dans un café.
+- **Déplacements hors Alsace :** frais sur devis.
+- **Ton :** Lucas trouve lourdes les formulations administratives (« jusqu'à environ le double ») : préférer des phrases à la première personne, simples et chaleureuses, comme le reste du site.
+- **Réservation :** le plus tôt possible pour s'assurer qu'il est libre, mais dans le doute il suffit de demander.
 
 ## 9. Priorités d'évolution (par ordre)
 
-1. **Passe de correction** : coquilles restantes (§7), dont le « +1. » parasite.
-2. **Page Prestations** : intégrer la nouvelle version (annexe de `PASSATION.md`), avec « Ce qui est inclus », « Comment ça se passe » et FAQ.
+1. **Passe de correction** : coquilles restantes (§7).
+2. **Page Prestations** : nouvelle version intégrée le 25 novembre 2026 (sommaire des offres, « Ce qui est inclus », « Comment ça se passe », FAQ repliable), rendu validé par Lucas. Le lien « Lire le détail d'un mariage pas à pas » est en commentaire dans `prestations.html`, à réactiver quand la page existera. La classe `.a-completer` (`_sass/_services.scss`) signale visiblement une information manquante.
 3. **Contact** : formulaire guidé (date, lieu, type de projet, message) en gardant l'e-mail ; engagement de délai de réponse. Le site est statique sur GitHub Pages : le traitement du formulaire passe par un service tiers (à choisir avec Lucas : anti-spam, RGPD).
 4. **Pages explicatives** (« Un mariage pas à pas », « Séance de fiançailles : à quoi s'attendre », « Séance de couple : à quoi s'attendre »), qui reçoivent les liens « Découvrir… ».
 5. **Preuve sociale** : témoignages réels de couples (avec leur accord), sur l'accueil et Prestations.
@@ -155,12 +169,9 @@ Encore présentes sur `dev` (à corriger sans réécrire le sens) :
 
 ## 10. Questions ouvertes (à poser à Lucas, pas à deviner)
 
-- Durées de couverture, nombre approximatif de photos, délais et mode de livraison (galerie en ligne ?), conditions de déplacement hors Alsace.
-- Combien de temps à l'avance faut-il réserver (en particulier les mariages d'été) ?
-- Délai de réponse qu'il peut tenir au premier e-mail ?
 - Souhaite-t-il ajouter une offre « portraits » (grossesse, famille, individuel) ou retirer le mot ?
 - A-t-il des témoignages de couples, et leur accord pour les publier ?
 - Souhaite-t-il mettre en avant son aisance dans les mariages religieux traditionnels ?
 - Formulaire de contact : acceptable ? Quel service et quelles contraintes RGPD ?
 
-Réglé : la techno (Jekyll 4.4), le dépôt (`lucathis67/lucathis67.github.io`) et le déploiement (GitHub Actions, `main` uniquement) sont décrits en §3.
+Réglé : durées, volume de photos, livraison, délai de réponse, déplacements et réservation (voir §8, « Faits confirmés »). La techno (Jekyll 4.4), le dépôt (`lucathis67/lucathis67.github.io`) et le déploiement (GitHub Actions, `main` uniquement) sont décrits en §3.
