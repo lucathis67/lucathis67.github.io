@@ -109,3 +109,76 @@ html:has(.landing-page) { overflow-x: clip; }
 }
 
 .glide--dragging .slideshow-window, .glide--dragging .slideshow-slide { cursor: grabbing; }
+
+// Homepage opening, written mobile first: the side navigation of the other
+// pages, a hidden H1 for assistive tech and search, then a short lede above
+// the newspaper-style front page ("À la une").
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.home-lede {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px var(--gutter-mobile);
+  text-align: center;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--color-heading);
+}
+.home-une .home-introduction {
+  border-top: var(--border-default);
+}
+.home-une .home-introduction .eyebrow {
+  margin: 0;
+}
+.home-services {
+  padding: 40px var(--gutter-mobile) 0;
+  text-align: center;
+}
+.home-services .eyebrow {
+  margin: 0 0 8px;
+}
+.home-services .section-title {
+  margin: 0 0 24px;
+}
+.home-services .service-overview {
+  margin: 0 0 24px;
+}
+.home-services .service-overview a:link,
+.home-services .service-overview a:visited,
+.home-services .service-overview a:active {
+  text-align: left;
+}
+.landing-page .landing-about {
+  margin-top: 48px;
+}
+@include bp.above-mobile {
+  .home-lede {
+    padding: 40px 24px;
+    font-size: 1.3rem;
+  }
+  .home-une .main-container-row {
+    padding-top: 8px;
+  }
+  .home-services {
+    margin-top: 80px;
+    padding: 56px 0 0;
+    border-top: var(--border-default);
+  }
+  .home-services .service-overview {
+    margin: 0 auto 28px;
+  }
+  .home-services .service-overview a:link,
+  .home-services .service-overview a:visited,
+  .home-services .service-overview a:active {
+    text-align: center;
+  }
+  .landing-page .landing-about {
+    margin-top: 80px;
+  }
+}
