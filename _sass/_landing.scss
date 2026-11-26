@@ -5,9 +5,10 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
   align-items: center;
   gap: 64px;
-  max-width: 960px;
   margin: 0 auto;
-  padding-block: 48px;
+  // The content stays 960px wide, but the rule runs the full width, like the
+  // other rules of the page.
+  padding: var(--space-section-inner) max(0px, (100% - 960px) / 2);
   border-top: var(--border-default);
 }
 .landing-about > img {
@@ -18,15 +19,14 @@
   .landing-about {
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
-    margin-inline: var(--gutter-mobile);
-    padding-block: 32px;
+    padding: var(--space-section-inner) var(--gutter-mobile);
   }
   .landing-about > img { max-width: 320px; margin-inline: auto; }
 }
 
-// Homepage opening, written mobile first: the side navigation of the other
-// pages, a hidden H1 for assistive tech and search, then a short lede above
-// the newspaper-style front page ("À la une").
+// Homepage opening, written mobile first: the fixed header, whose subtitle is
+// the page's H1 (see _masthead.scss), an italic lede, then the newspaper-style
+// front page ("À la une").
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -38,7 +38,7 @@
 .home-lede {
   max-width: 600px;
   margin: 0 auto;
-  padding: 22px var(--gutter-mobile);
+  padding: 40px var(--gutter-mobile);
   text-align: center;
   font-size: 1.1rem;
   font-style: italic;
@@ -51,14 +51,14 @@
   margin: 0;
 }
 .home-services {
-  padding: 40px var(--gutter-mobile) 0;
+  padding: var(--space-section-inner) var(--gutter-mobile) 0;
   text-align: center;
 }
 .home-services .eyebrow {
   margin: 0 0 8px;
 }
 .home-services .section-title {
-  margin: 0 0 24px;
+  margin: 0 0 var(--space-heading-after);
 }
 .home-services .service-overview {
   margin: 0 0 24px;
@@ -69,19 +69,19 @@
   text-align: left;
 }
 .landing-page .landing-about {
-  margin-top: 48px;
+  margin-top: var(--space-section);
 }
 @include bp.above-mobile {
   .home-lede {
-    padding: 28px 24px;
+    padding: 56px 24px;
     font-size: 1.15rem;
   }
   .home-une .main-container-row {
     padding-top: 8px;
   }
   .home-services {
-    margin-top: 80px;
-    padding: 56px 0 0;
+    margin-top: var(--space-section);
+    padding: var(--space-section-inner) 0 0;
     border-top: var(--border-default);
   }
   .home-services .service-overview {
@@ -92,7 +92,5 @@
   .home-services .service-overview a:active {
     text-align: center;
   }
-  .landing-page .landing-about {
-    margin-top: 80px;
-  }
+
 }

@@ -25,8 +25,9 @@
   border: 0;
 }
 .service-overview-name {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
   color: var(--color-heading);
 }
 .service-overview-price {
@@ -44,7 +45,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 24px;
-  padding: 32px 0 40px;
+  padding: var(--space-section-inner) 0;
   border-top: var(--border-default);
   scroll-margin-top: 16px;
 }
@@ -144,7 +145,7 @@ a.button-link.button-link-quiet:hover {
 
 // How it works: four numbered steps.
 .service-steps {
-  padding: 40px var(--gutter-mobile);
+  padding: var(--space-section-inner) var(--gutter-mobile);
   border-top: var(--border-default);
 }
 .service-steps .section-title {
@@ -170,16 +171,16 @@ a.button-link.button-link-quiet:hover {
   content: counter(service-step, decimal-leading-zero);
   display: block;
   margin-bottom: 6px;
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
   line-height: 1;
   color: var(--color-border);
 }
 .service-steps h3 {
   margin: 0 0 6px;
-  font-size: 1.35rem;
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 .service-steps li p {
   margin: 0;
@@ -190,7 +191,7 @@ a.button-link.button-link-quiet:hover {
 
 // Frequently asked questions, folded so the page stays short on phones.
 .service-faq {
-  padding: 40px var(--gutter-mobile) 0;
+  padding: var(--space-section-inner) var(--gutter-mobile) 0;
   border-top: var(--border-default);
 }
 .service-faq .section-title {
@@ -203,8 +204,9 @@ a.button-link.button-link-quiet:hover {
 .service-faq summary {
   position: relative;
   padding: 18px 36px 18px 0;
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
   line-height: 1.35;
   color: var(--color-heading);
   list-style: none;
@@ -282,7 +284,7 @@ a.button-link.button-link-quiet:hover {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
     gap: 48px;
-    padding: 56px 0;
+    padding: var(--space-section-inner) 0;
   }
   .service-description {
     padding-inline: 0;
@@ -306,10 +308,10 @@ a.button-link.button-link-quiet:hover {
   }
 
   .service-steps {
-    padding: 56px 0;
+    padding: var(--space-section-inner) 0;
   }
   .service-steps .section-title {
-    margin-bottom: 32px;
+    margin-bottom: var(--space-heading-after);
     text-align: center;
   }
   .service-steps ol {
@@ -327,7 +329,10 @@ a.button-link.button-link-quiet:hover {
   }
 
   .service-faq {
-    padding: 56px 0 0;
+    padding: var(--space-section-inner) 0 0;
+  }
+  .service-faq .section-title {
+    margin-bottom: var(--space-heading-after);
   }
   .service-faq > * {
     max-width: var(--reading-width);

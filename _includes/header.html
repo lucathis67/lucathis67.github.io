@@ -1,9 +1,12 @@
 {% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
 {% assign home_url = '/' %}{% if page.lang != site.lang %}{% assign home_url = '/' | append: page.lang | append: '/' %}{% endif %}
-<header class="site-header" data-menu-open="{{ t.menu_open | escape }}" data-menu-close="{{ t.menu_close | escape }}" data-menu-dialog="{{ t.menu_dialog | escape }}" data-menu-mobile-nav="{{ t.menu_mobile_nav | escape }}">
+{% comment %} En-tête commun : sélecteur FR / EN à gauche, titre centré, liens à droite (bouton de menu sur petits écrans), fixé en haut de la fenêtre (voir _sass/_masthead.scss). Sur l’accueil seulement, il s’ouvre en grand format, avec le sous-titre (H1 de la page), et s’affine au défilement ; ailleurs, il est d’emblée dans sa version fine, pour ne pas concurrencer le H1 de la page. {% endcomment %}
+{% assign is_home = false %}{% if page.ref == 'accueil' %}{% assign is_home = true %}{% endif %}
+<header class="site-header{% unless is_home %} is-condensed{% endunless %}" data-masthead{% unless is_home %} data-masthead-static{% endunless %} data-menu-open="{{ t.menu_open | escape }}" data-menu-close="{{ t.menu_close | escape }}" data-menu-dialog="{{ t.menu_dialog | escape }}" data-menu-mobile-nav="{{ t.menu_mobile_nav | escape }}">
+  {% include language-switch.html %}
   <div class="site-brand">
     <div class="brand-title"><a href="{{ home_url | relative_url }}">Lucas Mathis Art</a></div>
-    <p class="brand-subtitle">{{ t.subtitle | escape }}</p>
+    {% if is_home %}<h1 class="brand-subtitle">{{ t.subtitle | escape }}</h1>{% endif %}
   </div>
   {% include navigation.html %}
 </header>

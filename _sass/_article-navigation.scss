@@ -2,16 +2,19 @@
 
 // End of an article: previous and next stories, then a link to the portfolio.
 // Mobile first; the two stories sit side by side above the mobile breakpoint.
+// The rule spans the same width as every other rule of the page (full width
+// of the content, edge to edge on phones); only the content keeps a gutter.
 .story-navigation {
-  max-width: 1080px;
-  margin: 80px auto 0;
-  padding: 0 var(--gutter-mobile);
+  margin: var(--space-section) auto 0;
 }
 .story-navigation-links {
   display: grid;
   gap: var(--space-8);
-  padding-top: var(--space-8);
+  padding: var(--space-section-inner) var(--gutter-mobile) 0;
   border-top: var(--border-default);
+}
+.story-navigation-all {
+  padding-inline: var(--gutter-mobile);
 }
 a.story-navigation-link:link,
 a.story-navigation-link:visited,
@@ -23,15 +26,14 @@ a.story-navigation-link:active {
   border: 0;
   color: var(--color-heading);
 }
+.story-navigation-image {
+  display: block;
+  margin-bottom: var(--space-1);
+}
 .story-navigation-link img {
   display: block;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  margin-bottom: var(--space-1);
-  transition: opacity 200ms ease;
-}
-.story-navigation-link:hover img {
-  opacity: .88;
 }
 .story-navigation-link .eyebrow span {
   padding-inline: 0;
@@ -43,14 +45,13 @@ a.story-navigation-link:active {
   margin-left: 0.6em;
 }
 .story-navigation-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 1.8vw, 1.6rem);
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.15;
   text-wrap: balance;
 }
-.story-navigation-link:hover .story-navigation-title {
-  color: var(--color-text);
-}
+
 .story-navigation-all {
   margin: var(--space-9) 0 0;
   text-align: center;
@@ -60,6 +61,7 @@ a.story-navigation-link:active {
   .story-navigation-links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-9);
+    padding-inline: 0;
   }
   // A lone "next" story still sits in the right-hand column.
   .story-navigation-next {
@@ -70,7 +72,7 @@ a.story-navigation-link:active {
   a.story-navigation-next:visited {
     align-items: flex-end;
   }
-  .story-navigation-next img {
+  .story-navigation-next .story-navigation-image {
     align-self: stretch;
   }
 }

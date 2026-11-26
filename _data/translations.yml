@@ -9,7 +9,8 @@ fr:
   language_name: Français
   description: "Photographe de mariages et de couples près de Saverne, à Strasbourg et en Alsace."
   og_image_alt: "Julie et Adrien s’embrassent sur un banc au parc de l’Orangerie."
-  subtitle: Photographe de mariages & couples en Alsace
+  # Sous-titre de l’en-tête (H1 de l’accueil).
+  subtitle: Photographe de mariages et de couples en Alsace
   nav_label: Navigation principale
   language_switch_label: Langue du site
   language_switch_link: "Version française"
@@ -51,7 +52,7 @@ en:
   language_name: English
   description: "Wedding and couple photographer near Saverne, in Strasbourg and across Alsace, France."
   og_image_alt: "Julie and Adrien kiss on a bench in the Parc de l’Orangerie."
-  subtitle: Wedding & couple photographer in Alsace
+  subtitle: Wedding and couple photographer in Alsace
   nav_label: Main navigation
   language_switch_label: Site language
   language_switch_link: "English version"

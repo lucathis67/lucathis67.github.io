@@ -2,8 +2,8 @@
 
 // One quiet primary action at the end of each story, rather than repeated prompts.
 .contact-invitation {
-  margin-top: 80px;
-  padding: 64px 32px;
+  margin-top: var(--space-section);
+  padding: var(--space-block) 32px;
   border-top: var(--border-default);
   background: var(--color-background-warm) var(--paper-texture) repeat;
   background-size: var(--paper-texture-size);
@@ -14,10 +14,10 @@
 }
 .contact-invitation h2 {
   max-width: 24ch;
-  margin: 0 auto 24px;
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  line-height: 1.15;
-  font-weight: 400;
+  margin: 0 auto var(--space-heading-after);
+  font-size: clamp(2.25rem, 3.35vw, 3.1rem);
+  line-height: 1.1;
+  font-weight: 500;
   text-wrap: balance;
 }
 .contact-invitation > p:not(.eyebrow) {
@@ -53,8 +53,10 @@ a.button-link:hover {
   border-top: var(--border-default);
 }
 .footer-brand:link, .footer-brand:visited, .footer-brand:active {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
+  // Same face as the brand title in the header.
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
   border: 0;
   padding: 0;
 }
@@ -92,8 +94,7 @@ a.button-link:hover {
 @include bp.tablet-only { .site-footer { margin-inline: 24px; } }
 @include bp.mobile {
   .contact-invitation {
-    margin-top: 40px;
-    padding: 48px var(--gutter-mobile);
+    padding: var(--space-block) var(--gutter-mobile);
   }
   .site-footer {
     grid-template-columns: 1fr;

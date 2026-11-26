@@ -12,6 +12,46 @@
   }
 }
 
+// Quiet details (26 November 2026). Story cards on the homepage, in the
+// portfolio and at the end of articles: on hover, a fine underline appears
+// under the title. On the homepage only, the photograph also grows a little
+// inside its frame (the portfolio's small thumbnails flickered while
+// zooming). The zoom is left out for visitors who prefer less motion, and on
+// touch screens, where hover does not exist.
+.story-image-link {
+  overflow: hidden;
+}
+.article-title a:link, .article-title a:visited,
+.archive-story h2 a:link, .archive-story h2 a:visited,
+.story-navigation-title {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 300ms ease;
+}
+@media (hover: hover) {
+  .story-card:hover .article-title a,
+  .archive-story:hover h2 a,
+  .story-navigation-link:hover .story-navigation-title {
+    color: var(--color-heading);
+    text-decoration-color: var(--color-text);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .story-image-link img {
+    transition: transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .story-card:hover .story-image-link img {
+    transform: scale(1.03);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .article-title a, .archive-story h2 a, .story-navigation-title {
+    transition: none;
+  }
+}
+
 @keyframes menu-wave-in {
   from { clip-path: ellipse(0% 0% at 100% 0%); }
   to { clip-path: ellipse(150% 150% at 100% 0%); }

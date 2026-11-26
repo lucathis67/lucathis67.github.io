@@ -162,14 +162,14 @@ Add its module to `assets/css/styles.scss` with `@use`. Component modules follow
 
 ## Current pages and design
 
-- `index.html`: homepage with the lateral navigation, a short lede, the newspaper-style front page (« À la une ») with manually selected articles, the services row, an About excerpt and the shared contact section.
+- `index.html`: homepage with the shared header, a page introduction (the H1 « Photographe de mariages et de couples en Alsace » and a short lede), the newspaper-style front page (« À la une ») with manually selected articles, the services row, an About excerpt and the shared contact section.
 - `portfolio.html`: automatically generated Portfolio (« Au fil des rencontres »), newest `publication_order` first, with category filters and batches of 12.
 - `articles.html` and `archives.html`: redirects to `/#a-la-une` and `/portfolio.html`, kept for old links.
 - `prestations.html`: hand-authored services page; About and Contact share the profile layout.
 
 `_sass/_landing.scss` styles homepage content; `_sass/_header.scss` styles the shared masthead. The former Glide carousel was removed on 25 November 2026 and remains available in the git history.
 
-Navigation labels and destinations come from `_data/navigation.yml`. Large screens retain the lateral navigation on internal pages; tablet and mobile use the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
+Navigation labels and destinations come from `_data/navigation.yml`. Every page shares one fixed header: FR / EN switcher on the left, brand title centred, links on the right; it slims down once the page title has scrolled past (`_sass/_masthead.scss`). Up to 1200 px the links give way to the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
 
 The active design uses warm ivory, brown charcoal text and an earthy menu background with the shared paper texture. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
 

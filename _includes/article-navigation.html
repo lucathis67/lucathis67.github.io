@@ -19,7 +19,7 @@
       {%- if story %}
     <a class="story-navigation-link story-navigation-{{ side }}" href="{{ story.url | relative_url }}" rel="{{ side | replace: 'previous', 'prev' }}">
       {%- if story.cover_image %}
-      <img src="{{ story.cover_image | relative_url }}" alt="" width="1600" height="1067" loading="lazy">
+      <span class="story-navigation-image"><img src="{{ story.cover_image | relative_url }}" alt="" width="1600" height="1067" loading="lazy"></span>
       {%- endif %}
       <span class="eyebrow">{% if side == 'previous' %}<span aria-hidden="true">←</span>{% endif %}{{ label | escape }}{% if side == 'next' %}<span aria-hidden="true">→</span>{% endif %}</span>
       <span class="story-navigation-title">{{ story.heading | default: story.title | escape }}</span>

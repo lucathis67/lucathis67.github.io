@@ -1,11 +1,11 @@
 @use "breakpoints" as bp;
 
-// Shared masthead typography for the header and navigation dialog.
+// Shared brand typography for the header and the navigation dialog.
 .brand-title {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: var(--brand-title-size);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.1;
   color: var(--color-heading);
 }
@@ -13,85 +13,93 @@
   border: 0;
   padding: 0;
 }
-.brand-subtitle, .mobile-menu-subtitle {
+// Subtitle under the brand title (the homepage's H1).
+.brand-subtitle {
   margin: 8px 0 0;
   font-family: var(--font-sans);
   font-size: var(--brand-subtitle-size);
   font-weight: 400;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.2em;
   line-height: 1.7;
   text-transform: uppercase;
+  color: var(--color-text);
 }
+
+// One header on every page and at every width: language switcher on the left,
+// brand title centred, links on the right (the menu button on smaller
+// screens). The two outer columns share the remaining width equally, so the
+// title stays in the middle of the window. See _masthead.scss for the fixed,
+// shrinking behaviour.
 .site-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-6);
+  // Measured from the edges of the window, not from the content column.
+  padding-inline: var(--space-8);
   border-bottom: var(--border-default);
 }
+.site-header > .language-switch {
+  grid-row: 1;
+  grid-column: 1;
+  justify-self: start;
+}
 .site-brand {
-  padding: 28px 24px;
+  grid-row: 1;
+  grid-column: 2;
+  padding: 28px 0;
   text-align: center;
 }
-@include bp.tablet-and-below {
-  .site-header {
-    margin-inline: var(--space-5);
-  }
+.site-header .nav-container,
+.site-header .menu-toggle {
+  grid-row: 1;
+  grid-column: 3;
+  justify-self: end;
 }
-@include bp.nav-compact {
-  .site-header {
-    position: relative;
-  }
-  .site-brand {
-    text-align: left;
-    padding-left: 0;
-    padding-right: 64px;
-  }
-  .site-header .nav-container {
-    border-bottom: 0;
-  }
-}
-// Small desktops: brand title on the left, links on the right, same row.
-@include bp.nav-inline {
-  .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-8);
-  }
-  .site-brand {
-    padding-right: 0;
-  }
-}
+// Smaller screens (menu button): the brand title moves to the left, the menu
+// button stays on the right, and the language switcher moves into the menu
+// (decided on 26 November 2026). Without JavaScript, the switcher and the
+// links stay in the header.
 @include bp.nav-hamburger {
+  :root {
+    --brand-title-size: clamp(26px, 4.4vw, 34px);
+  }
+  .site-header {
+    padding-inline: var(--space-5);
+  }
+  .site-header.has-mobile-menu {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .has-mobile-menu > .language-switch,
   .has-mobile-menu .nav-container {
     display: none;
   }
+  .has-mobile-menu .site-brand {
+    grid-column: 1;
+    justify-self: start;
+    text-align: left;
+  }
+  .site-header.has-mobile-menu .menu-toggle {
+    grid-column: 2;
+  }
   .has-mobile-menu .menu-toggle {
     display: block;
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
+    // The lines of the button end at the header's edge.
+    margin-right: calc(-1 * var(--space-2));
     color: var(--color-heading);
+  }
+  // Without JavaScript, the links stay available on a row of their own.
+  .site-header:not(.has-mobile-menu) .nav-container {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-self: center;
   }
 }
 @include bp.mobile {
-  :root {
-    --brand-title-size: clamp(23px, 6vw, 28px);
-  }
   .site-header {
-    margin-inline: 0;
+    column-gap: var(--space-2);
   }
   .site-brand {
-    padding: 22px 64px 22px 24px;
-  }
-  .brand-subtitle {
-    max-width: 34ch;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .site-header.has-mobile-menu {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--surface-paper);
-    background-size: var(--paper-texture-size);
+    padding-block: 22px;
   }
 }

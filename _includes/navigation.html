@@ -10,6 +10,5 @@
       <li><a{% if is_current %} class="current" aria-current="page"{% endif %} href="{{ item.url | relative_url }}">{{ item.title | escape }}</a></li>
       {% endfor %}
     </ul>
-    {% include language-switch.html %}
   </nav>
 </div>
