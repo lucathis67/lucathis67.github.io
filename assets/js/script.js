@@ -12,10 +12,13 @@ function initializeSite() {
   const navigation = header?.querySelector("nav");
   if (!navigation || typeof HTMLDialogElement === "undefined") return;
 
+  // Labels come from _data/translations.yml through data attributes on the header.
+  const label = (key, fallback) => header.dataset[key] || fallback;
+
   const toggle = document.createElement("button");
   toggle.className = "menu-toggle";
   toggle.type = "button";
-  toggle.setAttribute("aria-label", "Ouvrir le menu");
+  toggle.setAttribute("aria-label", label("menuOpen", "Ouvrir le menu"));
   toggle.setAttribute("aria-haspopup", "dialog");
   toggle.setAttribute("aria-controls", "mobile-menu");
   toggle.setAttribute("aria-expanded", "false");
@@ -25,8 +28,9 @@ function initializeSite() {
   const dialog = document.createElement("dialog");
   dialog.id = "mobile-menu";
   dialog.className = "mobile-menu";
-  dialog.setAttribute("aria-label", "Menu de navigation");
-  dialog.innerHTML = '<div class="mobile-menu-heading"><div class="mobile-menu-brand"><span>Lucas Mathis Art</span></div><button class="menu-close" type="button" aria-label="Fermer le menu" autofocus><span></span><span></span></button></div>';
+  dialog.setAttribute("aria-label", label("menuDialog", "Menu de navigation"));
+  dialog.innerHTML = '<div class="mobile-menu-heading"><div class="mobile-menu-brand"><span>Lucas Mathis Art</span></div><button class="menu-close" type="button" autofocus><span></span><span></span></button></div>';
+  dialog.querySelector(".menu-close").setAttribute("aria-label", label("menuClose", "Fermer le menu"));
   const subtitle = header.querySelector('.brand-subtitle');
   if (subtitle) {
     const menuSubtitle = subtitle.cloneNode(true);
@@ -34,7 +38,7 @@ function initializeSite() {
     dialog.querySelector('.mobile-menu-brand').append(menuSubtitle);
   }
   const mobileNav = navigation.cloneNode(true);
-  mobileNav.setAttribute("aria-label", "Navigation mobile");
+  mobileNav.setAttribute("aria-label", label("menuMobileNav", "Navigation mobile"));
   mobileNav.querySelectorAll(".current").forEach(link => link.setAttribute("aria-current", "page"));
   dialog.append(mobileNav);
   document.body.append(dialog);
@@ -78,7 +82,7 @@ function initializeSite() {
   mobileNav.addEventListener("click", event => {
     if (event.target.closest("a")) finishClose();
   });
-  matchMedia("(max-width: 1400px)").addEventListener("change", event => {
+  matchMedia("(max-width: 1024px)").addEventListener("change", event => {
     if (!event.matches && dialog.open) finishClose();
   });
 }

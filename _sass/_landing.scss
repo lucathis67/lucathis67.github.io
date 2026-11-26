@@ -36,11 +36,11 @@
   white-space: nowrap;
 }
 .home-lede {
-  max-width: 640px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 28px var(--gutter-mobile);
+  padding: 22px var(--gutter-mobile);
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-style: italic;
   color: var(--color-heading);
 }
@@ -73,8 +73,8 @@
 }
 @include bp.above-mobile {
   .home-lede {
-    padding: 40px 24px;
-    font-size: 1.3rem;
+    padding: 28px 24px;
+    font-size: 1.15rem;
   }
   .home-une .main-container-row {
     padding-top: 8px;

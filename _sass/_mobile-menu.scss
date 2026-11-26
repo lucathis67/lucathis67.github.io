@@ -165,3 +165,34 @@ html.menu-open {
   max-width: 34ch;
   color: inherit;
 }
+
+// The cloned language switcher sits under the large menu links.
+.mobile-menu nav {
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(56px, 10vh, 88px);
+}
+.mobile-menu .language-switch {
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  color: inherit;
+}
+.mobile-menu .language-switch-current {
+  padding: 0 var(--space-1);
+  color: inherit;
+}
+.mobile-menu .language-switch a:link,
+.mobile-menu .language-switch a:visited {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-1);
+  font-family: var(--font-sans);
+  font-size: inherit;
+  color: inherit;
+  opacity: .75;
+}
+.mobile-menu .language-switch a:hover {
+  opacity: 1;
+}

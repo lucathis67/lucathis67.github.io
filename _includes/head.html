@@ -1,9 +1,10 @@
+{% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
 {% assign meta_title = page.title | default: site.title %}
-{% assign meta_description = page.description | default: site.description %}
+{% assign meta_description = page.description | default: t.description %}
 {% assign share_title = page.og_title | default: meta_title %}
 {% assign share_description = page.og_description | default: meta_description %}
 {% assign share_image = page.og_image | default: page.cover_image | default: page.hero_image | default: site.og_image %}
-{% assign share_image_alt = page.og_image_alt | default: page.cover_alt | default: site.og_image_alt %}
+{% assign share_image_alt = page.og_image_alt | default: page.cover_alt | default: t.og_image_alt %}
 {% assign share_type = 'website' %}
 {% if page.layout == 'article' %}{% assign share_type = 'article' %}{% endif %}
 <meta charset="UTF-8">
@@ -18,7 +19,12 @@
 <meta property="og:description" content="{{ share_description | escape }}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:site_name" content="{{ site.title | escape }}">
-<meta property="og:locale" content="{{ site.locale | escape }}">
+<meta property="og:locale" content="{{ t.locale | escape }}">
+{% if page.ref %}{% assign translations = site.pages | where: 'ref', page.ref | sort: 'lang' | reverse %}{% if translations.size > 1 %}
+{% for translation in translations %}{% if translation.url != page.url %}<meta property="og:locale:alternate" content="{{ site.data.translations[translation.lang].locale | escape }}">
+{% endif %}{% endfor %}{% for translation in translations %}<link rel="alternate" hreflang="{{ translation.lang | escape }}" href="{{ translation.url | absolute_url }}">
+{% endfor %}{% for translation in translations %}{% if translation.lang == site.lang %}<link rel="alternate" hreflang="x-default" href="{{ translation.url | absolute_url }}">
+{% endif %}{% endfor %}{% endif %}{% endif %}
 {% if share_image %}
 <meta property="og:image" content="{{ share_image | absolute_url }}">
 <meta property="og:image:alt" content="{{ share_image_alt | escape }}">

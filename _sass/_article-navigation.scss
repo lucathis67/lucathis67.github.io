@@ -1,0 +1,76 @@
+@use "breakpoints" as bp;
+
+// End of an article: previous and next stories, then a link to the portfolio.
+// Mobile first; the two stories sit side by side above the mobile breakpoint.
+.story-navigation {
+  max-width: 1080px;
+  margin: 80px auto 0;
+  padding: 0 var(--gutter-mobile);
+}
+.story-navigation-links {
+  display: grid;
+  gap: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: var(--border-default);
+}
+a.story-navigation-link:link,
+a.story-navigation-link:visited,
+a.story-navigation-link:active {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  border: 0;
+  color: var(--color-heading);
+}
+.story-navigation-link img {
+  display: block;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  margin-bottom: var(--space-1);
+  transition: opacity 200ms ease;
+}
+.story-navigation-link:hover img {
+  opacity: .88;
+}
+.story-navigation-link .eyebrow span {
+  padding-inline: 0;
+}
+.story-navigation-previous .eyebrow span {
+  margin-right: 0.6em;
+}
+.story-navigation-next .eyebrow span {
+  margin-left: 0.6em;
+}
+.story-navigation-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 1.8vw, 1.6rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.story-navigation-link:hover .story-navigation-title {
+  color: var(--color-text);
+}
+.story-navigation-all {
+  margin: var(--space-9) 0 0;
+  text-align: center;
+}
+
+@include bp.above-mobile {
+  .story-navigation-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-9);
+  }
+  // A lone "next" story still sits in the right-hand column.
+  .story-navigation-next {
+    grid-column: 2;
+    text-align: right;
+  }
+  a.story-navigation-next:link,
+  a.story-navigation-next:visited {
+    align-items: flex-end;
+  }
+  .story-navigation-next img {
+    align-self: stretch;
+  }
+}

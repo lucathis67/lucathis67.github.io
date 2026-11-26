@@ -205,6 +205,17 @@ The white mat has a very faint, seamless paper grain from `assets/textures/fine-
 
 The print boundaries are slightly softened: a subpixel white halo on the paper edge, and a 0.85px opacity feather around the photograph. The image centre remains sharp, with no blur filter and no modification to the source file. Adjust `--print-edge-feather` in `_sass/_photo-viewer.scss` to tune the photograph boundary. Browsers without intersecting CSS masks keep a normal image edge.
 
+## Bilingual site (French / English)
+
+French stays at the root with unchanged URLs; English pages live in `en/` (`/en/`, `/en/services.html`, `/en/articles/…`). No plugin is used.
+
+- **Language:** `lang` comes from `defaults` in `_config.yml` (`fr` everywhere, `en` inside `en/`). `<html lang>` and `og:locale` follow it.
+- **Pairing pages:** a French page and its English version share the same `ref` in their front matter (for example `ref: prestations` in both `prestations.html` and `en/services.html`). This drives the FR / EN switcher, the `hreflang` links (French is `x-default`) and the alternates in `sitemap.xml`. A page without a counterpart makes the switcher point to the other language's homepage.
+- **Interface text:** `_data/translations.yml` holds the shared strings for each language (subtitle, default description, footer, contact invitation, menu and photo-viewer labels, portfolio counters). JavaScript reads its labels from `data-*` attributes filled from this file, with French fallbacks.
+- **Menu:** `_data/navigation.yml` has one list per language.
+- **Portfolio:** each language lists only its own articles (`where: 'lang'`). Category names are written in each article's own language.
+- **New article:** create the French page, then its English copy in `en/articles/` with the same `ref` and `publication_order`, translated `category`, `location`, alts and metadata. Add the card to `en/index.html` if it is featured.
+
 ## Search and sharing metadata
 
 `_includes/head.html` emits canonical URLs, descriptions, Open Graph and Twitter cards for every page. Titles and descriptions use page front matter, with site defaults as a fallback. Sharing images are chosen in this order: `og_image`, `cover_image`, `hero_image`, then the site's default image. Article layouts automatically use `og:type=article`; other pages use `website`. Existing `og_title`, `og_description`, `og_type` and `og_image_alt` overrides remain supported. Supply an accurate `og_image_alt` when selecting a custom sharing photograph.

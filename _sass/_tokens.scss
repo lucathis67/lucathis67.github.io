@@ -35,5 +35,6 @@
   --space-8: 40px;
   --space-9: 48px;
 
-  font-size: 100%;
+  // Every rem-based size follows this root size (106.25% = 17px by default).
+  font-size: 106.25%;
 }

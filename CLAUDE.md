@@ -40,7 +40,8 @@ Ce fichier donne à Claude Code le contexte, l'analyse déjà faite et les règl
 
 - Jekyll 4.4 (`Gemfile`), sans thème gem : layouts dans `_layouts/` (`default`, `page`, `article`, `profile`), morceaux partagés dans `_includes/`, styles Sass dans `_sass/` compilés en `/assets/css/styles.css`, scripts dans `assets/js/`.
 - Le contenu des pages et des articles est du HTML écrit à la main, sans CMS. Les articles sont des pages ordinaires (`layout: article`) dans `articles/`, pas des posts Jekyll.
-- Données : `_config.yml` (e-mail, Instagram, textes partagés), `_data/navigation.yml` (menu).
+- Données : `_config.yml` (e-mail, Instagram), `_data/navigation.yml` (menu, une liste par langue), `_data/translations.yml` (textes d'interface par langue).
+- Site bilingue (26 novembre 2026, sans plugin) : le français reste à la racine avec ses URL ; l'anglais est dans `en/`. Une page et sa traduction partagent le même `ref` dans leur front matter (sélecteur FR / EN, `hreflang`, sitemap). Détails dans la section « Bilingual site » du README. Toute modification d'un texte français doit être reportée dans la page anglaise correspondante, ou signalée à Lucas.
 - Déploiement : `.github/workflows/pages.yml` construit les pushes sur `main` et `migration/jekyll` et les pull requests **vers `main`**, et ne déploie que les pushes sur `main`. Une PR vers `dev` ne déclenche donc pas de build : construire en local pour vérifier.
 - Flux de branches observé : travail sur `dev` (ou `article/…`), puis PR `dev` → `main`.
 - Jekyll copie dans le site publié les fichiers `.md` placés à la racine, sauf s'ils sont listés dans `exclude` de `_config.yml`. `CLAUDE.md` et `PASSATION.md` y sont listés : faire de même pour tout nouveau document interne.
@@ -76,9 +77,10 @@ Le bloc d'invitation commun à toutes les pages est `_includes/contact-invitatio
 
 - Direction artistique : éditoriale et sobre. Les photos sont les vedettes, l'interface s'efface.
 - Polices : EB Garamond (titres et texte), Source Sans 3 (étiquettes, boutons, liens d'action). Fond ivoire `#f8f6f1` avec texture papier, titres `#3d3630`, texte `#6a6056`. Utiliser les variables de `_sass/_tokens.scss`, pas de couleurs en dur.
-- Points de rupture : mobile jusqu'à 800 px, tablette jusqu'à 1400 px, desktop au-delà (`_sass/_breakpoints.scss`). La limite de 800 px doit rester alignée avec `assets/js/script.js`.
+- Points de rupture du contenu : mobile jusqu'à 800 px, tablette jusqu'à 1400 px, desktop au-delà (`_sass/_breakpoints.scss`). La limite de 800 px doit rester alignée avec `assets/js/script.js`.
+- Points de rupture de la navigation (décidés le 26 novembre 2026, mêmes fichiers) : menu hamburger jusqu'à 1024 px (limite alignée avec `assets/js/script.js`), titre aligné à gauche et liens sur la même ligne de 1025 à 1600 px (petits écrans d'ordinateur, MacBook 13 pouces compris), menu latéral au-delà de 1600 px. Le sélecteur FR / EN suit les liens, séparé par un filet vertical, en mode « en ligne » ; il est fixé en haut à gauche de la fenêtre avec le menu latéral, et sous les liens dans le menu mobile.
 - Flèches des liens : → pour les liens internes, ↗ uniquement pour les liens externes (Instagram). Décidé le 24 novembre 2026.
-- En-tête : toutes les pages, accueil compris, utilisent le même en-tête avec menu latéral (liens simples) et le même menu mobile. L'ancien en-tête d'accueil à liens partagés et bouton Contact (`.split-cta`) a été supprimé le 25 novembre 2026, avec le carrousel Glide.
+- En-tête : toutes les pages, accueil compris, utilisent le même en-tête et la même navigation (latérale, en ligne ou mobile selon la largeur, voir ci-dessus). L'ancien en-tête d'accueil à liens partagés et bouton Contact (`.split-cta`) a été supprimé le 25 novembre 2026, avec le carrousel Glide.
 - Accessibilité et SEO : un seul H1 par page, méta-descriptions uniques, Open Graph cohérents (gérés par `_includes/head.html` à partir du front matter), liens explicites.
 - **Textes alternatifs** : ceux du site sont exemplaires (précis, descriptifs). En écrire de même niveau pour tout nouveau visuel.
 

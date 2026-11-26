@@ -1,0 +1,50 @@
+---
+layout: default
+ref: portfolio
+title: "Portfolio | Lucas Mathis Art"
+description: "Weddings and walks for two: browse the stories and photo essays of Lucas Mathis Art in Alsace."
+permalink: /en/portfolio.html
+page_script: /assets/js/archive.js
+---
+{% assign t = site.data.translations[page.lang] %}
+{% assign articles = site.pages | where: 'layout', 'article' | where: 'lang', page.lang | sort: 'publication_order' | reverse %}
+{% assign categories = articles | map: 'category' | compact | uniq | sort %}
+<div class="article-archive" data-archive data-label-one="{{ t.archive_one | escape }}" data-label-many="{{ t.archive_many | escape }}" data-label-of="{{ t.archive_of | escape }}">
+  <div class="page-introduction">
+    <h1 class="page-title">Encounters along the way</h1>
+    <p>Weddings, walks for two, sparkling moments of life. Discover the stories and places that run through my work as a photographer.</p>
+  </div>
+
+  <div class="archive-layout">
+    <div class="archive-sidebar" data-archive-controls hidden>
+      <fieldset class="archive-categories">
+        <legend class="eyebrow">Browse by theme</legend>
+        <button type="button" class="archive-category" data-category="" aria-pressed="true">All stories <span>{{ articles.size }}</span></button>
+        {% for category in categories %}
+          {% assign category_articles = articles | where: 'category', category %}
+          <button type="button" class="archive-category" data-category="{{ category | escape }}" aria-pressed="false">{{ category | escape }} <span>{{ category_articles.size }}</span></button>
+        {% endfor %}
+      </fieldset>
+    </div>
+
+    <div class="archive-content">
+      <div class="archive-results-heading">
+        <p class="eyebrow" data-archive-count role="status" aria-live="polite" aria-atomic="true">{{ articles.size }} stories</p>
+      </div>
+      <ol class="archive-list" id="archive-results">
+        {% for article in articles %}
+          {% include archive-entry.html article=article %}
+        {% endfor %}
+      </ol>
+      <div class="archive-empty" data-archive-empty hidden>
+        <h2>No stories found for now.</h2>
+        <p>Choose another theme to keep reading.</p>
+      </div>
+      <div class="archive-more" data-archive-more hidden>
+        <p data-archive-progress></p>
+        <button type="button" class="archive-more-button" data-archive-load>Show more stories <span aria-hidden="true">↓</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+{% include contact-invitation.html %}

@@ -1,0 +1,19 @@
+{% comment %}
+  Sélecteur FR / EN. Il pointe vers la page de l’autre langue qui porte le même
+  `ref` dans son front matter, ou vers l’accueil de cette langue à défaut.
+{% endcomment %}
+{%- assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] -%}
+{%- assign current_lang = page.lang | default: site.lang -%}
+<p class="language-switch" role="group" aria-label="{{ t.language_switch_label | escape }}">
+  {%- for language in site.data.translations -%}
+    {%- assign code = language[0] -%}
+    {%- if code == current_lang -%}
+      <span class="language-switch-current" lang="{{ code }}" aria-current="true"><abbr title="{{ language[1].language_name | escape }}">{{ code | upcase }}</abbr></span>
+    {%- else -%}
+      {%- assign target_url = '/' -%}{%- if code != site.lang -%}{%- assign target_url = '/' | append: code | append: '/' -%}{%- endif -%}
+      {%- if page.ref -%}{%- assign target = site.pages | where: 'ref', page.ref | where: 'lang', code | first -%}{%- if target -%}{%- assign target_url = target.url -%}{%- endif -%}{%- endif -%}
+      <a href="{{ target_url | relative_url }}" hreflang="{{ code }}" lang="{{ code }}" aria-label="{{ language[1].language_switch_link | escape }}">{{ code | upcase }}</a>
+    {%- endif -%}
+    {%- unless forloop.last -%}<span class="language-switch-separator" aria-hidden="true">/</span>{%- endunless -%}
+  {%- endfor -%}
+</p>

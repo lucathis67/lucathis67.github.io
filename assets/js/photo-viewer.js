@@ -12,6 +12,9 @@ function initializePhotoViewer() {
   // Below 800px, preserve the ordinary inline photographs without triggers.
   const viewerBreakpoint = matchMedia('(min-width: 800px)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  // Wording comes from _data/translations.yml through data attributes on the dialog.
+  const text = (key, fallback, values = {}) => Object.entries(values)
+    .reduce((result, [name, value]) => result.replace(`{${name}}`, value), dialog.dataset[key] || fallback);
   const managedAttributes = ['tabindex', 'role', 'aria-haspopup', 'aria-controls', 'aria-label'];
   const originalAttributes = new Map(photographs.map(image => [
     image, new Map(managedAttributes.map(name => [name, image.getAttribute(name)]))
@@ -83,10 +86,10 @@ function initializePhotoViewer() {
     const canTransition = direction && !paper.hidden && !reducedMotion.matches;
     message.hidden = true;
     counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(photographs.length).padStart(2, '0')}`;
-    counter.setAttribute('aria-label', `Photographie ${index + 1} sur ${photographs.length}`);
+    counter.setAttribute('aria-label', text('labelCounter', 'Photographie {n} sur {total}', { n: index + 1, total: photographs.length }));
     loadingTimer = setTimeout(() => {
       if (token !== request || !dialog.open) return;
-      message.textContent = 'Chargement de la photographie…';
+      message.textContent = text('labelLoading', 'Chargement de la photographie…');
       message.hidden = false;
     }, 300);
 
@@ -141,7 +144,7 @@ function initializePhotoViewer() {
     } catch {
       if (token !== request || !dialog.open) return;
       paper.hidden = true;
-      message.textContent = 'Cette photographie ne peut pas être affichée. Vous pouvez passer à la suivante.';
+      message.textContent = text('labelError', 'Cette photographie ne peut pas être affichée. Vous pouvez passer à la suivante.');
       message.hidden = false;
     } finally {
       if (token === request) {
@@ -201,7 +204,7 @@ function initializePhotoViewer() {
         image.setAttribute('role', 'button');
         image.setAttribute('aria-haspopup', 'dialog');
         image.setAttribute('aria-controls', 'photo-viewer');
-        image.setAttribute('aria-label', `Agrandir la photographie ${position + 1} sur ${photographs.length}${image.alt ? ` : ${image.alt}` : ''}`);
+        image.setAttribute('aria-label', `${text('labelEnlarge', 'Agrandir la photographie {n} sur {total}', { n: position + 1, total: photographs.length })}${image.alt ? `${document.documentElement.lang.startsWith('fr') ? ' : ' : ': '}${image.alt}` : ''}`);
       } else {
         originalAttributes.get(image).forEach((value, name) => {
           if (value === null) image.removeAttribute(name);

@@ -1,15 +1,17 @@
+{% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
+{% assign home_url = '/' %}{% if page.lang != site.lang %}{% assign home_url = '/' | append: page.lang | append: '/' %}{% endif %}
 <footer class="site-footer">
   <div class="footer-identity">
-    <a class="footer-brand" href="{{ '/' | relative_url }}">Lucas Mathis Art</a>
-    <p>Photographe de mariages et de couples.<br>Près de Saverne, à Strasbourg et partout en Alsace.</p>
+    <a class="footer-brand" href="{{ home_url | relative_url }}">Lucas Mathis Art</a>
+    <p>{{ t.footer_text }}</p>
   </div>
   <div class="footer-contact">
-    <p class="eyebrow">Restons en contact</p>
+    <p class="eyebrow">{{ t.footer_contact | escape }}</p>
     <a href="mailto:{{ site.email | escape }}">{{ site.email | escape }}</a>
     <a href="{{ site.instagram_url | escape }}" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
   </div>
   <div class="footer-bottom">
     <span id="copyright">&copy; {{ site.title | escape }}</span>
-    <a href="{{ '/mentions-legales.html' | relative_url }}">Mentions légales</a>
+    <a href="{{ t.legal_url | relative_url }}">{{ t.legal_notice | escape }}</a>
   </div>
 </footer>

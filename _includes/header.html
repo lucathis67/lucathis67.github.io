@@ -1,7 +1,9 @@
-<header class="site-header">
+{% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
+{% assign home_url = '/' %}{% if page.lang != site.lang %}{% assign home_url = '/' | append: page.lang | append: '/' %}{% endif %}
+<header class="site-header" data-menu-open="{{ t.menu_open | escape }}" data-menu-close="{{ t.menu_close | escape }}" data-menu-dialog="{{ t.menu_dialog | escape }}" data-menu-mobile-nav="{{ t.menu_mobile_nav | escape }}">
   <div class="site-brand">
-    <div class="brand-title"><a href="{{ '/' | relative_url }}">Lucas Mathis Art</a></div>
-    <p class="brand-subtitle">{{ site.subtitle | escape }}</p>
+    <div class="brand-title"><a href="{{ home_url | relative_url }}">Lucas Mathis Art</a></div>
+    <p class="brand-subtitle">{{ t.subtitle | escape }}</p>
   </div>
   {% include navigation.html %}
 </header>

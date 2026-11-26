@@ -1,13 +1,15 @@
 ---
 layout: default
+ref: portfolio
 title: "Portfolio | Lucas Mathis Art"
 description: "Mariages et promenades à deux : retrouvez les articles et reportages de Lucas Mathis Art en Alsace."
 permalink: /portfolio.html
 page_script: /assets/js/archive.js
 ---
-{% assign articles = site.pages | where: 'layout', 'article' | sort: 'publication_order' | reverse %}
+{% assign t = site.data.translations[page.lang] %}
+{% assign articles = site.pages | where: 'layout', 'article' | where: 'lang', page.lang | sort: 'publication_order' | reverse %}
 {% assign categories = articles | map: 'category' | compact | uniq | sort %}
-<div class="article-archive" data-archive>
+<div class="article-archive" data-archive data-label-one="{{ t.archive_one | escape }}" data-label-many="{{ t.archive_many | escape }}" data-label-of="{{ t.archive_of | escape }}">
   <div class="page-introduction">
     <h1 class="page-title">Au fil des rencontres</h1>
     <p>Des mariages, des promenades à deux, des instants étincelants de vie. Retrouvez les histoires et les lieux qui traversent mon travail de photographe.</p>

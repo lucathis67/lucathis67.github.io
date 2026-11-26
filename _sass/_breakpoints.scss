@@ -1,6 +1,11 @@
 // Keep the 800px mobile boundary aligned with assets/js/script.js.
 $mobile-max: 800px;
 $tablet-max: 1400px;
+// Navigation has its own ranges: hamburger menu up to $nav-hamburger-max
+// (keep aligned with assets/js/script.js), links in line with the brand title
+// up to $nav-lateral-min, then the fixed lateral menu.
+$nav-hamburger-max: 1024px;
+$nav-lateral-min: 1600px;
 
 @mixin desktop {
   @media screen and (width > $tablet-max) { @content; }
@@ -21,4 +26,18 @@ $tablet-max: 1400px;
 // Mobile-first components: base rules target phones, this adds wider layouts.
 @mixin above-mobile {
   @media screen and (width > $mobile-max) { @content; }
+}
+
+// Navigation ranges (see $nav-hamburger-max and $nav-lateral-min).
+@mixin nav-lateral {
+  @media screen and (width > $nav-lateral-min) { @content; }
+}
+@mixin nav-compact {
+  @media screen and (max-width: $nav-lateral-min) { @content; }
+}
+@mixin nav-inline {
+  @media screen and (width > $nav-hamburger-max) and (max-width: $nav-lateral-min) { @content; }
+}
+@mixin nav-hamburger {
+  @media screen and (max-width: $nav-hamburger-max) { @content; }
 }

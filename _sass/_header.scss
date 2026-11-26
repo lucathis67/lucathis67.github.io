@@ -31,8 +31,12 @@
 }
 @include bp.tablet-and-below {
   .site-header {
-    position: relative;
     margin-inline: var(--space-5);
+  }
+}
+@include bp.nav-compact {
+  .site-header {
+    position: relative;
   }
   .site-brand {
     text-align: left;
@@ -42,6 +46,20 @@
   .site-header .nav-container {
     border-bottom: 0;
   }
+}
+// Small desktops: brand title on the left, links on the right, same row.
+@include bp.nav-inline {
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+  .site-brand {
+    padding-right: 0;
+  }
+}
+@include bp.nav-hamburger {
   .has-mobile-menu .nav-container {
     display: none;
   }

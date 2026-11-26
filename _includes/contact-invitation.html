@@ -1,6 +1,7 @@
+{% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
 <section class="contact-invitation" aria-labelledby="contact-invitation-title">
-  <p class="eyebrow">Faisons connaissance</p>
-  <h2 id="contact-invitation-title">Et si nous parlions de votre projet photo ?</h2>
-  <p>Un mariage qui se prépare ou simplement l’envie de quelques belles photos pour vous-mêmes ou pour offrir ? Écrivez-moi un petit mot sur ce que vous imaginez, je serai ravi d’en discuter avec vous !</p>
-  <a class="button-link" href="{{ '/contact.html' | relative_url }}">Me contacter <span aria-hidden="true">→</span></a>
+  <p class="eyebrow">{{ t.invitation_eyebrow | escape }}</p>
+  <h2 id="contact-invitation-title">{{ t.invitation_title | escape }}</h2>
+  <p>{{ t.invitation_text | escape }}</p>
+  <a class="button-link" href="{{ t.contact_url | relative_url }}">{{ t.invitation_button | escape }} <span aria-hidden="true">→</span></a>
 </section>

@@ -134,3 +134,27 @@
     object-position: center;
   }
 }
+
+// Contact page: what to mention in a first message (same bullets as Services).
+.contact-checklist {
+  list-style: none;
+  margin: 0 0 1.4em;
+  padding: 0;
+}
+.contact-checklist li {
+  position: relative;
+  padding: 4px 0 4px 1.1em;
+  font-family: var(--font-body);
+  font-size: var(--text-size);
+  line-height: 1.6;
+}
+.contact-checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.95em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-border);
+}

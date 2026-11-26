@@ -3,9 +3,13 @@ layout: null
 permalink: /sitemap.xml
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 {% assign public_pages = site.pages | sort: 'url' %}
 {% for entry in public_pages %}{% if entry.layout and entry.layout != 'null' %}{% unless entry.robots contains 'noindex' %}
-  <url><loc>{{ entry.url | absolute_url | xml_escape }}</loc></url>
+  <url>
+    <loc>{{ entry.url | absolute_url | xml_escape }}</loc>{% if entry.ref %}{% assign translations = site.pages | where: 'ref', entry.ref | sort: 'lang' | reverse %}{% if translations.size > 1 %}{% for translation in translations %}
+    <xhtml:link rel="alternate" hreflang="{{ translation.lang | xml_escape }}" href="{{ translation.url | absolute_url | xml_escape }}"/>{% endfor %}{% for translation in translations %}{% if translation.lang == site.lang %}
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ translation.url | absolute_url | xml_escape }}"/>{% endif %}{% endfor %}{% endif %}{% endif %}
+  </url>
 {% endunless %}{% endif %}{% endfor %}
 </urlset>

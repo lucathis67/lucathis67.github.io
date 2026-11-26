@@ -53,7 +53,7 @@
   background: var(--color-heading);
 }
 
-@include bp.tablet-and-below {
+@include bp.nav-compact {
   .nav-container {
     position: static;
     width: auto;
@@ -87,5 +87,81 @@
   .nav-container ul {
     justify-content: center;
     padding-block: 8px;
+  }
+}
+
+// FR / EN switcher, placed in the navigation so the mobile menu clones it too.
+.language-switch {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: var(--space-8) 0 0;
+  padding-left: 15px;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: var(--color-text);
+}
+.language-switch abbr {
+  text-decoration: none;
+}
+.language-switch-current {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+.nav-container .language-switch a:link, .nav-container .language-switch a:visited, .nav-container .language-switch a:active {
+  display: inline;
+  width: auto;
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--color-text);
+}
+.nav-container .language-switch a:hover {
+  color: var(--color-heading);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+// With the lateral menu, the switcher leaves the menu flow, so the menu stays
+// vertically centred, and sits in the top-left corner of the window.
+@include bp.nav-lateral {
+  .nav-container .language-switch {
+    position: fixed;
+    top: 40px;
+    left: 31px;
+    margin: 0;
+    padding: 0;
+  }
+}
+@include bp.nav-compact {
+  .nav-container nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 28px;
+  }
+  .language-switch {
+    margin: 0;
+    padding: 0;
+  }
+}
+@include bp.mobile {
+  .nav-container nav {
+    justify-content: center;
+  }
+}
+// Small desktops: links sit in line with the brand title, in a larger size.
+@include bp.nav-inline {
+  .nav-container a:link, .nav-container a:visited, .nav-container a:active {
+    font-size: 0.85rem;
+  }
+  // A thin vertical rule sets the language switcher apart from the links.
+  .nav-container .language-switch {
+    margin-left: var(--space-2);
+    padding: var(--space-1) 0 var(--space-1) var(--space-7);
+    border-left: var(--border-default);
   }
 }
