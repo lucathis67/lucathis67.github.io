@@ -14,15 +14,17 @@
 
 // Quiet details (26 November 2026). Story cards on the homepage, in the
 // portfolio and at the end of articles: on hover, a fine underline appears
-// under the title. On the homepage only, the photograph also grows a little
-// inside its frame (the portfolio's small thumbnails flickered while
-// zooming). The zoom is left out for visitors who prefer less motion, and on
+// under the title. On the homepage and in the portfolio, the photograph also
+// grows a little inside its frame (the old portfolio's small thumbnails
+// flickered while zooming; the large photographs of 27 November 2026 are
+// tested again). The zoom is left out for visitors who prefer less motion, and on
 // touch screens, where hover does not exist.
 .story-image-link {
   overflow: hidden;
 }
 .article-title a:link, .article-title a:visited,
 .archive-story h2 a:link, .archive-story h2 a:visited,
+.portfolio-title a:link, .portfolio-title a:visited,
 .story-navigation-title {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
@@ -33,21 +35,25 @@
 @media (hover: hover) {
   .story-card:hover .article-title a,
   .archive-story:hover h2 a,
+  .portfolio-story:hover .portfolio-title a,
   .story-navigation-link:hover .story-navigation-title {
     color: var(--color-heading);
     text-decoration-color: var(--color-text);
   }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .story-image-link img {
+  .story-image-link img,
+  .portfolio-image-link img {
     transition: transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  .story-card:hover .story-image-link img {
+  .story-card:hover .story-image-link img,
+  .portfolio-story:hover .portfolio-image-link img {
     transform: scale(1.03);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .article-title a, .archive-story h2 a, .story-navigation-title {
+  .article-title a, .archive-story h2 a, .portfolio-title a,
+  .story-navigation-title {
     transition: none;
   }
 }

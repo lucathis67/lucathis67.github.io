@@ -59,7 +59,7 @@ Ce fichier donne à Claude Code le contexte, l'analyse déjà faite et les règl
 |---|---|---|
 | Accueil | `index.html` → `/` | Navigation latérale comme les autres pages, phrase d'accroche, **la une d'un journal** (cathédrale en tête, articles choisis à la main, lien « Tous les reportages »), rangée Prestations, extrait « À propos », invitation à écrire. L'ancien carrousel (Glide) a été supprimé le 25 novembre 2026 ; il reste dans l'historique git |
 | (ancien Portfolio) | `articles.html` | Redirige vers `/#a-la-une`, `noindex` |
-| Portfolio (ex-Archives) | `portfolio.html` (`archives.html` redirige) | « Au fil des rencontres » : liste générée automatiquement (tri par `publication_order`), filtres par catégorie, lots de 12. Lien « Portfolio » du menu |
+| Portfolio (ex-Archives) | `portfolio.html` (`archives.html` redirige) | « Au fil des rencontres », en sommaire de magazine (27 novembre 2026) : liste générée automatiquement (tri par `publication_order`), une grande photo pleine largeur puis deux côte à côte, en alternance ; Une variante « mur » sur toute la largeur de la fenêtre a été essayée et écartée par Lucas le 27 novembre 2026. sous chaque photo, catégorie · lieu, titre et une phrase (`accroche` du front matter, reprise des cartes de l’accueil). Plus de filtres ni de lots (`archive.js`, `archive-entry.html` et `_archive.scss` ne servent plus). Images en `srcset` : versions `-800.jpg` et `-1600.jpg` à côté de chaque `cover_image`, faites par `scripts/vignettes.sh` (à lancer pour tout nouvel article). Zoom au survol réactivé. Lien « Portfolio » du menu |
 | Prestations | `prestations.html` | Trois offres sans tarif : mariage, fiançailles, couple |
 | À propos | `a-propos.html` (layout `profile`) | Parcours, approche, formation auprès d'une photographe américaine (Leslie Maron) |
 | Contact | `contact.html` (layout `profile`) | E-mail uniquement (`hello@lucathis.art`) + Instagram `@lucasmathisart` |
@@ -82,7 +82,7 @@ Le bloc d'invitation commun à toutes les pages est `_includes/contact-invitatio
 - Flèches des liens : → pour les liens internes, ↗ uniquement pour les liens externes (Instagram). Décidé le 24 novembre 2026.
 - Typographie fine (26 novembre 2026) : `_plugins/typographie.rb` transforme chaque page à la construction, sans toucher aux sources. Partout, l'apostrophe droite entre deux lettres devient ’ ; sur les pages en français, les espaces déjà présentes avant `;` `!` `?` `»` et après `«` deviennent des espaces fines insécables, et celle avant `:` une espace insécable. On peut donc écrire les textes simplement. Chiffres elzéviriens dans le texte courant, césure légère sur mobile (`_base.scss`). Redémarrer `jekyll serve` après une modification du plugin.
 - Rythme vertical (26 novembre 2026) : une seule échelle dans `_sass/_tokens.scss` (`--space-section`, `--space-section-inner`, `--space-block`, `--space-heading`, `--space-heading-after`), réduite sur mobile. L'utiliser pour tout nouvel espacement entre parties. Les filets de séparation occupent toute la largeur du contenu.
-- Détails (26 novembre 2026) : au survol des cartes (accueil, portfolio, fin d'article), un filet fin souligne le titre ; sur l'accueil seulement, la photo grossit aussi légèrement (sur les petites vignettes du portfolio, le zoom scintillait). Voir `_motion.scss`, sans zoom si l'animation réduite est demandée ; le fleuron d'`_includes/ornament.html` clôt chaque article.
+- Détails (26 novembre 2026) : au survol des cartes (accueil, portfolio, fin d'article), un filet fin souligne le titre ; sur l'accueil et dans le portfolio, la photo grossit aussi légèrement (sur les anciennes petites vignettes du portfolio, le zoom scintillait ; réactivé le 27 novembre 2026 avec les grandes photos). Voir `_motion.scss`, sans zoom si l'animation réduite est demandée ; le fleuron d'`_includes/ornament.html` clôt chaque article.
 - En-tête : toutes les pages, accueil compris, utilisent le même en-tête et la même navigation (voir ci-dessus). Depuis le 26 novembre 2026, cet en-tête est fixé en haut de la fenêtre (`_sass/_masthead.scss`, `initializeMasthead` dans `assets/js/script.js`). Sur l'accueil seulement, il s'ouvre en grand format : titre en Cormorant Garamond, traversé à mi-hauteur par le filet qui s'interrompt de chaque côté, et sous-titre « Photographe de mariages et de couples en Alsace » en Source Sans, qui est le H1 de l'accueil ; dès le défilement, il s'affine et le sous-titre s'efface. Sur toutes les autres pages, il est d'emblée dans sa version fine, sans sous-titre, pour ne pas concurrencer le H1 de la page. Titres de pages et d'articles (H1, cartes, liste du Portfolio, fin d'article) en Cormorant Garamond graisse 500 (`--font-display`) ; intertitres et texte en EB Garamond. L'en-tête du menu mobile reprend la disposition de l'en-tête (sélecteur, titre, bouton de fermeture à la place du bouton de menu), ainsi que sa hauteur et la taille de son titre au moment de l'ouverture. L'ancien en-tête d'accueil à liens partagés et bouton Contact (`.split-cta`) a été supprimé le 25 novembre 2026, avec le carrousel Glide.
 - Accessibilité et SEO : un seul H1 par page, méta-descriptions uniques, Open Graph cohérents (gérés par `_includes/head.html` à partir du front matter), liens explicites.
 - **Textes alternatifs** : ceux du site sont exemplaires (précis, descriptifs). En écrire de même niveau pour tout nouveau visuel.
@@ -119,7 +119,7 @@ Cette analyse repose sur le **texte** public des pages (structure, copie, alt). 
 11. **Les articles de conseil ne sont pas du reportage** : les tons diffèrent (pédagogique vs narratif). À séparer ou à assumer.
 
 ### Constats techniques (lecture du dépôt)
-- `images/` pèse environ 29 Mo : 51 JPEG, aucun WebP/AVIF, pas de `srcset` dans les pages (le include `image.html` le permet mais n'est pas utilisé).
+- `images/` pèse environ 29 Mo : 51 JPEG, aucun WebP/AVIF, pas de `srcset` dans les pages (le include `image.html` le permet mais n'est pas utilisé), sauf les couvertures du portfolio depuis le 27 novembre 2026.
 - Polices auto-hébergées en TTF variables (environ 2,6 Mo) : un passage en WOFF2 allégerait nettement.
 - Pas de données structurées (JSON-LD `LocalBusiness` / `Photographer`) pour le référencement local.
 
@@ -170,7 +170,7 @@ Seules informations utilisables sur les prestations ; tout le reste reste à dem
 7. **Cohérence « portraits »** : nouvelle offre ou retrait de la mention.
 8. **Identité visuelle** : faire de la signature « gestes et regards » un fil graphique ; revoir le hero ; vérifier palette et typographie **après audit visuel**.
 9. **Performance et référencement** : images responsives (WebP, `srcset`), polices WOFF2, JSON-LD.
-10. **Archives** : simplifier tant que le volume reste faible.
+10. **Archives** : fait le 27 novembre 2026 (portfolio en sommaire de magazine, sans filtres).
 
 ## 10. Questions ouvertes (à poser à Lucas, pas à deviner)
 

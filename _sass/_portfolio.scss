@@ -1,0 +1,87 @@
+@use "breakpoints" as bp;
+
+// Portfolio as magazine contents (27 November 2026). Each story opens on a
+// large photograph: one at full width, then two side by side. Underneath,
+// category and location, the title and one sentence from the story.
+// Mobile first: on phones every story is stacked and the photograph runs
+// from edge to edge.
+.portfolio-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-block);
+}
+.portfolio-story {
+  margin: 0;
+}
+a.portfolio-image-link:link,
+a.portfolio-image-link:visited,
+a.portfolio-image-link:active {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+}
+.portfolio-image-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.portfolio-story-copy {
+  padding: 22px var(--gutter-mobile) 0;
+}
+.portfolio-story-copy .eyebrow {
+  margin: 0 0 10px;
+}
+.portfolio-title {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 6.4vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.portfolio-title a:link,
+.portfolio-title a:visited,
+.portfolio-title a:active {
+  border: 0;
+  padding: 0;
+}
+.portfolio-accroche {
+  max-width: 60ch;
+  margin: 12px 0 0;
+  text-wrap: pretty;
+}
+
+@include bp.above-mobile {
+  .portfolio-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-block) clamp(32px, 4vw, 56px);
+    padding-top: 40px;
+    border-top: var(--border-default);
+  }
+  .portfolio-entry-wide {
+    grid-column: 1 / -1;
+  }
+  .portfolio-entry-wide .portfolio-image-link img {
+    aspect-ratio: 16 / 9;
+  }
+  .portfolio-story-copy {
+    padding: 24px 0 0;
+  }
+  .portfolio-title {
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+  }
+  // A full-width story: the copy sits in a narrower column, like an opening
+  // page, so the lines stay short under the wide photograph.
+  .portfolio-entry-wide .portfolio-story-copy {
+    max-width: 760px;
+  }
+  .portfolio-entry-wide .portfolio-title {
+    font-size: clamp(2rem, 2.9vw, 2.6rem);
+  }
+}
