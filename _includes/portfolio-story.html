@@ -1,12 +1,13 @@
 {% comment %}
   One story of the portfolio, magazine style (27 November 2026): a large
-  photograph, then category and location, the title and one sentence.
+  photograph, then the kicker (category · place), the title and the standfirst
+  (`chapeau` in the front matter, or `accroche` when there is none).
   include.wide: true for a full-width story, otherwise half width.
-  The lighter versions of the cover (name-800.jpg and name-1600.jpg, next to
-  the original) are made by scripts/vignettes.sh.
+  The WebP versions of the cover (name-800.webp, name-1600.webp…, next to the
+  original) are made by scripts/vignettes.sh and added at build time, with the
+  sizes given here, by _plugins/images-webp.rb.
 {% endcomment %}
 {% assign entry = include.article %}
-{% assign cover_base = entry.cover_image | remove: '.jpg' %}
 {% if include.wide %}
   {% assign cover_sizes = '(max-width: 1200px) 100vw, 1200px' %}
 {% else %}
@@ -16,13 +17,14 @@
   <article class="portfolio-story">
     {% if entry.cover_image %}
       <a class="portfolio-image-link" href="{{ entry.url | relative_url }}" tabindex="-1" aria-hidden="true">
-        <img src="{{ cover_base | append: '-1600.jpg' | relative_url }}" srcset="{{ cover_base | append: '-800.jpg' | relative_url }} 800w, {{ cover_base | append: '-1600.jpg' | relative_url }} 1600w" sizes="{{ cover_sizes }}" alt="{{ entry.cover_alt | default: '' | escape }}" width="1600" height="1067" loading="{% if include.eager %}eager{% else %}lazy{% endif %}"{% if include.eager %} fetchpriority="high"{% endif %}>
+        <img src="{{ entry.cover_image | relative_url }}" sizes="{{ cover_sizes }}" alt="{{ entry.cover_alt | default: '' | escape }}" width="1600" height="1067" loading="{% if include.eager %}eager{% else %}lazy{% endif %}"{% if include.eager %} fetchpriority="high"{% endif %}>
       </a>
     {% endif %}
     <div class="portfolio-story-copy">
-      <p class="eyebrow">{{ entry.category | escape }}{% if entry.location %}<span class="portfolio-separator" aria-hidden="true"> · </span>{{ entry.location | escape }}{% endif %}</p>
+      <p class="eyebrow kicker"><span class="kicker-category">{{ entry.category | escape }}</span>{% if entry.location %}<span class="kicker-separator" aria-hidden="true"> · </span>{{ entry.location | escape }}{% endif %}</p>
       <h2 class="portfolio-title"><a href="{{ entry.url | relative_url }}">{{ entry.heading | default: entry.title | escape }}</a></h2>
-      {% if entry.accroche %}<p class="portfolio-accroche">{{ entry.accroche | escape }}</p>{% endif %}
+      {% assign standfirst = entry.chapeau | default: entry.accroche %}
+      {% if standfirst %}<p class="standfirst portfolio-accroche">{{ standfirst | escape }}</p>{% endif %}
     </div>
   </article>
 </li>

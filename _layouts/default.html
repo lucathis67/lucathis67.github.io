@@ -4,8 +4,10 @@
   {% include head.html %}
 </head>
 <body>
+  {% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
+  <a class="skip-link" href="#contenu">{{ t.skip_link | escape }}</a>
   {% include header.html %}
-  <main{% if page.main_class %} class="{{ page.main_class | escape }}"{% endif %}>
+  <main id="contenu"{% if page.main_class %} class="{{ page.main_class | escape }}"{% endif %}>
     {{ content }}
   </main>
   {% include footer.html %}

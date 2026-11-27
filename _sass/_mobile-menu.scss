@@ -161,7 +161,7 @@ html.menu-open {
   padding: 6px 0;
   // Source Sans, like the header links (27 November 2026), light at this size.
   font-family: var(--font-sans);
-  font-size: clamp(30px, 8.5vw, 52px);
+  font-size: clamp(26px, 7vw, 42px);
   font-weight: 300;
   line-height: 1.1;
   color: var(--color-background);
@@ -173,9 +173,71 @@ html.menu-open {
   opacity: .75;
 }
 
-// Current page: a heavier weight (Source Sans has no italic on this site).
+// Current page: in italics, same weight (27 November 2026; real Source Sans
+// italic, see fonts.css).
 .mobile-menu nav a[aria-current="page"] {
+  font-style: italic;
+}
+
+// Contact, as everywhere else, the one filled button (27 November 2026):
+// ivory on the dark menu, set a little apart under the other links.
+.mobile-menu nav .nav-cta {
+  margin-top: var(--space-2);
+}
+.mobile-menu nav .nav-cta a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 26px;
+  border: 1px solid var(--color-background);
+  background: var(--color-background);
+  color: var(--color-menu-background);
+  font-size: 0.85rem;
   font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+.mobile-menu nav .nav-cta a:hover {
+  opacity: 1;
+  background: transparent;
+  color: var(--color-background);
+}
+.mobile-menu nav .nav-cta a:focus-visible {
+  // The button's own text colour is the menu background: the focus ring
+  // stays ivory so that it shows against the menu.
+  outline-color: var(--color-background);
+}
+.mobile-menu nav .nav-cta a[aria-current="page"] {
+  font-style: normal;
+}
+
+// Colophon: a fine rule, then the e-mail and Instagram in small capitals, as
+// in the site footer.
+.mobile-menu-colophon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgb(252 251 248 / 20%);
+}
+.mobile-menu-colophon a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-background);
+  opacity: 0.75;
+}
+.mobile-menu-colophon a:hover {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

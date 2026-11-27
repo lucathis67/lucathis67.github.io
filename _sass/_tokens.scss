@@ -11,26 +11,36 @@
   --text-leading: 1.8;
   --font-body: "EB Garamond", Georgia, serif;
   --font-serif: "EB Garamond", Georgia, serif;
-  --font-sans: "Source Sans 3", Arial, sans-serif;
+  --font-sans: "Source Sans 3", "Source Sans 3 fallback", Arial, sans-serif;
   --font-display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --brand-title-size: clamp(2.4rem, 4.2vw, 3.8rem);
-  --brand-subtitle-size: 0.6rem;
+  // At least 0.72rem (about 12px) for every small uppercase label
+  // (accessibility audit, 27 November 2026).
+  --brand-subtitle-size: 0.72rem;
 
   --color-background: #fcfbf8;
   --color-background-warm: #f3f0ea;
   --color-heading: #29231f;
   --color-text: #4d443c;
   --color-border: #e2dcd3;
-  --color-menu-background: #2a221d;
-  --color-viewer-backdrop: #211d1a;
+  // Photo viewer: a dark mahogany gallery wall, covered in linen
+  // (27 November 2026, was #211d1a; texture in _photo-viewer.scss).
+  --color-viewer-backdrop: #231713;
+  // Mobile menu: a deep warm charcoal (darkened on 27 November 2026, from
+  // #2a221d).
+  --color-menu-background: #211d1a;
   --paper-texture-size: 256px;
   --paper-texture: url("../textures/fine-art-paper.svg");
   --surface-paper: var(--color-background) var(--paper-texture) repeat;
   --border-default: 1px solid var(--color-border);
+  // Buttons (27 November 2026): the colours swap gently on hover, as on the
+  // header's Contact button. Shared by every button, see _motion.scss.
+  --button-transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, opacity 200ms ease;
 
   --layout-max-width: 1200px;
   --gutter-mobile: 24px;
-  --reading-width: 680px;
+  // About 75 characters per line in EB Garamond (680px gave up to 97).
+  --reading-width: 600px;
   --space-1: 5px;
   --space-2: 10px;
   --space-5: 24px;

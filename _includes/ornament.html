@@ -1,11 +1,17 @@
 {% comment %}
   Ornements fins, dessinés en SVG, dans l’esprit des pages de titre anciennes.
   type="fleuron" : deux filets qui s’enroulent vers un petit losange ;
-  type="accolade" : une accolade horizontale. Couleur : celle du texte (currentColor).
+  type="accolade" : une accolade horizontale ;
+  type="filets" : un filet court au-dessus d’un filet plus long (fin des
+  articles depuis le 27 novembre 2026). Couleur : celle du texte (currentColor).
 {% endcomment %}
 {%- if include.type == "accolade" -%}
 <svg class="ornament ornament-accolade" viewBox="0 0 240 18" width="240" height="18" fill="none" aria-hidden="true" focusable="false">
   <path d="M1 2.5C1 9 7 9.5 22 9.5H104C112 9.5 116.5 11.5 120 16.5C123.5 11.5 128 9.5 136 9.5H218C233 9.5 239 9 239 2.5" stroke="currentColor" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+</svg>
+{%- elsif include.type == "filets" -%}
+<svg class="ornament ornament-filets" viewBox="0 0 120 8" width="120" height="8" fill="none" aria-hidden="true" focusable="false">
+  <path d="M44 1H76M0 7H120" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
 </svg>
 {%- else -%}
 <svg class="ornament ornament-fleuron" viewBox="0 0 240 16" width="240" height="16" fill="none" aria-hidden="true" focusable="false">

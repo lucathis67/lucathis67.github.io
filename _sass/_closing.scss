@@ -86,10 +86,11 @@ a.button-link:hover {
   border-top: var(--border-default);
   padding-top: 20px;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 0.72rem;
 }
+// Underlined like the other links, with a taller tap area.
 .footer-bottom a {
-  border: 0;
+  padding-top: 6px;
 }
 @include bp.tablet-only { .site-footer { margin-inline: 24px; } }
 @include bp.mobile {
@@ -107,6 +108,5 @@ a.button-link:hover {
   }
   .footer-bottom {
     gap: 12px;
-    font-size: 0.6rem;
   }
 }

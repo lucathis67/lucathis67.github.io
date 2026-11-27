@@ -35,11 +35,25 @@ html.photo-viewer-open {
 .photo-viewer[open] {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 80px minmax(0, 1fr) 80px;
+  // The number now sits in the mat: the bars around the print are thinner,
+  // so the photograph shows larger (27 November 2026).
+  grid-template-rows: 64px minmax(0, 1fr) 40px;
 }
+// Fully opaque: the viewer is a separate room, nothing of the article shows
+// through (27 November 2026).
 .photo-viewer::backdrop {
   background: var(--color-viewer-backdrop);
-  opacity: 0.99;
+}
+// A gallery wall (27 November 2026): dark mahogany linen, barely perceptible
+// (assets/textures/wall-linen.webp: "Rough Linen" from Poly Haven, CC0,
+// recoloured to the wall colour, contrast reduced to a few percent), lit by a soft spotlight from
+// above the print, which fades into the corners.
+.photo-viewer[open] {
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 30%, rgb(255 246 230 / 9%), transparent 70%),
+    radial-gradient(ellipse 120% 100% at 50% 40%, transparent 35%, rgb(0 0 0 / 72%)),
+    url("../textures/wall-linen.webp") repeat,
+    var(--color-viewer-backdrop);
 }
 .photo-viewer-toolbar {
   min-width: 0;
@@ -57,21 +71,26 @@ html.photo-viewer-open {
   width: 48px;
   height: 48px;
   padding: 0;
-  border: 1px solid rgb(252 251 248 / 30%);
-  border-radius: 50%;
+  border: 0;
   background: transparent;
   color: inherit;
   cursor: pointer;
+  opacity: 0.75;
+}
+// Fine rule arrows, no circle (27 November 2026): the arrow brightens and
+// moves forward a little on hover (no movement if less motion is wanted,
+// see _motion.scss). The clickable area stays as large as before.
+.photo-viewer-previous,
+.photo-viewer-next {
+  flex-basis: 64px;
+  width: 64px;
 }
 .photo-viewer-button:hover {
-  background: rgb(252 251 248 / 10%);
+  opacity: 1;
 }
 .photo-viewer-button:focus-visible {
   outline: 2px solid var(--color-background);
   outline-offset: 5px;
-}
-.photo-viewer-close {
-  border-color: transparent;
 }
 .photo-viewer-stage {
   position: relative;
@@ -92,9 +111,12 @@ html.photo-viewer-open {
   background-repeat: repeat;
   background-size: var(--paper-texture-size);
   // A subpixel paper-coloured halo softens the cut edge without blurring it.
+  // Hung on the wall: a close, soft contact shadow, then a wider one cast
+  // downwards by the spotlight.
   box-shadow:
     0 0 1px 0.5px rgb(255 255 255 / 65%),
-    0 16px 60px rgb(0 0 0 / 20%);
+    0 3px 6px rgb(0 0 0 / 28%),
+    0 36px 60px -14px rgb(0 0 0 / 55%);
 }
 .photo-viewer-image {
   background: #fff;
@@ -128,14 +150,42 @@ html.photo-viewer-open {
   align-items: center;
   gap: 24px;
 }
+// The counter stays as a live region for screen readers; on screen, the
+// number is written in the mat (below).
 .photo-viewer-counter {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+// The photograph's number, centred in the deeper bottom margin of the mat,
+// as if written on the print's mount.
+.photo-viewer-paper {
+  position: relative;
+}
+.photo-viewer-edition {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--mat-bottom, 0px);
+  // Same typography as the former counter of the bottom bar.
   font-family: var(--font-serif);
-  min-width: 70px;
-  margin: 0;
-  color: inherit;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-variant-numeric: oldstyle-nums proportional-nums;
   letter-spacing: 0.14em;
-  text-align: center;
+  // Balances the spacing added after the last figure, for a true centre.
+  padding-left: 0.14em;
+  line-height: 1;
+  color: var(--color-heading);
+  opacity: 0.8;
+  pointer-events: none;
 }
 .photo-viewer-previous,
 .photo-viewer-next {
@@ -194,4 +244,99 @@ html.photo-viewer-open {
 @keyframes viewer-fade-out {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+// Quiet mode (27 November 2026): when the mouse rests, the arrows and the
+// close button fade away and the pointer hides, leaving the print alone on
+// the wall. Any movement, key or focus brings them back (photo-viewer.js).
+.photo-viewer-toolbar,
+.photo-viewer-footer {
+  transition: opacity 600ms ease;
+}
+.photo-viewer.is-quiet .photo-viewer-toolbar,
+.photo-viewer.is-quiet .photo-viewer-footer {
+  opacity: 0;
+}
+.photo-viewer.is-quiet,
+.photo-viewer.is-quiet * {
+  cursor: none;
+}
+
+// Room overview (27 November 2026): every photograph of the story hung on
+// the wall as a small matted print, in the same light. The current one is
+// marked by a fine line beneath it.
+.photo-viewer-room {
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  place-items: center;
+  padding: 16px 96px 32px;
+  transform-origin: 50% 40%;
+}
+.photo-viewer-wall {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 48px 56px;
+  max-width: 1400px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.photo-viewer-wall li {
+  margin: 0;
+  padding: 0;
+}
+.photo-viewer-frame {
+  position: relative;
+  display: block;
+  padding: 10px 10px 18px;
+  border: 0;
+  line-height: 0;
+  background: #fff url("../textures/fine-art-paper.svg") repeat;
+  background-size: var(--paper-texture-size);
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 28%),
+    0 18px 30px -10px rgb(0 0 0 / 55%);
+  cursor: pointer;
+}
+.photo-viewer-frame img {
+  display: block;
+  width: auto;
+  height: clamp(90px, 17vh, 180px);
+  max-width: none;
+  object-fit: cover;
+}
+.photo-viewer-frame[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: -14px;
+  height: 1px;
+  background: var(--color-background);
+  opacity: 0.8;
+}
+.photo-viewer-frame:focus-visible {
+  outline: 2px solid var(--color-background);
+  outline-offset: 6px;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .photo-viewer-frame {
+    transition: transform 300ms ease, box-shadow 300ms ease;
+  }
+  .photo-viewer-frame:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 3px 5px rgb(0 0 0 / 28%),
+      0 24px 36px -10px rgb(0 0 0 / 55%);
+  }
+}
+// In the room, the arrows step aside.
+.photo-viewer.is-room .photo-viewer-footer {
+  visibility: hidden;
+}
+.photo-viewer.is-room .photo-viewer-overview {
+  opacity: 1;
 }

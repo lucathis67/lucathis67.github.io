@@ -101,8 +101,9 @@ html {
     transform var(--masthead-duration) var(--masthead-ease),
     visibility 0s;
 }
+// Faded out, not hidden: it remains the page's H1 for screen readers.
 .site-header[data-masthead].is-condensed .brand-subtitle {
-  visibility: hidden;
+  pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -8px);
   transition:
@@ -130,9 +131,9 @@ html {
 }
 
 // Smaller screens (menu button): the brand title, on the left, keeps its size
-// and place. On the homepage, the subtitle sits under it, above the line, which
-// runs from edge to edge; when the page scrolls, only the subtitle folds away
-// and the header gets thinner. Other pages show the thin version.
+// and place. On the homepage, the subtitle sits below the line, which runs from
+// edge to edge, aligned left; when the page scrolls, it fades away and the
+// header gets thinner. Other pages show the thin version.
 @include bp.nav-hamburger {
   .site-header[data-masthead].is-fixed,
   .site-header[data-masthead].is-condensed {
@@ -145,29 +146,18 @@ html {
   .site-header[data-masthead].is-fixed .brand-title {
     margin-bottom: 0;
   }
+  // The subtitle sits below the line, aligned with the brand title on the
+  // left, and fades away upwards as the page scrolls, as on wide screens
+  // (27 November 2026).
   .site-header[data-masthead].is-fixed .brand-subtitle {
-    position: static;
-    width: auto;
-    max-width: none;
-    max-height: 3.6em;
-    overflow: hidden;
-    margin: 4px 0 0;
+    top: calc(100% + var(--masthead-subtitle-gap, 16px));
+    left: 0;
+    max-width: calc(100vw - 2 * var(--space-5));
+    text-align: left;
     transform: none;
-    transition:
-      max-height var(--masthead-duration) var(--masthead-ease),
-      margin var(--masthead-duration) var(--masthead-ease),
-      opacity var(--masthead-duration) var(--masthead-ease),
-      visibility 0s;
   }
   .site-header[data-masthead].is-condensed .brand-subtitle {
-    max-height: 0;
-    margin-top: 0;
-    transform: none;
-    transition:
-      max-height var(--masthead-duration) var(--masthead-ease),
-      margin var(--masthead-duration) var(--masthead-ease),
-      opacity 250ms ease-out,
-      visibility 0s linear var(--masthead-duration);
+    transform: translateY(-8px);
   }
   .site-header[data-masthead].is-condensed .brand-title {
     font-weight: 300;

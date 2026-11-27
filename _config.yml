@@ -9,6 +9,26 @@ email: hello@lucathis.art
 instagram_url: https://www.instagram.com/lucasmathisart
 instagram_handle: "@lucasmathisart"
 footer_description: Photographies de mariages et reportages en Alsace.
+# Données structurées (JSON-LD, _includes/schema.html), lues par Google pour
+# le référencement local. À garder identiques à la future fiche Google Business
+# Profile : même nom, même e-mail, mêmes zones desservies. Pas d'adresse
+# publiée : Lucas se déplace chez ses clients (« zone desservie »).
+business:
+  name: Lucas Mathis Art
+  founder: Lucas Mathis
+  job_title: Photographe de mariages et de couples
+  portrait: /images/infos/infos-1-261.jpg
+  price_range: À partir de 150 €
+  area_served:
+    - { type: City, name: Strasbourg }
+    - { type: City, name: Saverne }
+    - { type: AdministrativeArea, name: Bas-Rhin }
+    - { type: AdministrativeArea, name: Alsace }
+  # Tarifs confirmés par Lucas (voir CLAUDE.md, §8).
+  offers:
+    - { name: Reportage de mariage, price: 950, url: /prestations.html }
+    - { name: Séance de fiançailles, price: 150, url: /prestations.html }
+    - { name: Séance de couple, price: 150, url: /prestations.html }
 exclude:
   - Gemfile
   - Gemfile.lock

@@ -32,7 +32,7 @@
 }
 .service-overview-price {
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -91,7 +91,7 @@
 .service-included-title {
   margin: 0 0 10px;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.13em;
   line-height: 1.7;
@@ -121,16 +121,14 @@
   background: var(--color-border);
 }
 
-// The contact button leads; the reportage link follows, quieter.
+// The contact button leads, filled; the reportage follows as an outlined
+// button (27 November 2026). Across the site, a filled button means contact.
 .service-actions {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 20px;
   margin: 28px 0 0;
-}
-.service-actions .text-link {
-  align-self: flex-start;
 }
 a.button-link.button-link-quiet:link,
 a.button-link.button-link-quiet:visited,
@@ -301,10 +299,7 @@ a.button-link.button-link-quiet:hover {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px 32px;
-  }
-  .service-actions .text-link {
-    align-self: auto;
+    gap: 16px;
   }
 
   .service-steps {

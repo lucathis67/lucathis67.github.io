@@ -8,6 +8,8 @@ permalink: /sitemap.xml
 {% for entry in public_pages %}{% if entry.layout and entry.layout != 'null' %}{% unless entry.robots contains 'noindex' %}
   <url>
     <loc>{{ entry.url | absolute_url | xml_escape }}</loc>
+    {%- assign lastmod = entry.last_modified_at | default: entry.date %}{% if lastmod %}
+    <lastmod>{{ lastmod | date: '%Y-%m-%d' }}</lastmod>{% endif %}
   </url>
 {% endunless %}{% endif %}{% endfor %}
 </urlset>

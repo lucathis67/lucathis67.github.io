@@ -28,7 +28,9 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(25 28 22 / 48%), rgb(25 28 22 / 12%) 65%, transparent);
+  // Darkened on 27 November 2026 so that the ivory title keeps at least 3:1
+  // against the light parts of the photographs.
+  background: linear-gradient(180deg, rgb(25 28 22 / 62%), rgb(25 28 22 / 22%) 65%, transparent);
   z-index: -1;
 }
 
