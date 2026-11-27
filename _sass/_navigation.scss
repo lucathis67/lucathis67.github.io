@@ -79,7 +79,8 @@
   }
 }
 // Contact, the call to action: a small button in the colours of the site's
-// main buttons, filled, that empties on hover.
+// main buttons, filled, that empties on hover (transition shared with every
+// button, in _motion.scss).
 .site-header .nav-cta a:link,
 .site-header .nav-cta a:visited,
 .site-header .nav-cta a:active {
@@ -91,7 +92,6 @@
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.08em;
-  transition: background-color 200ms ease, color 200ms ease;
 }
 .site-header .nav-cta a:hover {
   background: transparent;

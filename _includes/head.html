@@ -13,6 +13,9 @@
 <meta name="description" content="{{ meta_description | escape }}">
 {% if page.robots %}<meta name="robots" content="{{ page.robots | escape }}">{% endif %}
 <link rel="canonical" href="{{ page.url | absolute_url }}">
+{% comment %} Polices de l’en-tête (liens du menu et titre), demandées avant la feuille de style pour arriver avant le premier affichage. {% endcomment %}
+<link rel="preload" href="{{ '/assets/fonts/Source_Sans_3/SourceSans3-VariableFont_wght.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/Cormorant_Garamond/CormorantGaramond-latin-VariableFont_wght.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
 <meta property="og:type" content="{{ page.og_type | default: share_type | escape }}">
 <meta property="og:title" content="{{ share_title | escape }}">

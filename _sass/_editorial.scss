@@ -144,8 +144,9 @@
   width: 0;
 }
 
-// End-of-story mark: the hand-drawn fleuron (_includes/ornament.html), in the
-// colour of the rules, below the last chapter.
+// End-of-story mark (_includes/ornament.html): two fine rules, a short one
+// above a longer one (27 November 2026, in place of the fleuron), below the
+// last chapter.
 .reportage-end {
   display: flex;
   justify-content: center;
@@ -154,7 +155,7 @@
   opacity: 0.55;
 }
 .reportage-end .ornament {
-  width: min(180px, 50vw);
+  width: min(120px, 40vw);
   height: auto;
 }
 

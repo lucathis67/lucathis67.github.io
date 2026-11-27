@@ -12,19 +12,18 @@
   }
 }
 
-// Quiet details (26 November 2026). Story cards on the homepage, in the
-// portfolio and at the end of articles: on hover, a fine underline appears
-// under the title. On the homepage and in the portfolio, the photograph also
-// grows a little inside its frame (the old portfolio's small thumbnails
-// flickered while zooming; the large photographs of 27 November 2026 are
-// tested again). The zoom is left out for visitors who prefer less motion, and on
-// touch screens, where hover does not exist.
+// Quiet details. Story cards are not clickable as a whole (27 November
+// 2026): a hover cue appears only on the link under the pointer. Titles stay
+// still, apart from the colour change of every link; the photograph of a card
+// on the homepage and in the portfolio grows a little inside its frame when
+// it is hovered itself. At the end of articles, where the whole card is one
+// link, the title is underlined when the card is hovered. The zoom is left
+// out for visitors who prefer less motion, and on touch screens, where hover
+// does not exist.
 .story-image-link {
   overflow: hidden;
 }
-.article-title a:link, .article-title a:visited,
 .archive-story h2 a:link, .archive-story h2 a:visited,
-.portfolio-title a:link, .portfolio-title a:visited,
 .story-navigation-title {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
@@ -33,9 +32,7 @@
   transition: text-decoration-color 300ms ease;
 }
 @media (hover: hover) {
-  .story-card:hover .article-title a,
   .archive-story:hover h2 a,
-  .portfolio-story:hover .portfolio-title a,
   .story-navigation-link:hover .story-navigation-title {
     color: var(--color-heading);
     text-decoration-color: var(--color-text);
@@ -46,14 +43,60 @@
   .portfolio-image-link img {
     transition: transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  .story-card:hover .story-image-link img,
-  .portfolio-story:hover .portfolio-image-link img {
+  .story-image-link:hover img,
+  .portfolio-image-link:hover img {
     transform: scale(1.03);
   }
 }
+
+// Text links ("Lire le reportage →", "Tous les reportages →"), 27 November
+// 2026: on hover, the underline draws back towards the start of the words
+// and the arrow moves forward a little. No new colour: the link keeps the
+// site's usual hover colour.
+a.text-link:link, a.text-link:visited, a.text-link:active {
+  border-bottom: 0;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 100% 1px;
+}
+a.text-link span {
+  transition: transform 300ms ease;
+}
+a.text-link:hover {
+  background-size: 1.5em 1px;
+}
+a.text-link:hover span {
+  transform: translateX(0.3em);
+}
+@media (prefers-reduced-motion: no-preference) {
+  a.text-link:link, a.text-link:visited, a.text-link:active {
+    transition: background-size 300ms ease, color 200ms ease;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .article-title a, .archive-story h2 a, .portfolio-title a,
-  .story-navigation-title {
+  .archive-story h2 a, .story-navigation-title, a.text-link span {
+    transition: none;
+  }
+  a.text-link:hover span {
+    transform: none;
+  }
+}
+
+// Buttons (27 November 2026): every button behaves like the header's Contact
+// button, its colours swapping gently on hover (--button-transition in
+// _tokens.scss). Header Contact, invitation and Contact page buttons,
+// Prestations buttons and the photo viewer's buttons. The swap is immediate
+// for visitors who prefer less motion, as with the card underlines above.
+.site-header .nav-cta a,
+a.button-link,
+.photo-viewer-button {
+  transition: var(--button-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header .nav-cta a,
+  a.button-link,
+  .photo-viewer-button {
     transition: none;
   }
 }
