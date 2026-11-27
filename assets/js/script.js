@@ -31,14 +31,11 @@ function initializeSite() {
   dialog.setAttribute("aria-label", label("menuDialog", "Menu de navigation"));
   dialog.innerHTML = '<div class="mobile-menu-heading"><div class="mobile-menu-brand"><span>Lucas Mathis Art</span></div><button class="menu-close" type="button" autofocus><span></span><span></span></button></div>';
   dialog.querySelector(".menu-close").setAttribute("aria-label", label("menuClose", "Fermer le menu"));
-  // The heading mirrors the header (brand title, close button); the language
-  // switcher, hidden from the header on smaller screens, follows the links.
+  // The heading mirrors the header: brand title, close button.
   const mobileNav = navigation.cloneNode(true);
   mobileNav.setAttribute("aria-label", label("menuMobileNav", "Navigation mobile"));
   mobileNav.querySelectorAll(".current").forEach(link => link.setAttribute("aria-current", "page"));
   dialog.append(mobileNav);
-  const languageSwitch = header.querySelector(".language-switch");
-  if (languageSwitch) dialog.append(languageSwitch.cloneNode(true));
   document.body.append(dialog);
   header.classList.add("has-mobile-menu");
 

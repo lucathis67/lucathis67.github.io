@@ -132,9 +132,11 @@ html.menu-open {
 .mobile-menu nav {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: var(--space-8) 0 var(--space-5);
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(18px, 4vh, var(--space-8));
+  padding: var(--space-8) 0;
 }
 
 .mobile-menu nav ul {
@@ -157,9 +159,10 @@ html.menu-open {
   min-height: 44px;
   box-sizing: border-box;
   padding: 6px 0;
-  font-family: var(--font-display);
-  font-size: clamp(36px, 10vw, 62px);
-  font-weight: 400;
+  // Source Sans, like the header links (27 November 2026), light at this size.
+  font-family: var(--font-sans);
+  font-size: clamp(30px, 8.5vw, 52px);
+  font-weight: 300;
   line-height: 1.1;
   color: var(--color-background);
   border: none;
@@ -170,8 +173,9 @@ html.menu-open {
   opacity: .75;
 }
 
+// Current page: a heavier weight (Source Sans has no italic on this site).
 .mobile-menu nav a[aria-current="page"] {
-  font-style: italic;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -179,35 +183,4 @@ html.menu-open {
   .mobile-menu.is-closing {
     animation: none;
   }
-}
-
-
-// The language switcher, under the links, aligned with them on the right.
-.mobile-menu > .language-switch {
-  align-self: flex-end;
-  padding-top: var(--space-5);
-  border-top: 1px solid rgb(252 251 248 / 20%);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-}
-.mobile-menu .language-switch {
-  color: inherit;
-}
-.mobile-menu .language-switch-current {
-  color: inherit;
-}
-.mobile-menu .language-switch a:link,
-.mobile-menu .language-switch a:visited {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  border: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  font-size: inherit;
-  color: inherit;
-  opacity: .75;
-}
-.mobile-menu .language-switch a:hover {
-  opacity: 1;
 }

@@ -1,9 +1,9 @@
 // Keep the 800px mobile boundary aligned with assets/js/script.js.
 $mobile-max: 800px;
 $tablet-max: 1400px;
-// Navigation: the header always reads language switcher, centred brand title,
-// then the links on the right; up to $nav-hamburger-max the links give way to
-// the menu button (keep aligned with assets/js/script.js).
+// Navigation: the header reads centred brand title, then the links on the
+// right; up to $nav-hamburger-max the title moves left and the links give way
+// to the menu button (keep aligned with assets/js/script.js).
 $nav-hamburger-max: 1200px;
 
 @mixin desktop {

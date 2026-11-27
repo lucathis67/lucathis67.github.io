@@ -1,9 +1,14 @@
 @use "breakpoints" as bp;
 
-// Header links, to the right of the brand title (see _header.scss).
+// Header links, in two lists: on screens where the brand title is centred,
+// Accueil, Portfolio and Prestations sit on its left and À propos and Contact
+// on its right, Contact as a button (26 November 2026; `side` and `cta` in
+// _data/navigation.yml). The navigation spans the header's three columns
+// (subgrid), so each list lines up with the edge of the window.
 .nav-container nav {
   display: flex;
   align-items: center;
+  gap: 28px;
 }
 .nav-container ul {
   display: flex;
@@ -22,8 +27,10 @@
   white-space: nowrap;
   padding: 12px 0;
   border: 0;
-  font-family: var(--font-serif);
-  font-size: 0.85rem;
+  // Menu links and buttons in Source Sans (27 November 2026).
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
   line-height: 1.3;
   color: var(--color-text);
 }
@@ -31,7 +38,7 @@
   color: var(--color-heading);
 }
 .nav-container a[aria-current="page"] {
-  font-weight: 600;
+  font-weight: 500;
 }
 .nav-container a[aria-current="page"]::before {
   content: "";
@@ -42,6 +49,60 @@
   height: 1px;
   background: var(--color-heading);
 }
+@supports (grid-template-columns: subgrid) {
+  @media screen and (width > bp.$nav-hamburger-max) {
+    .site-header .nav-container,
+    .site-header .nav-container nav {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      display: grid;
+      grid-template-columns: subgrid;
+      align-items: center;
+      justify-self: stretch;
+    }
+    // The brand title stays clickable above the empty middle column.
+    .site-header .nav-container {
+      pointer-events: none;
+    }
+    .site-header .nav-container ul {
+      pointer-events: auto;
+    }
+    .site-header .nav-start {
+      grid-column: 1;
+      justify-self: start;
+    }
+    .site-header .nav-end {
+      grid-column: 3;
+      justify-self: end;
+      align-items: center;
+    }
+  }
+}
+// Contact, the call to action: a small button in the colours of the site's
+// main buttons, filled, that empties on hover.
+.site-header .nav-cta a:link,
+.site-header .nav-cta a:visited,
+.site-header .nav-cta a:active {
+  padding: 9px 18px;
+  border: 1px solid var(--color-heading);
+  background: var(--color-heading);
+  color: var(--color-background);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.site-header .nav-cta a:hover {
+  background: transparent;
+  color: var(--color-heading);
+}
+.site-header .nav-cta a[aria-current="page"] {
+  font-weight: 500;
+}
+.site-header .nav-cta a[aria-current="page"]::before {
+  content: none;
+}
 @include bp.mobile {
   // These links remain available when JavaScript is disabled.
   .nav-container ul {
@@ -50,40 +111,4 @@
     gap: 4px 20px;
     padding-bottom: 8px;
   }
-}
-
-// FR / EN switcher, on the left of the header; the mobile menu clones it.
-.language-switch {
-  display: flex;
-  white-space: nowrap;
-  align-items: baseline;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  font-size: 0.66rem;
-  letter-spacing: 0.14em;
-  line-height: 1;
-  color: var(--color-text);
-}
-.language-switch abbr {
-  text-decoration: none;
-}
-.language-switch-current {
-  font-weight: 600;
-  color: var(--color-heading);
-}
-.site-header .language-switch a:link, .site-header .language-switch a:visited, .site-header .language-switch a:active {
-  display: inline;
-  border: 0;
-  padding: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: var(--color-text);
-}
-.site-header .language-switch a:hover {
-  color: var(--color-heading);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }

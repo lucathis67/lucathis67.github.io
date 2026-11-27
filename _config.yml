@@ -25,7 +25,3 @@ defaults:
       path: ""
     values:
       lang: fr
-  - scope:
-      path: "en"
-    values:
-      lang: en

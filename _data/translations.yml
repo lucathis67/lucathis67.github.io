@@ -1,8 +1,7 @@
-# Textes de l’interface, par langue.
-# Les gabarits lisent la langue de la page (front matter `lang`, déduit du
-# dossier : `en/` pour l’anglais, le reste en français) puis le texte voulu :
+# Textes de l’interface. Le site est aujourd’hui en français seulement (la
+# version anglaise a été retirée le 27 novembre 2026, voir CLAUDE.md) ; les
+# textes restent rangés sous la clé de la langue pour pouvoir la rétablir :
 #   {% assign t = site.data.translations[page.lang] %}  →  {{ t.subtitle }}
-# Garder les mêmes clés dans les deux langues.
 
 fr:
   locale: fr_FR
@@ -12,8 +11,6 @@ fr:
   # Sous-titre de l’en-tête (H1 de l’accueil).
   subtitle: Photographe de mariages et de couples en Alsace
   nav_label: Navigation principale
-  language_switch_label: Langue du site
-  language_switch_link: "Version française"
   menu_open: Ouvrir le menu
   menu_close: Fermer le menu
   menu_dialog: Menu de navigation
@@ -46,42 +43,3 @@ fr:
   story_next: Reportage suivant
   story_all: Voir tout le portfolio
   portfolio_url: /portfolio.html
-
-en:
-  locale: en_GB
-  language_name: English
-  description: "Wedding and couple photographer near Saverne, in Strasbourg and across Alsace, France."
-  og_image_alt: "Julie and Adrien kiss on a bench in the Parc de l’Orangerie."
-  subtitle: Wedding and couple photographer in Alsace
-  nav_label: Main navigation
-  language_switch_label: Site language
-  language_switch_link: "English version"
-  menu_open: Open the menu
-  menu_close: Close the menu
-  menu_dialog: Navigation menu
-  menu_mobile_nav: Mobile navigation
-  footer_text: "Wedding and couple photographer.<br>Near Saverne, in Strasbourg and throughout Alsace."
-  footer_contact: Let’s stay in touch
-  legal_notice: Legal notice
-  legal_url: /en/legal-notice.html
-  contact_url: /en/contact.html
-  invitation_eyebrow: Let’s get to know each other
-  invitation_title: Shall we talk about your photography plans?
-  invitation_text: "A wedding on the horizon, or simply a wish for a few beautiful photographs for yourselves or as a gift? Drop me a few lines about what you have in mind – I’d be delighted to talk it over with you!"
-  invitation_button: Get in touch
-  viewer_label: Photographs from the story
-  viewer_close: Close the photographs
-  viewer_previous: Previous photograph
-  viewer_next: Next photograph
-  viewer_loading: Loading the photograph…
-  viewer_error: This photograph can’t be displayed. You can move on to the next one.
-  viewer_counter: "Photograph {n} of {total}"
-  viewer_enlarge: "Enlarge photograph {n} of {total}"
-  archive_one: "{n} story"
-  archive_many: "{n} stories"
-  archive_of: "{n} of {total}"
-  story_nav_label: More stories
-  story_previous: Previous story
-  story_next: Next story
-  story_all: See the whole portfolio
-  portfolio_url: /en/portfolio.html

@@ -20,11 +20,6 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:site_name" content="{{ site.title | escape }}">
 <meta property="og:locale" content="{{ t.locale | escape }}">
-{% if page.ref %}{% assign translations = site.pages | where: 'ref', page.ref | sort: 'lang' | reverse %}{% if translations.size > 1 %}
-{% for translation in translations %}{% if translation.url != page.url %}<meta property="og:locale:alternate" content="{{ site.data.translations[translation.lang].locale | escape }}">
-{% endif %}{% endfor %}{% for translation in translations %}<link rel="alternate" hreflang="{{ translation.lang | escape }}" href="{{ translation.url | absolute_url }}">
-{% endfor %}{% for translation in translations %}{% if translation.lang == site.lang %}<link rel="alternate" hreflang="x-default" href="{{ translation.url | absolute_url }}">
-{% endif %}{% endfor %}{% endif %}{% endif %}
 {% if share_image %}
 <meta property="og:image" content="{{ share_image | absolute_url }}">
 <meta property="og:image:alt" content="{{ share_image_alt | escape }}">

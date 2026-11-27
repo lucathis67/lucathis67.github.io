@@ -25,10 +25,11 @@
   color: var(--color-text);
 }
 
-// One header on every page and at every width: language switcher on the left,
-// brand title centred, links on the right (the menu button on smaller
-// screens). The two outer columns share the remaining width equally, so the
-// title stays in the middle of the window. See _masthead.scss for the fixed,
+// One header on every page and at every width: brand title centred, links on
+// the right (the menu button on smaller screens). The left column stays empty
+// (it held the language switcher until 27 November 2026); the two outer
+// columns share the remaining width equally, so the title stays in the middle
+// of the window. See _masthead.scss for the fixed,
 // shrinking behaviour.
 .site-header {
   display: grid;
@@ -38,11 +39,6 @@
   // Measured from the edges of the window, not from the content column.
   padding-inline: var(--space-8);
   border-bottom: var(--border-default);
-}
-.site-header > .language-switch {
-  grid-row: 1;
-  grid-column: 1;
-  justify-self: start;
 }
 .site-brand {
   grid-row: 1;
@@ -56,10 +52,9 @@
   grid-column: 3;
   justify-self: end;
 }
-// Smaller screens (menu button): the brand title moves to the left, the menu
-// button stays on the right, and the language switcher moves into the menu
-// (decided on 26 November 2026). Without JavaScript, the switcher and the
-// links stay in the header.
+// Smaller screens (menu button): the brand title moves to the left and the
+// menu button stays on the right (decided on 26 November 2026). Without
+// JavaScript, the links stay in the header.
 @include bp.nav-hamburger {
   :root {
     --brand-title-size: clamp(26px, 4.4vw, 34px);
@@ -70,7 +65,6 @@
   .site-header.has-mobile-menu {
     grid-template-columns: minmax(0, 1fr) auto;
   }
-  .has-mobile-menu > .language-switch,
   .has-mobile-menu .nav-container {
     display: none;
   }

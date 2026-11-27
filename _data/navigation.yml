@@ -1,4 +1,6 @@
-# Menu principal, par langue.
+# Menu principal (clé de la langue conservée, voir _data/translations.yml).
+# Sur les écrans où le titre est centré, les liens marqués `side: end` passent
+# à sa droite, les autres à sa gauche ; `cta: true` affiche le lien en bouton.
 fr:
   - title: Accueil
     url: /
@@ -8,17 +10,8 @@ fr:
     url: /prestations.html
   - title: À propos
     url: /a-propos.html
+    side: end
   - title: Contact
     url: /contact.html
-
-en:
-  - title: Home
-    url: /en/
-  - title: Portfolio
-    url: /en/portfolio.html
-  - title: Services
-    url: /en/services.html
-  - title: About
-    url: /en/about.html
-  - title: Contact
-    url: /en/contact.html
+    side: end
+    cta: true
