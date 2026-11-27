@@ -1,6 +1,9 @@
+@use "breakpoints" as bp;
+
 // Site-wide design values. Fixed px spacing preserves the existing rhythm as
 // headings and layouts adapt between desktop, tablet and mobile.
-// Active palette: ivory, warm charcoal and an earthy menu background.
+// Active palette: near-white ivory, deep warm charcoal and an earthy menu
+// background (lightened and deepened on 26 November 2026).
 // Saved variants and the preference for ivory live in _design/palettes.json.
 :root {
   --text-size: 1.125rem;
@@ -9,16 +12,17 @@
   --font-body: "EB Garamond", Georgia, serif;
   --font-serif: "EB Garamond", Georgia, serif;
   --font-sans: "Source Sans 3", Arial, sans-serif;
-  --brand-title-size: clamp(1.75rem, 3.1vw, 2.65rem);
+  --font-display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --brand-title-size: clamp(2.4rem, 4.2vw, 3.8rem);
   --brand-subtitle-size: 0.6rem;
 
-  --color-background: #f8f6f1;
-  --color-background-warm: #eeebe3;
-  --color-heading: #3d3630;
-  --color-text: #6a6056;
-  --color-border: #dcd4c9;
-  --color-menu-background: #352b25;
-  --color-viewer-backdrop: #292521;
+  --color-background: #fcfbf8;
+  --color-background-warm: #f3f0ea;
+  --color-heading: #29231f;
+  --color-text: #4d443c;
+  --color-border: #e2dcd3;
+  --color-menu-background: #2a221d;
+  --color-viewer-backdrop: #211d1a;
   --paper-texture-size: 256px;
   --paper-texture: url("../textures/fine-art-paper.svg");
   --surface-paper: var(--color-background) var(--paper-texture) repeat;
@@ -35,5 +39,28 @@
   --space-8: 40px;
   --space-9: 48px;
 
-  font-size: 100%;
+  // Vertical rhythm, one scale for the whole site (26 November 2026):
+  // - section: before each major part of a page (offers, invitation, article
+  //   navigation, "À propos" on the homepage);
+  // - section-inner: from the rule that opens a part to its content;
+  // - block: between the chapters of an article (text, photographs);
+  // - heading: above every heading inside running text, in em so that it
+  //   follows the heading's size; heading-after: below headings that open a
+  //   part. Smaller values on phones, below.
+  --space-section: 88px;
+  --space-section-inner: 56px;
+  --space-block: 64px;
+  --space-heading: 1.6em;
+  --space-heading-after: 24px;
+
+  // Every rem-based size follows this root size (106.25% = 17px by default).
+  font-size: 106.25%;
+}
+@include bp.mobile {
+  :root {
+    --space-section: 48px;
+    --space-section-inner: 40px;
+    --space-block: 40px;
+    --space-heading-after: 20px;
+  }
 }

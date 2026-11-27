@@ -45,16 +45,39 @@ html.menu-open {
 }
 
 .mobile-menu-heading {
-  min-height: 82px;
-  display: flex;
+  box-sizing: border-box;
+  // Mirrors the site header: brand title on the left, close button where the
+  // menu button was (height, title size and place set by script.js).
+  min-height: var(--menu-heading-height, 82px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid rgb(248 246 241 / 20%);
-  font-family: var(--font-serif);
-  font-size: var(--brand-title-size);
+  column-gap: var(--space-2);
+  border-bottom: 1px solid rgb(252 251 248 / 20%);
+  font-family: var(--font-display);
+  font-size: var(--menu-brand-size, var(--brand-title-size));
   font-weight: 400;
   line-height: 1.1;
+}
+.mobile-menu-brand {
+  grid-column: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+}
+// Opened on the homepage before any scrolling: the title sits as high as in
+// the header, above the subtitle.
+.mobile-menu.is-full .mobile-menu-brand {
+  align-self: start;
+  margin-top: var(--menu-brand-offset, 0px);
+}
+.mobile-menu-heading .menu-close {
+  grid-column: 2;
+  justify-self: end;
+}
+// Same place as the menu button of the header.
+.menu-close {
+  margin-right: calc(-1 * var(--space-2));
 }
 
 .menu-toggle,
@@ -109,8 +132,10 @@ html.menu-open {
 .mobile-menu nav {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(18px, 4vh, var(--space-8));
   padding: var(--space-8) 0;
 }
 
@@ -134,8 +159,10 @@ html.menu-open {
   min-height: 44px;
   box-sizing: border-box;
   padding: 6px 0;
-  font-family: var(--font-serif);
-  font-size: clamp(32px, 9vw, 56px);
+  // Source Sans, like the header links (27 November 2026), light at this size.
+  font-family: var(--font-sans);
+  font-size: clamp(30px, 8.5vw, 52px);
+  font-weight: 300;
   line-height: 1.1;
   color: var(--color-background);
   border: none;
@@ -146,8 +173,9 @@ html.menu-open {
   opacity: .75;
 }
 
+// Current page: a heavier weight (Source Sans has no italic on this site).
 .mobile-menu nav a[aria-current="page"] {
-  font-style: italic;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -155,13 +183,4 @@ html.menu-open {
   .mobile-menu.is-closing {
     animation: none;
   }
-}
-
-.mobile-menu-brand {
-  min-width: 0;
-  padding-block: 20px;
-}
-.mobile-menu-subtitle {
-  max-width: 34ch;
-  color: inherit;
 }

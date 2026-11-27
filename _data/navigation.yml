@@ -1,10 +1,17 @@
-- title: Accueil
-  url: /
-- title: Portfolio
-  url: /portfolio.html
-- title: Prestations
-  url: /prestations.html
-- title: À propos
-  url: /a-propos.html
-- title: Contact
-  url: /contact.html
+# Menu principal (clé de la langue conservée, voir _data/translations.yml).
+# Sur les écrans où le titre est centré, les liens marqués `side: end` passent
+# à sa droite, les autres à sa gauche ; `cta: true` affiche le lien en bouton.
+fr:
+  - title: Accueil
+    url: /
+  - title: Portfolio
+    url: /portfolio.html
+  - title: Prestations
+    url: /prestations.html
+  - title: À propos
+    url: /a-propos.html
+    side: end
+  - title: Contact
+    url: /contact.html
+    side: end
+    cta: true

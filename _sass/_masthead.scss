@@ -1,0 +1,188 @@
+@use "breakpoints" as bp;
+
+// Site header, on every page. script.js adds `is-fixed`: the header is then
+// fixed across the whole width of the window. On the homepage, the brand title
+// is first set large across its bottom line, and as soon as the page scrolls,
+// `is-condensed` shrinks the header to a thinner version of itself. Other
+// pages carry `is-condensed` from the start (see _includes/header.html). The
+// page keeps a space the height of the full header (`--masthead-height`,
+// measured by script.js), so nothing below moves, and anchors stop below the
+// thin header (`--masthead-thin-height`). Without JavaScript, the header stays
+// at the top of the page.
+
+html {
+  scroll-padding-top: calc(var(--masthead-thin-height, 0px) + var(--space-5));
+  // Full-size brand title, read at the root so that the shrunk header's own
+  // value does not override it (see the subtitle below).
+  --brand-title-full: var(--brand-title-size);
+}
+
+// One timing for every change between the full and the thin header.
+.site-header[data-masthead] {
+  --masthead-duration: 450ms;
+  --masthead-ease: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+// Lets the gap in the line be animated.
+@property --masthead-title-gap {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+.site-header[data-masthead].is-fixed {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  margin: 0;
+  border-bottom: 0;
+  background: var(--surface-paper);
+  background-size: var(--paper-texture-size);
+  --masthead-title-gap: var(--masthead-title-gap-full, 0px);
+  transition: --masthead-title-gap var(--masthead-duration) var(--masthead-ease);
+}
+// The header's hairline, drawn without taking up height. At full size it
+// stops on each side of the brand title, which interrupts it
+// (`--masthead-title-gap-full`: half the title's width plus a margin, set by
+// script.js); as the header shrinks, the gap closes and the line runs under
+// it from edge to edge.
+.site-header[data-masthead].is-fixed::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  background: var(--color-border);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(50% - var(--masthead-title-gap, 0px)), transparent 0 calc(50% + var(--masthead-title-gap, 0px)), #000 0);
+  mask-image: linear-gradient(to right, #000 calc(50% - var(--masthead-title-gap, 0px)), transparent 0 calc(50% + var(--masthead-title-gap, 0px)), #000 0);
+}
+.site-header[data-masthead].is-condensed {
+  --masthead-title-gap: 0px;
+}
+.site-header[data-masthead].is-fixed + main {
+  margin-top: var(--masthead-height, 0px);
+}
+.site-header[data-masthead] .site-brand {
+  margin: 0;
+  transition: padding var(--masthead-duration) var(--masthead-ease);
+}
+// Full size, before any scrolling: the brand title hangs below the header, so
+// that the header's bottom line meets it halfway up and stops on each side.
+.site-header[data-masthead].is-fixed .site-brand {
+  padding-block: 34px 0;
+}
+.site-header[data-masthead] .brand-title {
+  display: block;
+  transition:
+    font-size var(--masthead-duration) var(--masthead-ease),
+    font-weight var(--masthead-duration) var(--masthead-ease),
+    margin var(--masthead-duration) var(--masthead-ease);
+}
+.site-header[data-masthead].is-fixed .brand-title {
+  position: relative;
+  // Brings the middle of the letters onto the header's bottom line.
+  margin-bottom: -0.52em;
+}
+// The subtitle sits under the hanging title, below the line, and fades away
+// when the header shrinks.
+.site-header[data-masthead].is-fixed .site-brand {
+  position: relative;
+}
+.site-header[data-masthead].is-fixed .brand-subtitle {
+  position: absolute;
+  top: calc(100% + var(--brand-title-full) * 0.52 + 10px);
+  left: 50%;
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--space-5));
+  text-wrap: balance;
+  margin: 0;
+  transform: translateX(-50%);
+  transition:
+    opacity var(--masthead-duration) var(--masthead-ease),
+    transform var(--masthead-duration) var(--masthead-ease),
+    visibility 0s;
+}
+.site-header[data-masthead].is-condensed .brand-subtitle {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, -8px);
+  transition:
+    opacity 250ms ease-out,
+    transform var(--masthead-duration) var(--masthead-ease),
+    visibility 0s linear 250ms;
+}
+// Thin version, once the page has scrolled: the line runs under the header.
+.site-header[data-masthead].is-condensed {
+  --brand-title-size: 1.75rem;
+}
+.site-header[data-masthead].is-condensed .brand-title {
+  margin-bottom: 0;
+  font-weight: 400;
+}
+// Room above and below the links, so that the underline of the current page
+// stays clear of the header's bottom edge.
+.site-header[data-masthead].is-condensed .site-brand {
+  padding-block: 18px;
+}
+// Lets script.js measure the full height without animating.
+.site-header[data-masthead].is-measuring,
+.site-header[data-masthead].is-measuring * {
+  transition: none !important;
+}
+
+// Smaller screens (menu button): the brand title, on the left, keeps its size
+// and place. On the homepage, the subtitle sits under it, above the line, which
+// runs from edge to edge; when the page scrolls, only the subtitle folds away
+// and the header gets thinner. Other pages show the thin version.
+@include bp.nav-hamburger {
+  .site-header[data-masthead].is-fixed,
+  .site-header[data-masthead].is-condensed {
+    --masthead-title-gap: 0px;
+    --brand-title-size: var(--brand-title-full);
+  }
+  .site-header[data-masthead].is-fixed .site-brand {
+    padding-block: 20px 18px;
+  }
+  .site-header[data-masthead].is-fixed .brand-title {
+    margin-bottom: 0;
+  }
+  .site-header[data-masthead].is-fixed .brand-subtitle {
+    position: static;
+    width: auto;
+    max-width: none;
+    max-height: 3.6em;
+    overflow: hidden;
+    margin: 4px 0 0;
+    transform: none;
+    transition:
+      max-height var(--masthead-duration) var(--masthead-ease),
+      margin var(--masthead-duration) var(--masthead-ease),
+      opacity var(--masthead-duration) var(--masthead-ease),
+      visibility 0s;
+  }
+  .site-header[data-masthead].is-condensed .brand-subtitle {
+    max-height: 0;
+    margin-top: 0;
+    transform: none;
+    transition:
+      max-height var(--masthead-duration) var(--masthead-ease),
+      margin var(--masthead-duration) var(--masthead-ease),
+      opacity 250ms ease-out,
+      visibility 0s linear var(--masthead-duration);
+  }
+  .site-header[data-masthead].is-condensed .brand-title {
+    font-weight: 300;
+  }
+  .site-header[data-masthead].is-condensed .site-brand {
+    padding-block: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header[data-masthead],
+  .site-header[data-masthead] .site-brand,
+  .site-header[data-masthead] .brand-title,
+  .site-header[data-masthead] .brand-subtitle {
+    transition: none;
+  }
+}
+

@@ -12,7 +12,11 @@ function initializeArchive() {
   const progress = archive.querySelector('[data-archive-progress]');
   const load = archive.querySelector('[data-archive-load]');
   const batchSize = 12;
-  const articleLabel = n => `${n} article${n === 1 ? '' : 's'}`;
+  // Wording comes from _data/translations.yml through data attributes.
+  const text = (key, fallback, values) => Object.entries(values)
+    .reduce((result, [name, value]) => result.replace(`{${name}}`, value), archive.dataset[key] || fallback);
+  const articleLabel = n => text(n === 1 ? 'labelOne' : 'labelMany', n === 1 ? '{n} article' : '{n} articles', { n });
+  const ofLabel = (n, total) => text('labelOf', '{n} sur {total}', { n, total });
   let limit = batchSize;
   let selectedCategory = '';
 
@@ -42,11 +46,11 @@ function initializeArchive() {
       button.setAttribute('aria-pressed', String(button.dataset.category === selectedCategory));
     });
     count.textContent = selectedCategory
-      ? `${articleLabel(matches.length)} sur ${entries.length}`
+      ? ofLabel(articleLabel(matches.length), entries.length)
       : articleLabel(entries.length);
     empty.hidden = matches.length > 0;
     more.hidden = matches.length <= limit;
-    progress.textContent = `${visible.length} sur ${articleLabel(matches.length)}`;
+    progress.textContent = ofLabel(visible.length, articleLabel(matches.length));
     updateAddress();
     return visible;
   }

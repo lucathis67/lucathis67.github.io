@@ -1,0 +1,31 @@
+{% comment %}
+  Fin d’article : reportage précédent et suivant, dans l’ordre du portfolio
+  (le plus récent d’abord, même langue), puis un lien vers tout le portfolio.
+{% endcomment %}
+{%- assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] -%}
+{%- assign stories = site.pages | where: 'layout', 'article' | where: 'lang', page.lang | sort: 'publication_order' | reverse -%}
+{%- assign previous_story = nil -%}{%- assign next_story = nil -%}
+{%- for story in stories -%}
+  {%- if story.url == page.url -%}
+    {%- unless forloop.first -%}{%- assign previous_index = forloop.index0 | minus: 1 -%}{%- assign previous_story = stories[previous_index] -%}{%- endunless -%}
+    {%- unless forloop.last -%}{%- assign next_story = stories[forloop.index] -%}{%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+<nav class="story-navigation" aria-label="{{ t.story_nav_label | escape }}">
+  <div class="story-navigation-links">
+    {%- for item in (1..2) -%}
+      {%- if forloop.first -%}{%- assign story = previous_story -%}{%- assign label = t.story_previous -%}{%- assign side = 'previous' -%}
+      {%- else -%}{%- assign story = next_story -%}{%- assign label = t.story_next -%}{%- assign side = 'next' -%}{%- endif -%}
+      {%- if story %}
+    <a class="story-navigation-link story-navigation-{{ side }}" href="{{ story.url | relative_url }}" rel="{{ side | replace: 'previous', 'prev' }}">
+      {%- if story.cover_image %}
+      <span class="story-navigation-image"><img src="{{ story.cover_image | relative_url }}" alt="" width="1600" height="1067" loading="lazy"></span>
+      {%- endif %}
+      <span class="eyebrow">{% if side == 'previous' %}<span aria-hidden="true">←</span>{% endif %}{{ label | escape }}{% if side == 'next' %}<span aria-hidden="true">→</span>{% endif %}</span>
+      <span class="story-navigation-title">{{ story.heading | default: story.title | escape }}</span>
+    </a>
+      {%- endif -%}
+    {%- endfor %}
+  </div>
+  <p class="story-navigation-all"><a class="text-link" href="{{ t.portfolio_url | relative_url }}">{{ t.story_all | escape }} <span aria-hidden="true">→</span></a></p>
+</nav>

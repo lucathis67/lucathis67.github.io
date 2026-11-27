@@ -1,15 +1,13 @@
 title: Lucas Mathis Art
-description: "Photographe de mariages et de couples près de Saverne, à Strasbourg et en Alsace."
 og_image: /images/fiancailles-orangerie/fiancailles-orangerie-1.jpg
-og_image_alt: "Julie et Adrien s’embrassent sur un banc au parc de l’Orangerie."
 url: "https://www.lucathis.art"
 baseurl: ""
+# Langue par défaut. Les textes d’interface de chaque langue (sous-titre,
+# description par défaut, pied de page…) sont dans _data/translations.yml.
 lang: fr
-locale: fr_FR
 email: hello@lucathis.art
 instagram_url: https://www.instagram.com/lucasmathisart
 instagram_handle: "@lucasmathisart"
-subtitle: Photographe de mariages & couples en Alsace
 footer_description: Photographies de mariages et reportages en Alsace.
 exclude:
   - Gemfile
@@ -22,3 +20,8 @@ exclude:
   - scripts
   - templates
   - .bundle
+defaults:
+  - scope:
+      path: ""
+    values:
+      lang: fr

@@ -8,6 +8,9 @@ layout: default
   <div class="reportage-content">
     {{ content }}
   </div>
+  {%- comment -%} Fin du récit, comme le fleuron qui clôt un chapitre. {%- endcomment %}
+  <div class="reportage-end">{% include ornament.html type="fleuron" %}</div>
+  {% include article-navigation.html %}
   {% include contact-invitation.html %}
 </div>
 

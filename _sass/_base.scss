@@ -23,8 +23,10 @@ img {
   width: 100%;
   height: auto;
 }
+// Headings and the brand title use the display face; body text stays in
+// EB Garamond.
 h1, h2, h3, .brand-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   color: var(--color-heading);
 }
 p {
@@ -32,6 +34,17 @@ p {
   font-size: var(--text-size);
   line-height: var(--text-leading);
   letter-spacing: 0.025em;
+}
+// Old-style figures in running text, as in a printed book ("100 €", "800
+// ans"); labels and buttons in Source Sans keep lining figures, which sit
+// better among capitals.
+p, li, address, figcaption, blockquote {
+  font-variant-numeric: oldstyle-nums proportional-nums;
+}
+.eyebrow, .text-link, .button-link, .service-price, .service-overview-price,
+.service-included-title, .archive-more, .archive-category, .footer-bottom,
+.footer-contact, .a-completer, .brand-subtitle {
+  font-variant-numeric: normal;
 }
 a:link, a:visited, a:active {
   color: var(--color-heading);
@@ -54,15 +67,17 @@ address {
   margin: 48px auto 32px;
   padding-inline: var(--gutter-mobile);
   text-align: center;
-  font-size: clamp(1.85rem, 3vw, 2.9rem);
-  font-weight: 400;
-  line-height: 1.12;
+  // Slightly larger than with EB Garamond, to make up for the display face's
+  // smaller letters (as for every heading below).
+  font-size: clamp(2.05rem, 3.35vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.08;
   text-wrap: balance;
 }
 .section-title {
-  margin: 1.6em 0 0.6em;
-  font-size: clamp(1.5rem, 2.1vw, 1.875rem);
-  line-height: 1.2;
+  margin: var(--space-heading) 0 0.6em;
+  font-size: clamp(1.7rem, 2.35vw, 2.1rem);
+  line-height: 1.15;
   font-weight: 500;
   text-wrap: balance;
 }
@@ -104,6 +119,13 @@ address {
   p {
     overflow-wrap: anywhere;
   }
+  // Light hyphenation on narrow screens, following the page's language
+  // (lang on <html>): only long words (12 letters or more), at least five letters on each side.
+  p, li {
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    hyphenate-limit-chars: 12 5 5;
+  }
   .page-title {
     margin-block: 36px 28px;
   }
@@ -119,8 +141,8 @@ address {
   max-width: 26ch;
   margin: 0 auto 20px;
   padding: 0;
-  font-size: clamp(1.8rem, 2.7vw, 2.5rem);
-  line-height: 1.15;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.1;
 }
 .page-introduction > p {
   margin: 0;
@@ -132,6 +154,6 @@ address {
     padding-inline: var(--gutter-mobile);
   }
   .page-introduction .page-title {
-    font-size: clamp(1.75rem, 6.5vw, 2.1rem);
+    font-size: clamp(1.95rem, 7.2vw, 2.35rem);
   }
 }

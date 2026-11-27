@@ -162,14 +162,14 @@ Add its module to `assets/css/styles.scss` with `@use`. Component modules follow
 
 ## Current pages and design
 
-- `index.html`: homepage with the lateral navigation, a short lede, the newspaper-style front page (« À la une ») with manually selected articles, the services row, an About excerpt and the shared contact section.
+- `index.html`: homepage with the shared header, a page introduction (the H1 « Photographe de mariages et de couples en Alsace » and a short lede), the newspaper-style front page (« À la une ») with manually selected articles, the services row, an About excerpt and the shared contact section.
 - `portfolio.html`: automatically generated Portfolio (« Au fil des rencontres »), newest `publication_order` first, with category filters and batches of 12.
 - `articles.html` and `archives.html`: redirects to `/#a-la-une` and `/portfolio.html`, kept for old links.
 - `prestations.html`: hand-authored services page; About and Contact share the profile layout.
 
 `_sass/_landing.scss` styles homepage content; `_sass/_header.scss` styles the shared masthead. The former Glide carousel was removed on 25 November 2026 and remains available in the git history.
 
-Navigation labels and destinations come from `_data/navigation.yml`. Large screens retain the lateral navigation on internal pages; tablet and mobile use the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
+Navigation labels and destinations come from `_data/navigation.yml`. Every page shares one fixed header: FR / EN switcher on the left, brand title centred, links on the right; it slims down once the page title has scrolled past (`_sass/_masthead.scss`). Up to 1200 px the links give way to the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
 
 The active design uses warm ivory, brown charcoal text and an earthy menu background with the shared paper texture. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
 
@@ -204,6 +204,10 @@ The viewer is enabled only at viewport widths of **800px and above**. Below 800p
 The white mat has a very faint, seamless paper grain from `assets/textures/fine-art-paper.svg`. It is applied only as the paper container’s background; the image has its own solid white backing, with no texture overlay, blend mode or colour filter. The texture is generated locally with SVG noise and adds no external requests or dependencies. Its intensity can be adjusted through the SVG’s component-transfer values.
 
 The print boundaries are slightly softened: a subpixel white halo on the paper edge, and a 0.85px opacity feather around the photograph. The image centre remains sharp, with no blur filter and no modification to the source file. Adjust `--print-edge-feather` in `_sass/_photo-viewer.scss` to tune the photograph boundary. Browsers without intersecting CSS masks keep a normal image edge.
+
+## English version (removed)
+
+The site was bilingual from 26 to 27 November 2026, then returned to French only: maintaining two languages was not worth the time for now. The English pages (`en/`), the FR / EN switcher (`_includes/language-switch.html`), the `hreflang` alternates and the English interface strings were removed; the last bilingual version is in commit `481e3bc` on the `traduction` branch, and a copy with the reviewed British English is kept outside the repository. The neutral plumbing stays, so the language can be brought back: `lang` defaults in `_config.yml`, `ref` in each page's front matter, and the interface strings in `_data/translations.yml` and the menu in `_data/navigation.yml`, both still keyed by language (`fr`).
 
 ## Search and sharing metadata
 
