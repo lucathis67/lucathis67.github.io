@@ -1,8 +1,9 @@
 /* Locally hosted variable fonts, in WOFF2 (27 November 2026; the original
    TTF files stay beside them).
    EB Garamond: headings, navigation and paragraphs, weights 400–800.
-   Source Sans 3: supporting text and controls, weights 200–900 (no italic
-   file: the site never sets this family in italic).
+   Source Sans 3: supporting text and controls, weights 200–900; its italic
+   (Latin subset, from Google Fonts) marks the current page in the mobile
+   menu (27 November 2026).
    Cormorant Garamond: the brand title in the header (try-out, 26 November
    2026), weights 300–700, Latin subset in WOFF2 (from Fontsource).
    Each family includes its SIL Open Font License. */
@@ -28,6 +29,14 @@
   src: url("../fonts/Source_Sans_3/SourceSans3-VariableFont_wght.woff2") format("woff2");
   font-weight: 200 900;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../fonts/Source_Sans_3/SourceSans3-Italic-latin-VariableFont_wght.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
   font-display: swap;
 }
 

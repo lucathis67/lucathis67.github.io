@@ -25,6 +25,7 @@ function initializePhotoViewer() {
   const displayed = dialog.querySelector('.photo-viewer-image');
   const message = dialog.querySelector('.photo-viewer-message');
   const counter = dialog.querySelector('.photo-viewer-counter');
+  const edition = dialog.querySelector('.photo-viewer-edition');
   const previous = dialog.querySelector('.photo-viewer-previous');
   const next = dialog.querySelector('.photo-viewer-next');
   const close = dialog.querySelector('.photo-viewer-close');
@@ -48,23 +49,29 @@ function initializePhotoViewer() {
   }
   reducedMotion.addEventListener('change', clearTransition);
 
-  // The image occupies 80% of the paper's width: a 10% white mat on each side.
-  // Equal physical padding on all edges creates the fine-art print treatment.
-  const matRatio = 0.125;
+  // Fine-art mat (27 November 2026): equal margins on three sides, 6% of the
+  // print's longer side, and a deeper bottom margin, as in real framing,
+  // where the photograph's number is written like an edition number.
+  const matRatio = 0.06;
+  const matBottomFactor = 2;
   function fitPrint() {
     if (!dialog.open || !dimensions) return;
     const { width: availableWidth, height: availableHeight } = stage.getBoundingClientRect();
     const { width, height } = dimensions;
+    const mat = Math.max(width, height) * matRatio;
     const scale = Math.min(
-      availableWidth / (width * (1 + 2 * matRatio)),
-      availableHeight / (height + width * 2 * matRatio),
+      availableWidth / (width + 2 * mat),
+      availableHeight / (height + (1 + matBottomFactor) * mat),
       1
     );
     if (scale <= 0) return;
-    const imageWidth = width * scale;
-    displayed.style.width = `${imageWidth}px`;
+    const side = mat * scale;
+    const bottom = side * matBottomFactor;
+    displayed.style.width = `${width * scale}px`;
     displayed.style.height = `${height * scale}px`;
-    paper.style.padding = `${imageWidth * matRatio}px`;
+    paper.style.padding = `${side}px ${side}px ${bottom}px`;
+    paper.style.setProperty('--mat-side', `${side}px`);
+    paper.style.setProperty('--mat-bottom', `${bottom}px`);
   }
 
   const sourceFor = image => image.dataset.viewerSrc || image.src || image.currentSrc;
@@ -86,6 +93,7 @@ function initializePhotoViewer() {
     const canTransition = direction && !paper.hidden && !reducedMotion.matches;
     message.hidden = true;
     counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(photographs.length).padStart(2, '0')}`;
+    edition.textContent = counter.textContent;
     counter.setAttribute('aria-label', text('labelCounter', 'Photographie {n} sur {total}', { n: index + 1, total: photographs.length }));
     loadingTimer = setTimeout(() => {
       if (token !== request || !dialog.open) return;

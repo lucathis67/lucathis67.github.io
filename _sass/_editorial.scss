@@ -11,7 +11,7 @@
   margin: 0;
 }
 .home-introduction .text-link {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 
 .main-container-row {
@@ -19,14 +19,14 @@
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 0;
 }
-.feature, .main-container-row aside {
+.feature, .main-container-row .une-secondary {
   min-width: 0;
 }
 // Shared column gutters below the slim introduction row.
 .feature {
   padding: 0 32px 0 0;
 }
-.main-container-row aside {
+.main-container-row .une-secondary {
   padding: 0 0 0 32px;
   border-left: var(--border-default);
 }
@@ -66,11 +66,14 @@
   padding: 0;
   border: 0;
 }
-.main-container-row aside .article-title {
+.main-container-row .une-secondary .article-title {
   font-size: 1.9rem;
 }
 .story-copy > p:not(.eyebrow) {
   margin: 0 0 16px;
+}
+.main-container-row .une-secondary .standfirst {
+  font-size: 1.15rem;
 }
 .story-copy .story-action {
   margin-top: 24px;
@@ -165,11 +168,7 @@
     gap: 12px;
   }
   .home-introduction .eyebrow {
-    font-size: 0.58rem;
     letter-spacing: 0.1em;
-  }
-  .home-introduction .text-link {
-    font-size: 0.65rem;
   }
   .main-container-row {
     display: block;
@@ -177,7 +176,7 @@
   .feature {
     padding: 0;
   }
-  .main-container-row aside {
+  .main-container-row .une-secondary {
     border: 0;
     padding: 0;
   }
@@ -192,7 +191,7 @@
   .story-copy {
     padding: 28px var(--gutter-mobile) 0;
   }
-  .article-title, .main-container-row aside .article-title {
+  .article-title, .main-container-row .une-secondary .article-title {
     font-size: 2rem;
     line-height: 1.06;
   }

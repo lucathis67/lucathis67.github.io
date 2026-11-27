@@ -35,7 +35,9 @@ html.photo-viewer-open {
 .photo-viewer[open] {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 80px minmax(0, 1fr) 80px;
+  // The number now sits in the mat: the bars around the print are thinner,
+  // so the photograph shows larger (27 November 2026).
+  grid-template-rows: 64px minmax(0, 1fr) 40px;
 }
 .photo-viewer::backdrop {
   background: var(--color-viewer-backdrop);
@@ -57,21 +59,26 @@ html.photo-viewer-open {
   width: 48px;
   height: 48px;
   padding: 0;
-  border: 1px solid rgb(252 251 248 / 30%);
-  border-radius: 50%;
+  border: 0;
   background: transparent;
   color: inherit;
   cursor: pointer;
+  opacity: 0.75;
+}
+// Fine rule arrows, no circle (27 November 2026): the arrow brightens and
+// moves forward a little on hover (no movement if less motion is wanted,
+// see _motion.scss). The clickable area stays as large as before.
+.photo-viewer-previous,
+.photo-viewer-next {
+  flex-basis: 64px;
+  width: 64px;
 }
 .photo-viewer-button:hover {
-  background: rgb(252 251 248 / 10%);
+  opacity: 1;
 }
 .photo-viewer-button:focus-visible {
   outline: 2px solid var(--color-background);
   outline-offset: 5px;
-}
-.photo-viewer-close {
-  border-color: transparent;
 }
 .photo-viewer-stage {
   position: relative;
@@ -128,14 +135,42 @@ html.photo-viewer-open {
   align-items: center;
   gap: 24px;
 }
+// The counter stays as a live region for screen readers; on screen, the
+// number is written in the mat (below).
 .photo-viewer-counter {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+// The photograph's number, centred in the bottom margin of the mat, as if
+// written on the print's mount.
+.photo-viewer-paper {
+  position: relative;
+}
+.photo-viewer-edition {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--mat-bottom, 0px);
+  // Same typography as the former counter of the bottom bar.
   font-family: var(--font-serif);
-  min-width: 70px;
-  margin: 0;
-  color: inherit;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-variant-numeric: oldstyle-nums proportional-nums;
   letter-spacing: 0.14em;
-  text-align: center;
+  // Balances the spacing added after the last figure, for a true centre.
+  padding-left: 0.14em;
+  line-height: 1;
+  color: var(--color-heading);
+  opacity: 0.8;
+  pointer-events: none;
 }
 .photo-viewer-previous,
 .photo-viewer-next {

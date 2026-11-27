@@ -55,6 +55,24 @@ a:link, a:visited, a:active {
 a:hover {
   color: var(--color-text);
 }
+// "Aller au contenu": the first link of every page, shown only when it
+// receives keyboard focus (accessibility audit, 27 November 2026).
+a.skip-link:link, a.skip-link:visited {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 30;
+  padding: 12px 18px;
+  border: 0;
+  background: var(--color-heading);
+  color: var(--color-background);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  transform: translateY(calc(-100% - 2 * var(--space-2)));
+}
+a.skip-link:focus {
+  transform: none;
+}
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--color-heading);
   outline-offset: 5px;
@@ -83,7 +101,7 @@ address {
 }
 .eyebrow {
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.13em;
   line-height: 1.7;
@@ -93,6 +111,22 @@ address {
 .eyebrow span {
   padding-inline: 0.45em;
   color: var(--color-text);
+}
+// Story teasers, magazine style (homepage and portfolio, 27 November 2026):
+// a kicker above the title, category in the heading colour then the place,
+// and a standfirst below it, one sentence in italics.
+.kicker .kicker-category {
+  padding-inline: 0;
+  color: var(--color-heading);
+  font-weight: 600;
+}
+.standfirst {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-text);
+  text-wrap: pretty;
 }
 .text-link {
   font-family: var(--font-sans);
@@ -117,7 +151,7 @@ address {
     display: block;
   }
   p {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   // Light hyphenation on narrow screens, following the page's language
   // (lang on <html>): only long words (12 letters or more), at least five letters on each side.

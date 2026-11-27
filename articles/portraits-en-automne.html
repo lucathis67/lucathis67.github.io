@@ -2,6 +2,8 @@
 layout: "article"
 ref: portraits-en-automne
 publication_order: 1
+# Date de publication (premier commit de l’article) : reprise dans les données structurées et le sitemap, pas affichée sur le site.
+date: 2026-10-13
 title: "Séance photo couple à Strasbourg en automne | Lucas Mathis Art"
 description: "Découvrez une séance photo de couple en automne à Strasbourg avec Mathilde et Tanguy. Des portraits naturels, une lumière douce et des souvenirs authentiques."
 permalink: "/articles/portraits-en-automne.html"
@@ -12,10 +14,12 @@ cover_image: "/images/portraits-en-automne/article-1-239.jpg"
 cover_alt: "Mathilde et Tanguy devant la place de la République à Strasbourg."
 # Phrase reprise de la carte de l’accueil, affichée sous le titre dans le portfolio.
 accroche: "Quelques semaines par an, Strasbourg se pare de couleurs extraordinaires."
+# Chapeau en italique sous le titre, sur l’accueil et dans le portfolio (brouillon du 27 novembre 2026, à relire par Lucas).
+chapeau: "Un après-midi d'automne dans la Neustadt, et un tout petit garçon qui jouait déjà à cache-cache."
 ---
 
 <div class="photo-row">
-      <img src="{{ "/images/portraits-en-automne/article-1-239.jpg" | relative_url }}" alt="Mathilde et Tanguy lors d'une séance photo de couple en automne à Strasbourg" height="1350" width="2400">
+      <img src="{{ "/images/portraits-en-automne/article-1-239.jpg" | relative_url }}" fetchpriority="high" alt="Mathilde et Tanguy lors d'une séance photo de couple en automne à Strasbourg" height="1350" width="2400">
     </div>
 
     <div class="article-text-bloc">

@@ -62,6 +62,14 @@ mkdir -p images/mon-reportage
 
 Update its metadata, image paths and HTML. Replace the placeholder images with actual files. Use a unique permalink matching the article filename. There is no date-based filename requirement: articles are ordinary HTML pages, not Jekyll posts.
 
+Then make the WebP versions of the new photographs, from the root of the site:
+
+```sh
+sh scripts/vignettes.sh
+```
+
+It writes `photo-800.webp`, `photo-1600.webp` and `photo-2400.webp` (only the widths the original reaches, plus its own width when it falls in between) next to each JPEG of `images/`, and skips the ones that already exist. It needs `cwebp`, installed once with `brew install webp`. Keep writing ordinary `<img src="/images/…/photo.jpg">` tags: at build time, `_plugins/images-webp.rb` adds `srcset` (the WebP versions), `sizes` (deduced from the block: photo row, photo and text, homepage card…) and `data-viewer-src` (the largest WebP, for the photo viewer). The JPEG stays in `src` as a fallback and in Open Graph images. An image that already has a `srcset`, or its own `sizes`, keeps it.
+
 Write image rows and text blocks directly in HTML, including your own attributes. For repeated image markup, the optional helper is:
 
 ```liquid

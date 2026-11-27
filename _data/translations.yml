@@ -6,16 +6,20 @@
 fr:
   locale: fr_FR
   language_name: Français
-  description: "Photographe de mariages et de couples près de Saverne, à Strasbourg et en Alsace."
+  description: "Photographe de mariages et de couples à Strasbourg et partout en Alsace."
   og_image_alt: "Julie et Adrien s’embrassent sur un banc au parc de l’Orangerie."
   # Sous-titre de l’en-tête (H1 de l’accueil).
-  subtitle: Photographe de mariages et de couples en Alsace
+  subtitle: Photographe de mariages & couples à Strasbourg
   nav_label: Navigation principale
+  # Premier lien de chaque page, visible seulement au clavier.
+  skip_link: Aller au contenu
+  # Ajouté aux liens qui ouvrent un nouvel onglet, pour les lecteurs d’écran.
+  new_tab: (nouvel onglet)
   menu_open: Ouvrir le menu
   menu_close: Fermer le menu
   menu_dialog: Menu de navigation
   menu_mobile_nav: Navigation mobile
-  footer_text: "Photographe de mariages et de couples.<br>Près de Saverne, à Strasbourg et partout en Alsace."
+  footer_text: "Photographe de mariages et de couples.<br>À Strasbourg et partout en Alsace."
   footer_contact: Restons en contact
   legal_notice: Mentions légales
   legal_url: /mentions-legales.html

@@ -36,6 +36,39 @@ function initializeSite() {
   mobileNav.setAttribute("aria-label", label("menuMobileNav", "Navigation mobile"));
   mobileNav.querySelectorAll(".current").forEach(link => link.setAttribute("aria-current", "page"));
   dialog.append(mobileNav);
+  // Colophon at the foot of the menu (27 November 2026): e-mail and
+  // Instagram, as in the site footer.
+  const { menuEmail: email, menuInstagramUrl: instagramUrl, menuInstagramHandle: instagramHandle } = header.dataset;
+  if (email || instagramUrl) {
+    const colophon = document.createElement("div");
+    colophon.className = "mobile-menu-colophon";
+    if (email) {
+      const mail = document.createElement("a");
+      mail.href = `mailto:${email}`;
+      mail.textContent = email;
+      colophon.append(mail);
+    }
+    if (instagramUrl) {
+      const instagram = document.createElement("a");
+      instagram.href = instagramUrl;
+      instagram.target = "_blank";
+      instagram.rel = "noopener noreferrer";
+      instagram.textContent = `${instagramHandle || "Instagram"} `;
+      const arrow = document.createElement("span");
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "↗";
+      instagram.append(arrow);
+      // Opens in a new tab: said to screen readers (text from translations.yml).
+      if (header.dataset.menuNewTab) {
+        const note = document.createElement("span");
+        note.className = "visually-hidden";
+        note.textContent = ` ${header.dataset.menuNewTab}`;
+        instagram.append(note);
+      }
+      colophon.append(instagram);
+    }
+    dialog.append(colophon);
+  }
   document.body.append(dialog);
   header.classList.add("has-mobile-menu");
 

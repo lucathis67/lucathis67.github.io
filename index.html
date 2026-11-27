@@ -1,8 +1,8 @@
 ---
 layout: default
 ref: accueil
-title: "Lucas Mathis Art | Photographe de mariages et de couples en Alsace"
-description: "Photographe de mariages, de couples et de fiançailles près de Saverne, à Strasbourg et en Alsace. Découvrez les derniers reportages de Lucas Mathis Art."
+title: "Photographe de mariages et de couples à Strasbourg | Lucas Mathis Art"
+description: "Photographe de mariages, de couples et de fiançailles à Strasbourg et partout en Alsace. Découvrez les derniers reportages de Lucas Mathis Art."
 permalink: /
 main_class: landing-page
 og_image: "/images/mariage-cathedrale/mariage-cathedrale-336.jpg"
@@ -25,8 +25,8 @@ og_image_alt: "Les invités devant l’entrée de la chapelle de la cathédrale 
       {% include article-card.html
         image="/images/mariage-cathedrale/mariage-cathedrale-360.jpg"
         alt="Laure et Nicolas échangent leurs alliances devant le prêtre."
-        width=1600 height=1067 loading="eager"
-        category="Mariage" location="Strasbourg"
+        width=1600 height=1067 loading="eager" fetchpriority="high"
+        category=article.category location=article.location standfirst=article.chapeau
         title=article.heading
         url="/articles/mariage-cathedrale-strasbourg.html"
         label="Découvrir la cérémonie" body=card_body
@@ -42,14 +42,14 @@ og_image_alt: "Les invités devant l’entrée de la chapelle de la cathédrale 
         image="/images/mariage-laure-et-nicolas/laure-nicolas-16.jpg"
         alt="Laure et Nicolas, accoudés à une balustrade en pierre, se regardent."
         width=1600 height=1067
-        category="Mariage" location="Strasbourg"
+        category=article.category location=article.location standfirst=article.chapeau
         title=article.heading
         url="/articles/mariage-laure-et-nicolas.html"
         label="Découvrir le reportage" body=card_body
       %}
     </div>
 
-    <aside aria-label="Autres reportages">
+    <section class="une-secondary" aria-label="Autres reportages">
       {% capture card_body %}<p>Quelques mois avant leur mariage, Julie et Adrien se sont retrouvés au parc de l'Orangerie à Strasbourg pour une séance photo de fiançailles. Nous étions alors en pleine période automnale et les arbres du parc arboraient leurs couleurs les plus spectaculaires !</p>
         <p>Une promenade à deux… à laquelle je me suis discrètement invité, appareil photo à la main. Au fil des images, la séance s'est peu à peu éloignée des poses traditionnelles pour laisser place aux regards, aux gestes tendres et à la complicité qui les unit.</p>
       {% endcapture %}
@@ -58,7 +58,7 @@ og_image_alt: "Les invités devant l’entrée de la chapelle de la cathédrale 
         image="/images/fiancailles-orangerie/fiancailles-orangerie-1.jpg"
         alt="Julie et Adrien sont assis sur un banc et s’embrassent."
         width=1600 height=1067
-        category="Fiançailles" location="Strasbourg"
+        category=article.category location=article.location standfirst=article.chapeau
         title=article.heading
         url="/articles/fiancailles-orangerie.html"
         label="Découvrir le reportage" body=card_body
@@ -72,12 +72,12 @@ og_image_alt: "Les invités devant l’entrée de la chapelle de la cathédrale 
         image="/images/portraits-en-automne/article-1-239.jpg"
         alt="Mathilde et Tanguy devant la place de la République, à Strasbourg."
         width=1600 height=1067
-        category="Séance de couple" location="Strasbourg"
+        category=article.category location=article.location standfirst=article.chapeau
         title=article.heading
         url="/articles/portraits-en-automne.html"
         label="Voir les photos de cette journée" body=card_body
       %}
-    </aside>
+    </section>
   </div>
 </section>
 
@@ -98,7 +98,7 @@ og_image_alt: "Les invités devant l’entrée de la chapelle de la cathédrale 
   <img src="{{ '/images/infos/infos-1-261.jpg' | relative_url }}" alt="Portrait de Lucas Mathis." width="800" height="1200" loading="lazy">
   <div>
     <h2 class="section-title" id="landing-about-title">Bonjour, moi c’est Lucas !</h2>
-    <p>Je suis photographe de mariages et de couples installé près de Saverne en Alsace. J’aime photographier la diversité de l'expression des liens entre les personnes : mettre en lumière une façon unique de se regarder, de s'écouter, de se toucher.</p>
+    <p>Je suis photographe de mariages et de couples installé près de Strasbourg, en Alsace. J’aime photographier la diversité de l'expression des liens entre les personnes : mettre en lumière une façon unique de se regarder, de s'écouter, de se toucher.</p>
     <p>Avant un mariage ou une séance, je prends le temps de faire connaissance avec vous. Pendant un reportage, je suis attentif aux moments attendus comme à ceux qui surviennent sans prévenir, avec l’envie de composer une histoire dans laquelle vous puissiez vous reconnaître.</p>
     <a class="text-link" href="{{ '/a-propos.html' | relative_url }}">En savoir un peu plus sur moi <span aria-hidden="true">→</span></a>
   </div>
