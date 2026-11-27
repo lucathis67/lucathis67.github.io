@@ -1,5 +1,7 @@
 /* Locally hosted variable fonts, in WOFF2 (27 November 2026; the original
-   TTF files stay beside them).
+   TTF files stay beside them). EB Garamond and Source Sans 3 are reduced to
+   Latin characters (Latin-1, Latin Extended-A, punctuation, €, arrows), with
+   all their OpenType features (ligatures, old-style figures): 750 KB → 310 KB.
    EB Garamond: headings, navigation and paragraphs, weights 400–800.
    Source Sans 3: supporting text and controls, weights 200–900; its italic
    (Latin subset, from Google Fonts) marks the current page in the mobile
@@ -38,6 +40,30 @@
   font-weight: 200 900;
   font-style: italic;
   font-display: swap;
+}
+
+/* Fallback measured on EB Garamond (27 November 2026), for the same reason
+   as the one below: until the font has loaded, Georgia is about 18 % wider
+   and taller, so the text reflows and the page jumps (layout shift on article
+   pages). Georgia reduced to EB Garamond's width and line metrics (measured
+   with Gelasio, metrically identical to Georgia) keeps the lines in place. */
+@font-face {
+  font-family: "EB Garamond fallback";
+  src: local("Georgia");
+  size-adjust: 84.8%;
+  ascent-override: 118.7%;
+  descent-override: 35.1%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "EB Garamond fallback";
+  src: local("Georgia Italic"), local("Georgia-Italic");
+  font-style: italic;
+  size-adjust: 84.8%;
+  ascent-override: 118.7%;
+  descent-override: 35.1%;
+  line-gap-override: 0%;
 }
 
 /* Fallback measured on Source Sans 3 (27 November 2026). Until the font has

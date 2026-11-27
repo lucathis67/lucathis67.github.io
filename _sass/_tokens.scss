@@ -9,8 +9,8 @@
   --text-size: 1.125rem;
   --text-size-small: 1rem;
   --text-leading: 1.8;
-  --font-body: "EB Garamond", Georgia, serif;
-  --font-serif: "EB Garamond", Georgia, serif;
+  --font-body: "EB Garamond", "EB Garamond fallback", Georgia, serif;
+  --font-serif: "EB Garamond", "EB Garamond fallback", Georgia, serif;
   --font-sans: "Source Sans 3", "Source Sans 3 fallback", Arial, sans-serif;
   --font-display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --brand-title-size: clamp(2.4rem, 4.2vw, 3.8rem);
