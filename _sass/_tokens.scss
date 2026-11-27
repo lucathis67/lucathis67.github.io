@@ -23,10 +23,12 @@
   --color-heading: #29231f;
   --color-text: #4d443c;
   --color-border: #e2dcd3;
-  --color-viewer-backdrop: #211d1a;
-  // Mobile menu: the same deep warm charcoal as the photo viewer (darkened
-  // on 27 November 2026, from #2a221d).
-  --color-menu-background: var(--color-viewer-backdrop);
+  // Photo viewer: a dark mahogany gallery wall, covered in linen
+  // (27 November 2026, was #211d1a; texture in _photo-viewer.scss).
+  --color-viewer-backdrop: #231713;
+  // Mobile menu: a deep warm charcoal (darkened on 27 November 2026, from
+  // #2a221d).
+  --color-menu-background: #211d1a;
   --paper-texture-size: 256px;
   --paper-texture: url("../textures/fine-art-paper.svg");
   --surface-paper: var(--color-background) var(--paper-texture) repeat;

@@ -29,6 +29,9 @@ function initializePhotoViewer() {
   const previous = dialog.querySelector('.photo-viewer-previous');
   const next = dialog.querySelector('.photo-viewer-next');
   const close = dialog.querySelector('.photo-viewer-close');
+  const overview = dialog.querySelector('.photo-viewer-overview');
+  const room = dialog.querySelector('.photo-viewer-room');
+  const wall = dialog.querySelector('.photo-viewer-wall');
   let index = 0;
   let opener;
   let request = 0;
@@ -41,6 +44,7 @@ function initializePhotoViewer() {
   let closing = false;
   let closeTimer;
   const fadeDuration = 410;
+  const slideDuration = 900;
   function clearTransition() {
     transitions.forEach(animation => animation.cancel());
     transitions = [];
@@ -50,8 +54,8 @@ function initializePhotoViewer() {
   reducedMotion.addEventListener('change', clearTransition);
 
   // Fine-art mat (27 November 2026): equal margins on three sides, 6% of the
-  // print's longer side, and a deeper bottom margin, as in real framing,
-  // where the photograph's number is written like an edition number.
+  // print's longer side, and a bottom margin twice as deep, as in real
+  // framing, which gives the photograph's number room to breathe.
   const matRatio = 0.06;
   const matBottomFactor = 2;
   function fitPrint() {
@@ -106,9 +110,10 @@ function initializePhotoViewer() {
     try {
       await image.decode();
       if (token !== request || !dialog.open) return;
+      let stageBounds;
       if (canTransition && !reducedMotion.matches) {
         const printBounds = paper.getBoundingClientRect();
-        const stageBounds = stage.getBoundingClientRect();
+        stageBounds = stage.getBoundingClientRect();
         outgoing = paper.cloneNode(true);
         outgoing.classList.add('photo-viewer-transition');
         outgoing.setAttribute('aria-hidden', 'true');
@@ -122,19 +127,19 @@ function initializePhotoViewer() {
       paper.hidden = false;
       fitPrint();
       if (outgoing) {
-        // Fade the old print away completely before revealing the new one.
-        // Both halves share the same brief transition duration.
-        const options = { duration: fadeDuration, easing: 'linear' };
+        // Walking along the wall (27 November 2026): the old print slides away
+        // and fades while the new one arrives from the other side, both at
+        // once, slowly. Skipped when less motion is wanted (see canTransition).
+        const distance = Math.min(120, stageBounds.width * 0.08) * direction;
+        const options = { duration: slideDuration, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' };
         transitions = [
           outgoing.animate([
-            { opacity: 1, offset: 0, easing: 'ease-in-out' },
-            { opacity: 0, offset: 0.5 },
-            { opacity: 0, offset: 1 }
+            { opacity: 1, transform: 'translateX(0)' },
+            { opacity: 0, transform: `translateX(${-distance}px)` }
           ], { ...options, fill: 'forwards' }),
           paper.animate([
-            { opacity: 0, offset: 0 },
-            { opacity: 0, offset: 0.5, easing: 'ease-in-out' },
-            { opacity: 1, offset: 1 }
+            { opacity: 0, transform: `translateX(${distance}px)` },
+            { opacity: 1, transform: 'translateX(0)' }
           ], options)
         ];
         Promise.allSettled(transitions.map(animation => animation.finished)).then(() => {
@@ -232,18 +237,110 @@ function initializePhotoViewer() {
   viewerBreakpoint.addEventListener('change', updateInteraction);
   updateInteraction();
 
+  // Quiet mode: controls fade out when the mouse rests (see _photo-viewer.scss).
+  let quietTimer;
+  const wake = () => {
+    dialog.classList.remove('is-quiet');
+    clearTimeout(quietTimer);
+  };
+  const restSoon = () => {
+    wake();
+    quietTimer = setTimeout(() => {
+      // Stay awake while a control is hovered or focused from the keyboard.
+      if (dialog.open && room.hidden && !dialog.querySelector('button:hover, button:focus-visible')) dialog.classList.add('is-quiet');
+    }, 2500);
+  };
+  dialog.addEventListener('pointermove', event => {
+    if (event.pointerType === 'mouse') restSoon();
+  });
+  dialog.addEventListener('keydown', wake);
+  dialog.addEventListener('focusin', wake);
+  dialog.addEventListener('close', wake);
+
+  // Room overview (27 November 2026): one step back, and every photograph of
+  // the story hangs on the wall as a small matted print. Choosing one walks
+  // back to it. Escape or the same button returns to the current print.
+  photographs.forEach((image, position) => {
+    const item = document.createElement('li');
+    const frame = document.createElement('button');
+    frame.type = 'button';
+    frame.className = 'photo-viewer-frame';
+    frame.setAttribute('aria-label', text('labelCounter', 'Photographie {n} sur {total}', { n: position + 1, total: photographs.length }) + (image.alt ? ` : ${image.alt}` : ''));
+    const thumbnail = document.createElement('img');
+    thumbnail.alt = '';
+    thumbnail.loading = 'lazy';
+    thumbnail.decoding = 'async';
+    thumbnail.src = image.currentSrc || image.src;
+    if (image.getAttribute('width') && image.getAttribute('height')) {
+      thumbnail.style.aspectRatio = `${image.getAttribute('width')} / ${image.getAttribute('height')}`;
+    }
+    frame.append(thumbnail);
+    frame.addEventListener('click', () => leaveRoom(position));
+    item.append(frame);
+    wall.append(item);
+  });
+  const frames = Array.from(wall.querySelectorAll('.photo-viewer-frame'));
+  const step = (element, keyframes) => reducedMotion.matches
+    ? undefined
+    : element.animate(keyframes, { duration: 500, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' });
+  function enterRoom() {
+    if (!room.hidden || closing) return;
+    clearTransition();
+    wake();
+    frames.forEach((frame, position) => {
+      if (position === index) frame.setAttribute('aria-current', 'true');
+      else frame.removeAttribute('aria-current');
+    });
+    dialog.classList.add('is-room');
+    stage.hidden = true;
+    room.hidden = false;
+    overview.setAttribute('aria-pressed', 'true');
+    overview.setAttribute('aria-label', overview.dataset.labelBack || 'Revenir à la photographie');
+    step(room, [{ opacity: 0, transform: 'scale(1.08)' }, { opacity: 1, transform: 'scale(1)' }]);
+    frames[index]?.focus({ preventScroll: false });
+    frames[index]?.scrollIntoView({ block: 'nearest' });
+  }
+  function leaveRoom(position) {
+    if (room.hidden) return;
+    const finish = () => {
+      room.hidden = true;
+      stage.hidden = false;
+      dialog.classList.remove('is-room');
+      overview.setAttribute('aria-pressed', 'false');
+      overview.setAttribute('aria-label', text('labelOverview', 'Voir toutes les photographies du reportage'));
+      paper.hidden = true;
+      showPhotograph(position);
+      (photographs.length > 1 ? next : close).focus({ preventScroll: true });
+    };
+    const leaving = step(room, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(1.08)' }]);
+    if (leaving) leaving.finished.then(finish, finish);
+    else finish();
+  }
+  overview.dataset.labelOverview = overview.getAttribute('aria-label');
+  dialog.dataset.labelOverview = overview.getAttribute('aria-label');
+  overview.hidden = photographs.length < 2;
+  overview.addEventListener('click', () => (room.hidden ? enterRoom() : leaveRoom(index)));
+  dialog.addEventListener('close', () => {
+    room.hidden = true;
+    stage.hidden = false;
+    dialog.classList.remove('is-room');
+    overview.setAttribute('aria-pressed', 'false');
+    overview.setAttribute('aria-label', dialog.dataset.labelOverview);
+  });
+
   close.addEventListener('click', closeViewer);
   previous.addEventListener('click', () => showPhotograph(index - 1, -1));
   next.addEventListener('click', () => showPhotograph(index + 1, 1));
   previous.hidden = next.hidden = photographs.length < 2;
   dialog.addEventListener('cancel', event => {
     event.preventDefault();
-    closeViewer();
+    if (!room.hidden) leaveRoom(index);
+    else closeViewer();
   });
   dialog.addEventListener('keydown', event => {
     if (event.key === 'Tab') {
       const controls = Array.from(dialog.querySelectorAll('button:not([disabled])'))
-        .filter(button => !button.hidden);
+        .filter(button => !button.closest('[hidden]') && button.getClientRects().length);
       const first = controls[0];
       const last = controls[controls.length - 1];
       if (event.shiftKey && document.activeElement === first) {
@@ -255,6 +352,7 @@ function initializePhotoViewer() {
       }
       return;
     }
+    if (!room.hidden) return;
     const destinations = { ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: photographs.length - 1 };
     if (!(event.key in destinations)) return;
     event.preventDefault();

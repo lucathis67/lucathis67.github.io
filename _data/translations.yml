@@ -30,6 +30,9 @@ fr:
   invitation_button: Me contacter
   viewer_label: Photographies du reportage
   viewer_close: Fermer les photographies
+  viewer_overview: Voir toutes les photographies du reportage
+  viewer_overview_close: Revenir à la photographie
+  viewer_room: Toutes les photographies du reportage
   viewer_previous: Photographie précédente
   viewer_next: Photographie suivante
   viewer_loading: Chargement de la photographie…
