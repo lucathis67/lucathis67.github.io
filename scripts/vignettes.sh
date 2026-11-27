@@ -1,7 +1,7 @@
 #!/bin/sh
 # Versions WebP des photographies du site (27 novembre 2026).
-# Pour chaque JPEG de images/, écrit à côté de l'original photo-800.webp,
-# photo-1600.webp et photo-2400.webp (seulement les largeurs que l'original
+# Pour chaque JPEG de images/, écrit à côté de l'original photo-400.webp,
+# photo-800.webp, photo-1600.webp et photo-2400.webp (seulement les largeurs que l'original
 # atteint, plus sa propre largeur si elle tombe entre deux, par exemple
 # photo-1067.webp). Les originaux ne sont pas modifiés : ils restent la
 # version de secours des pages et l'image de partage (Open Graph).
@@ -26,10 +26,12 @@ while read -r photo; do
   if [ "$original" != "$photo" ] && [ -f "$original" ]; then continue; fi
   width=$(sips -g pixelWidth "$photo" | awk '/pixelWidth/ { print $2 }')
   widths=""
-  for w in 800 1600 2400; do
+  # 400 px (27 novembre 2026) : pour les photos affichées petites, comme le
+  # portrait de l'accueil (360 px), sur les écrans de densité 1.
+  for w in 400 800 1600 2400; do
     [ "$width" -ge "$w" ] && widths="$widths $w"
   done
-  if [ "$width" -gt 800 ] && [ "$width" -lt 2400 ] && [ "$width" != 1600 ]; then
+  if [ "$width" -gt 400 ] && [ "$width" -lt 2400 ] && [ "$width" != 800 ] && [ "$width" != 1600 ]; then
     widths="$widths $width"
   fi
   [ -z "$widths" ] && widths="$width"
