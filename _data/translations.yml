@@ -33,12 +33,15 @@ fr:
   viewer_overview: Voir toutes les photographies du reportage
   viewer_overview_close: Revenir à la photographie
   viewer_room: Toutes les photographies du reportage
+  viewer_size: Taille des photographies sur le mur
   viewer_previous: Photographie précédente
   viewer_next: Photographie suivante
   viewer_loading: Chargement de la photographie…
   viewer_error: Cette photographie ne peut pas être affichée. Vous pouvez passer à la suivante.
   # {n} et {total} sont remplacés par le numéro de la photo et leur nombre.
   viewer_counter: "Photographie {n} sur {total}"
+  # Double page de l’album : {n} et {m} sont les numéros des deux photos.
+  viewer_counter_spread: "Photographies {n} et {m} sur {total}"
   viewer_enlarge: "Agrandir la photographie {n} sur {total}"
   # Compteurs du portfolio : {n} est remplacé par un nombre.
   archive_one: "{n} article"

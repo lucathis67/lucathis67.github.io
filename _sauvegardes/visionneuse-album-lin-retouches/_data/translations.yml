@@ -1,0 +1,55 @@
+# Textes de l’interface. Le site est aujourd’hui en français seulement (la
+# version anglaise a été retirée le 27 novembre 2026, voir CLAUDE.md) ; les
+# textes restent rangés sous la clé de la langue pour pouvoir la rétablir :
+#   {% assign t = site.data.translations[page.lang] %}  →  {{ t.subtitle }}
+
+fr:
+  locale: fr_FR
+  language_name: Français
+  description: "Photographe de mariages et de couples à Strasbourg et partout en Alsace."
+  og_image_alt: "Julie et Adrien s’embrassent sur un banc au parc de l’Orangerie."
+  # Sous-titre de l’en-tête (H1 de l’accueil).
+  subtitle: Photographe de mariages & couples à Strasbourg
+  nav_label: Navigation principale
+  # Premier lien de chaque page, visible seulement au clavier.
+  skip_link: Aller au contenu
+  # Ajouté aux liens qui ouvrent un nouvel onglet, pour les lecteurs d’écran.
+  new_tab: (nouvel onglet)
+  menu_open: Ouvrir le menu
+  menu_close: Fermer le menu
+  menu_dialog: Menu de navigation
+  menu_mobile_nav: Navigation mobile
+  footer_text: "Photographe de mariages et de couples.<br>À Strasbourg et partout en Alsace."
+  footer_contact: Restons en contact
+  legal_notice: Mentions légales
+  legal_url: /mentions-legales.html
+  contact_url: /contact.html
+  invitation_eyebrow: Faisons connaissance
+  invitation_title: Et si nous parlions de votre projet photo ?
+  invitation_text: "Un mariage qui se prépare ou simplement l’envie de quelques belles photos pour vous-mêmes ou pour offrir ? Écrivez-moi un petit mot sur ce que vous imaginez, je serai ravi d’en discuter avec vous !"
+  invitation_button: Me contacter
+  viewer_label: Photographies du reportage
+  viewer_close: Fermer les photographies
+  viewer_overview: Voir toutes les photographies du reportage
+  viewer_overview_close: Revenir à la photographie
+  viewer_room: Toutes les photographies du reportage
+  viewer_size: Taille des photographies sur le mur
+  viewer_previous: Photographie précédente
+  viewer_next: Photographie suivante
+  viewer_loading: Chargement de la photographie…
+  viewer_error: Cette photographie ne peut pas être affichée. Vous pouvez passer à la suivante.
+  # {n} et {total} sont remplacés par le numéro de la photo et leur nombre.
+  viewer_counter: "Photographie {n} sur {total}"
+  # Double page de l’album : {n} et {m} sont les numéros des deux photos.
+  viewer_counter_spread: "Photographies {n} et {m} sur {total}"
+  viewer_enlarge: "Agrandir la photographie {n} sur {total}"
+  # Compteurs du portfolio : {n} est remplacé par un nombre.
+  archive_one: "{n} article"
+  archive_many: "{n} articles"
+  archive_of: "{n} sur {total}"
+  # Fin d’article : reportages précédent et suivant.
+  story_nav_label: Autres reportages
+  story_previous: Reportage précédent
+  story_next: Reportage suivant
+  story_all: Voir tout le portfolio
+  portfolio_url: /portfolio.html

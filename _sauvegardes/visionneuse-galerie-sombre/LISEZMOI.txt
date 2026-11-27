@@ -1,0 +1,6 @@
+Sauvegarde de la visionneuse « galerie sombre » (27 novembre 2026, soir) :
+mur de bois foncé en diagonale, bandes en lin quasi noir, fond #080706.
+Pour la rétablir, recopier ces fichiers à leur place dans le site
+(les textures utilisées sont restées dans assets/textures/).
+galerie-sombre.patch contient les mêmes changements par rapport à dev.
+Jekyll ignore ce dossier (son nom commence par « _ »).

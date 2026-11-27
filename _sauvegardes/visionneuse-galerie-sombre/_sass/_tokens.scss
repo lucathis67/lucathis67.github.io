@@ -1,0 +1,78 @@
+@use "breakpoints" as bp;
+
+// Site-wide design values. Fixed px spacing preserves the existing rhythm as
+// headings and layouts adapt between desktop, tablet and mobile.
+// Active palette: near-white ivory, deep warm charcoal and an earthy menu
+// background (lightened and deepened on 26 November 2026).
+// Saved variants and the preference for ivory live in _design/palettes.json.
+:root {
+  --text-size: 1.125rem;
+  --text-size-small: 1rem;
+  --text-leading: 1.8;
+  --font-body: "EB Garamond", "EB Garamond fallback", Georgia, serif;
+  --font-serif: "EB Garamond", "EB Garamond fallback", Georgia, serif;
+  --font-sans: "Source Sans 3", "Source Sans 3 fallback", Arial, sans-serif;
+  --font-display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --brand-title-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  // At least 0.72rem (about 12px) for every small uppercase label
+  // (accessibility audit, 27 November 2026).
+  --brand-subtitle-size: 0.72rem;
+
+  --color-background: #fcfbf8;
+  --color-background-warm: #f3f0ea;
+  --color-heading: #29231f;
+  --color-text: #4d443c;
+  --color-border: #e2dcd3;
+  // Photo viewer: a dark mahogany gallery wall, covered in linen
+  // (27 November 2026, was #211d1a; texture in _photo-viewer.scss).
+  // Almost black, under the wall's wood texture (27 November 2026, late
+  // evening; was #0f0d0b, #1d1916, #29231f, and mahogany #231713 before).
+  --color-viewer-backdrop: #080706;
+  // Mobile menu: a deep warm charcoal (darkened on 27 November 2026, from
+  // #2a221d).
+  --color-menu-background: #211d1a;
+  --paper-texture-size: 256px;
+  --paper-texture: url("../textures/fine-art-paper.svg");
+  --surface-paper: var(--color-background) var(--paper-texture) repeat;
+  --border-default: 1px solid var(--color-border);
+  // Buttons (27 November 2026): the colours swap gently on hover, as on the
+  // header's Contact button. Shared by every button, see _motion.scss.
+  --button-transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, opacity 200ms ease;
+
+  --layout-max-width: 1200px;
+  --gutter-mobile: 24px;
+  // About 75 characters per line in EB Garamond (680px gave up to 97).
+  --reading-width: 600px;
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-5: 24px;
+  --space-6: 30px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+
+  // Vertical rhythm, one scale for the whole site (26 November 2026):
+  // - section: before each major part of a page (offers, invitation, article
+  //   navigation, "À propos" on the homepage);
+  // - section-inner: from the rule that opens a part to its content;
+  // - block: between the chapters of an article (text, photographs);
+  // - heading: above every heading inside running text, in em so that it
+  //   follows the heading's size; heading-after: below headings that open a
+  //   part. Smaller values on phones, below.
+  --space-section: 88px;
+  --space-section-inner: 56px;
+  --space-block: 64px;
+  --space-heading: 1.6em;
+  --space-heading-after: 24px;
+
+  // Every rem-based size follows this root size (106.25% = 17px by default).
+  font-size: 106.25%;
+}
+@include bp.mobile {
+  :root {
+    --space-section: 48px;
+    --space-section-inner: 40px;
+    --space-block: 40px;
+    --space-heading-after: 20px;
+  }
+}

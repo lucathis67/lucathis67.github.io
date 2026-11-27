@@ -1,0 +1,741 @@
+diff --git a/_data/translations.yml b/_data/translations.yml
+index a2deb37..0ca8fc7 100644
+--- a/_data/translations.yml
++++ b/_data/translations.yml
+@@ -33,6 +33,7 @@ fr:
+   viewer_overview: Voir toutes les photographies du reportage
+   viewer_overview_close: Revenir à la photographie
+   viewer_room: Toutes les photographies du reportage
++  viewer_size: Taille des photographies sur le mur
+   viewer_previous: Photographie précédente
+   viewer_next: Photographie suivante
+   viewer_loading: Chargement de la photographie…
+diff --git a/_includes/gallery-arrow.html b/_includes/gallery-arrow.html
+index ef51af1..a8b538d 100644
+--- a/_includes/gallery-arrow.html
++++ b/_includes/gallery-arrow.html
+@@ -1,6 +1,6 @@
+-{% comment %} Flèches du visualiseur (27 novembre 2026) : un filet fin et une pointe courte et ouverte, sans cercle. {% endcomment %}
++{% comment %} Flèches du visualiseur : la pointe de la flèche d’EB Garamond (glyphe →, courbes concaves et pleins), prolongée par un filet qui s’affine (27 novembre 2026). {% endcomment %}
+ {% if include.direction == "previous" %}
+-<svg width="56" height="16" viewBox="0 0 56 16" fill="none" aria-hidden="true"><path d="M55 8H2M9 2 2 8l7 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
++<svg width="56" height="16" viewBox="-960 -480 1290 376" aria-hidden="true"><path transform="scale(-1 -1)" fill="currentColor" d="M719 112Q709 112 709 119Q709 120 709.0 121.0Q709 122 710 123Q722 154 738.0 180.5Q754 207 771.5 229.0Q789 251 806 269Q700 281 600 281H-310Q-320 281 -320 292Q-320 303 -310 303H600Q700 303 806 315Q790 332 773.0 353.5Q756 375 741.0 399.5Q726 424 716 449Q710 463 712.0 467.5Q714 472 720 472Q727 472 735.0 469.0Q743 466 747 461Q768 439 790.0 417.5Q812 396 835.0 376.0Q858 356 883.5 338.0Q909 320 938 305Q950 298 950 292Q950 288 948.5 286.0Q947 284 937 279Q908 264 882.5 246.0Q857 228 834.0 208.0Q811 188 789.0 166.5Q767 145 746 123Q742 119 734.0 115.5Q726 112 719 112Z"/></svg>
+ {% else %}
+-<svg width="56" height="16" viewBox="0 0 56 16" fill="none" aria-hidden="true"><path d="M1 8h53M47 2l7 6-7 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
++<svg width="56" height="16" viewBox="-330 -480 1290 376" aria-hidden="true"><path transform="scale(1 -1)" fill="currentColor" d="M719 112Q709 112 709 119Q709 120 709.0 121.0Q709 122 710 123Q722 154 738.0 180.5Q754 207 771.5 229.0Q789 251 806 269Q700 281 600 281H-310Q-320 281 -320 292Q-320 303 -310 303H600Q700 303 806 315Q790 332 773.0 353.5Q756 375 741.0 399.5Q726 424 716 449Q710 463 712.0 467.5Q714 472 720 472Q727 472 735.0 469.0Q743 466 747 461Q768 439 790.0 417.5Q812 396 835.0 376.0Q858 356 883.5 338.0Q909 320 938 305Q950 298 950 292Q950 288 948.5 286.0Q947 284 937 279Q908 264 882.5 246.0Q857 228 834.0 208.0Q811 188 789.0 166.5Q767 145 746 123Q742 119 734.0 115.5Q726 112 719 112Z"/></svg>
+ {% endif %}
+diff --git a/_includes/photo-viewer.html b/_includes/photo-viewer.html
+index 8da7ef7..32ef764 100644
+--- a/_includes/photo-viewer.html
++++ b/_includes/photo-viewer.html
+@@ -1,9 +1,17 @@
+ {% assign t = site.data.translations[page.lang] | default: site.data.translations[site.lang] %}
+ <dialog class="photo-viewer" id="photo-viewer" aria-label="{{ t.viewer_label | escape }}" data-label-counter="{{ t.viewer_counter | escape }}" data-label-enlarge="{{ t.viewer_enlarge | escape }}" data-label-loading="{{ t.viewer_loading | escape }}" data-label-error="{{ t.viewer_error | escape }}">
+   <div class="photo-viewer-toolbar">
++    {% comment %} Vue d’ensemble : le titre du reportage dans le bandeau du haut, la signature dans celui du bas (27 novembre 2026). {% endcomment %}
++    <p class="photo-viewer-title photo-viewer-room-text">{{ page.heading | default: page.title | escape }}</p>
++    {% comment %} Numéro de la photographie, à gauche du bouton du mur (27 novembre 2026). {% endcomment %}
++    <p class="photo-viewer-edition" aria-hidden="true"></p>
++    {% comment %} Sur le mur, un curseur règle la taille des tirages (27 novembre 2026). {% endcomment %}
++    <input class="photo-viewer-size" type="range" min="120" max="560" step="1" value="300" aria-label="{{ t.viewer_size | escape }}">
+     {% comment %} Vue d’ensemble (27 novembre 2026) : un pas en arrière, toutes les photographies accrochées au mur. {% endcomment %}
+     <button class="photo-viewer-button photo-viewer-overview" type="button" aria-label="{{ t.viewer_overview | escape }}" aria-pressed="false" data-label-back="{{ t.viewer_overview_close | escape }}">
+-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M1.5 3.5h7v6h-7zM13.5 3.5h7v6h-7zM1.5 12.5h7v6h-7zM13.5 12.5h7v6h-7z" stroke="currentColor" stroke-width="1"/></svg>
++      <svg class="photo-viewer-icon-wall" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M1.5 3.5h7v6h-7zM13.5 3.5h7v6h-7zM1.5 12.5h7v6h-7zM13.5 12.5h7v6h-7z" stroke="currentColor" stroke-width="1"/></svg>
++      {% comment %} Sur le mur, un seul cadre : le bouton ramène à la photographie seule. {% endcomment %}
++      <svg class="photo-viewer-icon-single" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3.5 4.5h15v13h-15z" stroke="currentColor" stroke-width="1"/></svg>
+     </button>
+     <button class="photo-viewer-button photo-viewer-close" type="button" aria-label="{{ t.viewer_close | escape }}" autofocus>
+       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m3 3 14 14M17 3 3 17" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+@@ -12,7 +20,6 @@
+   <div class="photo-viewer-stage" aria-busy="false">
+     <div class="photo-viewer-paper" hidden>
+       <img class="photo-viewer-image" alt="" decoding="async">
+-      <span class="photo-viewer-edition" aria-hidden="true"></span>
+     </div>
+     <p class="photo-viewer-message" role="status" hidden>{{ t.viewer_loading | escape }}</p>
+   </div>
+@@ -23,6 +30,7 @@
+     <button class="photo-viewer-button photo-viewer-previous" type="button" aria-label="{{ t.viewer_previous | escape }}">
+       {% include gallery-arrow.html direction="previous" %}
+     </button>
++    <p class="photo-viewer-brand photo-viewer-room-text">{{ site.title | escape }}</p>
+     <p class="photo-viewer-counter" role="status" aria-live="polite" aria-atomic="true"></p>
+     <button class="photo-viewer-button photo-viewer-next" type="button" aria-label="{{ t.viewer_next | escape }}">
+       {% include gallery-arrow.html direction="next" %}
+diff --git a/_plugins/images-webp.rb b/_plugins/images-webp.rb
+index fc4b120..6c1d4c0 100644
+--- a/_plugins/images-webp.rb
++++ b/_plugins/images-webp.rb
+@@ -10,11 +10,12 @@
+ #   qui suffit à la largeur affichée et à la densité de l'écran ;
+ # - sizes : la largeur d'affichage de la photo, déduite de son bloc (rangée de
+ #   photos, photo et texte, carte de l'accueil…), sauf si la page en donne déjà
+-#   une ;
+-# - data-viewer-src : la plus grande version WebP, ouverte par le visualiseur.
++#   une.
+ #
+ # Le JPEG d'origine reste dans src : c'est lui que reçoivent les très rares
+-# navigateurs qui ignorent srcset. Les images qui ont déjà un srcset et les
++# navigateurs qui ignorent srcset, et c'est lui qu'ouvre le visualiseur de
++# photos (27 novembre 2026, au lieu de la plus grande version WebP) : la photo
++# y est affichée en grand, sans seconde compression. Les images qui ont déjà un srcset et les
+ # images Open Graph (balises <meta>) ne sont pas touchées : Facebook,
+ # WhatsApp et les messageries attendent un JPEG.
+ module LucathisWebp
+@@ -122,7 +123,6 @@ module LucathisWebp
+ 
+       attributes = +" srcset=\"#{list.map { |file, width| "#{baseurl}#{file} #{width}w" }.join(', ')}\""
+       attributes << " sizes=\"#{sizes_for(tag, ancestors)}\"" unless tag =~ /\ssizes\s*=/i
+-      attributes << " data-viewer-src=\"#{baseurl}#{list.last.first}\"" unless tag =~ /\sdata-viewer-src\s*=/i
+       parts[index] = tag.sub(%r{\s*/?>\z}) { |ending| "#{attributes}#{ending}" }
+     end
+ 
+diff --git a/_sass/_photo-viewer.scss b/_sass/_photo-viewer.scss
+index 6034949..74b8324 100644
+--- a/_sass/_photo-viewer.scss
++++ b/_sass/_photo-viewer.scss
+@@ -44,16 +44,39 @@ html.photo-viewer-open {
+ .photo-viewer::backdrop {
+   background: var(--color-viewer-backdrop);
+ }
+-// A gallery wall (27 November 2026): dark mahogany linen, barely perceptible
+-// (assets/textures/wall-linen.webp: "Rough Linen" from Poly Haven, CC0,
+-// recoloured to the wall colour, contrast reduced to a few percent), lit by a soft spotlight from
+-// above the print, which fades into the corners.
++// A gallery wall (27 November 2026): dark wood laid on the diagonal, felt
++// more than seen (assets/textures/wall-wood-diagonal-darker.webp: "Dark
++// Wood" from Poly Haven, CC0, turned 45 degrees on a seamless tile,
++// recoloured to the wall colour and darkened to a quarter, saved without
++// loss so that its faint grain survives; its 544px tile is shown at 272px, a
++// fine grain that stays sharp on dense screens; the textures tried before
++// are wall-wood-diagonal-dark.webp, wall-wood-diagonal.webp, wall-wood.webp,
++// wall-wood-raw.webp, wall-linen-charcoal.webp and wall-linen.webp). A very slight warmth of mahogany rises from the lower
++// part of the wall; a soft spotlight from above the print fades into the
++// corners.
++$wall-light:
++  radial-gradient(ellipse 60% 55% at 50% 30%, rgb(255 246 230 / 7%), transparent 70%),
++  // Deeper shadows towards the corners (27 November 2026, evening).
++  radial-gradient(ellipse 120% 100% at 50% 40%, transparent 22%, rgb(0 0 0 / 86%)),
++  linear-gradient(to bottom, transparent 25%, rgb(74 34 24 / 22%));
++$wall-texture: url("../textures/wall-wood-diagonal-darker.webp") repeat;
+ .photo-viewer[open] {
+-  background:
+-    radial-gradient(ellipse 60% 55% at 50% 30%, rgb(255 246 230 / 9%), transparent 70%),
+-    radial-gradient(ellipse 120% 100% at 50% 40%, transparent 35%, rgb(0 0 0 / 72%)),
+-    url("../textures/wall-linen.webp") repeat,
+-    var(--color-viewer-backdrop);
++  background: $wall-light, $wall-texture, var(--color-viewer-backdrop);
++  background-size: auto, auto, auto, 272px, auto;
++}
++// On the wall (27 November 2026): the two fixed bands are dressed in the
++// original linen, recoloured to the wall colour and kept as faint as the
++// wood (assets/textures/wall-linen-black.webp, from wall-linen.webp, saved
++// without loss), and the wood belongs to the wall of prints itself: it
++// scrolls with them (background-attachment: local), while the light and
++// the shadows stay in place.
++.photo-viewer.is-room {
++  background: url("../textures/wall-linen-black.webp") repeat, var(--color-viewer-backdrop);
++}
++.photo-viewer.is-room .photo-viewer-room {
++  background: $wall-light, $wall-texture, var(--color-viewer-backdrop);
++  background-size: auto, auto, auto, 272px, auto;
++  background-attachment: scroll, scroll, scroll, local, scroll;
+ }
+ .photo-viewer-toolbar {
+   min-width: 0;
+@@ -161,31 +184,102 @@ html.photo-viewer-open {
+   clip-path: inset(50%);
+   white-space: nowrap;
+ }
+-// The photograph's number, centred in the deeper bottom margin of the mat,
+-// as if written on the print's mount.
+ .photo-viewer-paper {
+   position: relative;
+ }
++// The photograph's number, in the top band to the left of the wall button
++// (27 November 2026), in the near-white of the controls. Same typography as
++// when it was written in the mat.
+ .photo-viewer-edition {
+-  position: absolute;
+-  left: 0;
+-  right: 0;
+-  bottom: 0;
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-  height: var(--mat-bottom, 0px);
+-  // Same typography as the former counter of the bottom bar.
++  margin: 0;
+   font-family: var(--font-serif);
+   font-size: 0.9rem;
+-  font-variant-numeric: oldstyle-nums proportional-nums;
++  // Tabular figures: every wheel of the counter has the same width.
++  font-variant-numeric: oldstyle-nums tabular-nums;
+   letter-spacing: 0.14em;
+-  // Balances the spacing added after the last figure, for a true centre.
+-  padding-left: 0.14em;
+   line-height: 1;
+-  color: var(--color-heading);
++  color: inherit;
+   opacity: 0.8;
++  white-space: nowrap;
+   pointer-events: none;
++  // Seen from icon to icon, the number then sits as far from the wall button
++  // as the wall button from the close button.
++  margin-right: 14px;
++}
++// Each character in its own window: the figures roll inside it, and fade at
++// its top and bottom edges as on the drum of a mechanical counter.
++.photo-viewer-digit {
++  position: relative;
++  display: inline-block;
++  overflow: hidden;
++  vertical-align: top;
++  // Room for the descenders of the old-style figures.
++  padding-block: 0.3em;
++  margin-block: -0.3em;
++  white-space: pre;
++  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
++}
++.photo-viewer-digit > span {
++  display: block;
++}
++.photo-viewer-digit > .is-incoming {
++  position: absolute;
++  inset: 0.3em 0 auto;
++}
++// On the wall, the number of a single print no longer applies.
++.photo-viewer.is-room .photo-viewer-edition {
++  display: none;
++}
++// In its place on the wall, a fine slider sets the size of the prints
++// (27 November 2026): a hairline track and a small round head, in the
++// near-white of the controls.
++.photo-viewer-size {
++  display: none;
++  width: 112px;
++  height: 24px;
++  margin: 0 14px 0 0;
++  padding: 0;
++  background: transparent;
++  color: inherit;
++  cursor: pointer;
++  opacity: 0.8;
++  appearance: none;
++  -webkit-appearance: none;
++}
++.photo-viewer.is-room .photo-viewer-size {
++  display: block;
++}
++.photo-viewer-size:hover,
++.photo-viewer-size:focus-visible {
++  opacity: 1;
++}
++.photo-viewer-size:focus-visible {
++  outline: 2px solid var(--color-background);
++  outline-offset: 5px;
++}
++.photo-viewer-size::-webkit-slider-runnable-track {
++  height: 1px;
++  background: currentColor;
++}
++.photo-viewer-size::-moz-range-track {
++  height: 1px;
++  background: currentColor;
++}
++.photo-viewer-size::-webkit-slider-thumb {
++  width: 9px;
++  height: 9px;
++  margin-top: -4px;
++  border: 0;
++  border-radius: 50%;
++  background: currentColor;
++  -webkit-appearance: none;
++}
++.photo-viewer-size::-moz-range-thumb {
++  width: 9px;
++  height: 9px;
++  border: 0;
++  border-radius: 50%;
++  background: currentColor;
+ }
+ .photo-viewer-previous,
+ .photo-viewer-next {
+@@ -203,20 +297,32 @@ html.photo-viewer-open {
+ .photo-viewer-previous { left: 24px; }
+ .photo-viewer-next { right: 24px; }
+ 
++// Phone version (27 November 2026): a lighter room. Plain black, no linen
++// and no spotlight, the print with its equal mat as wide as the screen
++// allows; a swipe moves from one photograph to the next (photo-viewer.js),
++// so there are no arrows, and no wall.
+ @include bp.mobile {
+   .photo-viewer[open] {
+-    grid-template-rows: 72px minmax(0, 1fr) 80px;
++    grid-template-rows: 56px minmax(0, 1fr) 24px;
++    background: #000;
++  }
++  .photo-viewer::backdrop {
++    background: #000;
+   }
+   .photo-viewer-toolbar {
+-    gap: 12px;
+-    padding-inline: 20px 12px;
++    gap: 4px;
++    padding-inline: 16px 4px;
+   }
+   .photo-viewer-stage {
+-    margin-inline: 16px;
++    margin-inline: 12px;
++  }
++  .photo-viewer-paper {
++    box-shadow: 0 0 1px 0.5px rgb(255 255 255 / 65%);
+   }
+-  .photo-viewer-previous,
+-  .photo-viewer-next {
+-    position: static;
++  .photo-viewer-footer,
++  .photo-viewer-overview,
++  .photo-viewer-room {
++    display: none;
+   }
+ }
+ 
+@@ -278,8 +384,11 @@ html.photo-viewer-open {
+   flex-wrap: wrap;
+   justify-content: center;
+   align-items: center;
+-  gap: 48px 56px;
+-  max-width: 1400px;
++  // The height of the prints, set by the slider in the top band
++  // (photo-viewer.js); margins, mats and gaps follow it.
++  --wall-print-height: clamp(180px, 34vh, 360px);
++  gap: calc(var(--wall-print-height) * 0.2) calc(var(--wall-print-height) * 0.22);
++  max-width: 1600px;
+   margin: 0;
+   padding: 0;
+   list-style: none;
+@@ -291,7 +400,9 @@ html.photo-viewer-open {
+ .photo-viewer-frame {
+   position: relative;
+   display: block;
+-  padding: 10px 10px 18px;
++  // Equal mat on all four sides (27 November 2026), the same for every print
++  // on the wall, so that the frames of a row line up whatever their format.
++  padding: calc(var(--wall-print-height) * 0.07);
+   border: 0;
+   line-height: 0;
+   background: #fff url("../textures/fine-art-paper.svg") repeat;
+@@ -304,7 +415,7 @@ html.photo-viewer-open {
+ .photo-viewer-frame img {
+   display: block;
+   width: auto;
+-  height: clamp(90px, 17vh, 180px);
++  height: var(--wall-print-height);
+   max-width: none;
+   object-fit: cover;
+ }
+@@ -313,7 +424,7 @@ html.photo-viewer-open {
+   position: absolute;
+   left: 25%;
+   right: 25%;
+-  bottom: -14px;
++  bottom: calc(var(--wall-print-height) * -0.067);
+   height: 1px;
+   background: var(--color-background);
+   opacity: 0.8;
+@@ -322,21 +433,91 @@ html.photo-viewer-open {
+   outline: 2px solid var(--color-background);
+   outline-offset: 6px;
+ }
+-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+-  .photo-viewer-frame {
+-    transition: transform 300ms ease, box-shadow 300ms ease;
+-  }
++// On hover, the print does not move: only its shadow deepens and spreads,
++// slowly, as if it stood a little further from the wall (27 November 2026).
++@media (hover: hover) {
+   .photo-viewer-frame:hover {
+-    transform: translateY(-3px);
+     box-shadow:
+-      0 3px 5px rgb(0 0 0 / 28%),
+-      0 24px 36px -10px rgb(0 0 0 / 55%);
++      0 3px 6px rgb(0 0 0 / 30%),
++      0 30px 48px -12px rgb(0 0 0 / 62%);
++  }
++}
++@media (hover: hover) and (prefers-reduced-motion: no-preference) {
++  .photo-viewer-frame {
++    transition: box-shadow 700ms ease;
+   }
+ }
+ // In the room, the arrows step aside.
+-.photo-viewer.is-room .photo-viewer-footer {
++.photo-viewer.is-room .photo-viewer-previous,
++.photo-viewer.is-room .photo-viewer-next {
++  visibility: hidden;
++}
++// In the room, the fixed bands above and below the wall carry a caption
++// (27 November 2026): the story's title at the top, as on a gallery's
++// exhibition wall, and the signature at the bottom. Both in the near-white of
++// the controls; they appear with the room and leave with it.
++.photo-viewer-toolbar {
++  position: relative;
++}
++.photo-viewer-room-text {
++  margin: 0;
++  color: inherit;
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  text-align: center;
++  pointer-events: none;
++  opacity: 0;
+   visibility: hidden;
+ }
++.photo-viewer.is-room .photo-viewer-room-text {
++  visibility: visible;
++}
++// The title is centred in the window, clear of the buttons on the right.
++.photo-viewer-title {
++  position: absolute;
++  inset-inline: 168px;
++  top: 50%;
++  transform: translateY(-50%);
++  // Cormorant Garamond, finer than the page titles (500).
++  font-family: var(--font-display);
++  // Discreet, close to the signature below (27 November 2026).
++  font-size: 1.15rem;
++  font-weight: 400;
++  letter-spacing: 0.01em;
++  line-height: 1.3;
++}
++.photo-viewer.is-room .photo-viewer-title {
++  opacity: 0.85;
++}
++// The signature in the brand's own typeface, as in the site's header.
++.photo-viewer-brand {
++  font-family: var(--font-display);
++  font-size: 1.1rem;
++  font-weight: 400;
++  letter-spacing: 0.02em;
++  line-height: 1;
++}
++.photo-viewer.is-room .photo-viewer-brand {
++  opacity: 0.75;
++}
++@media (prefers-reduced-motion: no-preference) {
++  .photo-viewer-room-text {
++    transition: opacity 500ms ease, visibility 0s linear 500ms;
++  }
++  .photo-viewer.is-room .photo-viewer-room-text {
++    transition: opacity 500ms ease 150ms, visibility 0s;
++  }
++}
+ .photo-viewer.is-room .photo-viewer-overview {
+   opacity: 1;
+ }
++// The wall button shows four frames, then a single one on the wall: it leads
++// back to the photograph alone (27 November 2026).
++.photo-viewer-icon-single,
++.photo-viewer-overview[aria-pressed="true"] .photo-viewer-icon-wall {
++  display: none;
++}
++.photo-viewer-overview[aria-pressed="true"] .photo-viewer-icon-single {
++  display: block;
++}
+diff --git a/_sass/_tokens.scss b/_sass/_tokens.scss
+index fe5853a..73c70cf 100644
+--- a/_sass/_tokens.scss
++++ b/_sass/_tokens.scss
+@@ -25,7 +25,9 @@
+   --color-border: #e2dcd3;
+   // Photo viewer: a dark mahogany gallery wall, covered in linen
+   // (27 November 2026, was #211d1a; texture in _photo-viewer.scss).
+-  --color-viewer-backdrop: #231713;
++  // Almost black, under the wall's wood texture (27 November 2026, late
++  // evening; was #0f0d0b, #1d1916, #29231f, and mahogany #231713 before).
++  --color-viewer-backdrop: #080706;
+   // Mobile menu: a deep warm charcoal (darkened on 27 November 2026, from
+   // #2a221d).
+   --color-menu-background: #211d1a;
+diff --git a/assets/js/photo-viewer.js b/assets/js/photo-viewer.js
+index 75fb8b2..03f0a6e 100644
+--- a/assets/js/photo-viewer.js
++++ b/assets/js/photo-viewer.js
+@@ -9,16 +9,14 @@ function initializePhotoViewer() {
+     .filter(image => !image.closest('a, button'));
+   if (!photographs.length) return;
+ 
+-  // Below 800px, preserve the ordinary inline photographs without triggers.
+-  const viewerBreakpoint = matchMedia('(min-width: 800px)');
++  // Phone version below 800px (27 November 2026): the same viewer, lighter,
++  // without the wall (see _photo-viewer.scss; keep aligned with
++  // _breakpoints.scss). Every width now opens the viewer.
++  const phone = matchMedia('(max-width: 800px)');
+   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+   // Wording comes from _data/translations.yml through data attributes on the dialog.
+   const text = (key, fallback, values = {}) => Object.entries(values)
+     .reduce((result, [name, value]) => result.replace(`{${name}}`, value), dialog.dataset[key] || fallback);
+-  const managedAttributes = ['tabindex', 'role', 'aria-haspopup', 'aria-controls', 'aria-label'];
+-  const originalAttributes = new Map(photographs.map(image => [
+-    image, new Map(managedAttributes.map(name => [name, image.getAttribute(name)]))
+-  ]));
+ 
+   const stage = dialog.querySelector('.photo-viewer-stage');
+   const paper = dialog.querySelector('.photo-viewer-paper');
+@@ -32,6 +30,7 @@ function initializePhotoViewer() {
+   const overview = dialog.querySelector('.photo-viewer-overview');
+   const room = dialog.querySelector('.photo-viewer-room');
+   const wall = dialog.querySelector('.photo-viewer-wall');
++  const sizer = dialog.querySelector('.photo-viewer-size');
+   let index = 0;
+   let opener;
+   let request = 0;
+@@ -53,11 +52,10 @@ function initializePhotoViewer() {
+   }
+   reducedMotion.addEventListener('change', clearTransition);
+ 
+-  // Fine-art mat (27 November 2026): equal margins on three sides, 6% of the
+-  // print's longer side, and a bottom margin twice as deep, as in real
+-  // framing, which gives the photograph's number room to breathe.
++  // Fine-art mat (27 November 2026): 6% of the print's longer side, equal on
++  // all four edges again since the photograph's number moved to the top band.
+   const matRatio = 0.06;
+-  const matBottomFactor = 2;
++  const matBottomFactor = 1;
+   function fitPrint() {
+     if (!dialog.open || !dimensions) return;
+     const { width: availableWidth, height: availableHeight } = stage.getBoundingClientRect();
+@@ -78,6 +76,80 @@ function initializePhotoViewer() {
+     paper.style.setProperty('--mat-bottom', `${bottom}px`);
+   }
+ 
++  // The number turns like the wheels of a mechanical counter (27 November
++  // 2026): each character sits in its own window, and only the figures that
++  // change roll, upwards when moving forward, downwards when moving back.
++  // The units turn first, the tens a moment later. Without motion if less
++  // motion is wanted.
++  let editionValue = '';
++  let editionRolls = [];
++  // Snaps a roll still under way to its end at once, so that a quick
++  // succession of photographs never stacks figures in a window. The
++  // animations' own promises settle too late for that (asynchronously).
++  function stopRolls() {
++    editionRolls.forEach(({ animations, settle }) => {
++      animations.forEach(animation => animation.cancel());
++      settle();
++    });
++    editionRolls = [];
++  }
++  function writeEdition(value) {
++    stopRolls();
++    edition.replaceChildren(...Array.from(value, character => {
++      const window = document.createElement('span');
++      window.className = 'photo-viewer-digit';
++      const face = document.createElement('span');
++      face.textContent = character;
++      window.append(face);
++      return window;
++    }));
++    editionValue = value;
++  }
++  function setEdition(value, direction) {
++    if (value === editionValue) return;
++    const previous = editionValue;
++    if (!previous || previous.length !== value.length || !direction || reducedMotion.matches || !dialog.open) {
++      writeEdition(value);
++      return;
++    }
++    stopRolls();
++    const windows = Array.from(edition.children);
++    const changed = Array.from(value).map((character, position) => position)
++      .filter(position => value[position] !== previous[position]);
++    changed.forEach(position => {
++      const window = windows[position];
++      const outgoingFace = window.firstElementChild;
++      const incomingFace = document.createElement('span');
++      incomingFace.textContent = value[position];
++      incomingFace.className = 'is-incoming';
++      window.append(incomingFace);
++      // Positions further left (tens) turn a little after the units.
++      const delay = (changed[changed.length - 1] - position) * 70;
++      const options = { duration: 520, delay, easing: 'cubic-bezier(0.5, 0, 0.15, 1)', fill: 'backwards' };
++      const leaving = outgoingFace.animate(
++        [{ transform: 'translateY(0)' }, { transform: `translateY(${-110 * direction}%)` }],
++        { ...options, fill: 'forwards' }
++      );
++      const arriving = incomingFace.animate(
++        [{ transform: `translateY(${110 * direction}%)` }, { transform: 'translateY(0)' }],
++        options
++      );
++      const roll = {
++        animations: [leaving, arriving],
++        settle() {
++          outgoingFace.remove();
++          incomingFace.classList.remove('is-incoming');
++        }
++      };
++      arriving.finished.then(() => {
++        roll.settle();
++        editionRolls = editionRolls.filter(item => item !== roll);
++      }, () => {});
++      editionRolls.push(roll);
++    });
++    editionValue = value;
++  }
++
+   const sourceFor = image => image.dataset.viewerSrc || image.src || image.currentSrc;
+   function warmNeighbour(offset) {
+     if (photographs.length < 2) return;
+@@ -89,6 +161,7 @@ function initializePhotoViewer() {
+   async function showPhotograph(newIndex, direction = 0) {
+     if (closing) return;
+     clearTransition();
++    const previousIndex = index;
+     index = (newIndex + photographs.length) % photographs.length;
+     const current = photographs[index];
+     const token = ++request;
+@@ -97,7 +170,7 @@ function initializePhotoViewer() {
+     const canTransition = direction && !paper.hidden && !reducedMotion.matches;
+     message.hidden = true;
+     counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(photographs.length).padStart(2, '0')}`;
+-    edition.textContent = counter.textContent;
++    setEdition(counter.textContent, direction || Math.sign(index - previousIndex));
+     counter.setAttribute('aria-label', text('labelCounter', 'Photographie {n} sur {total}', { n: index + 1, total: photographs.length }));
+     loadingTimer = setTimeout(() => {
+       if (token !== request || !dialog.open) return;
+@@ -169,10 +242,11 @@ function initializePhotoViewer() {
+   }
+ 
+   function openViewer(image, position) {
+-    if (!viewerBreakpoint.matches || dialog.open) return;
++    if (dialog.open) return;
+     opener = image;
+     dimensions = undefined;
+     paper.hidden = true;
++    writeEdition('');
+     closing = false;
+     dialog.classList.remove('is-closing');
+     dialog.classList.add('is-opening');
+@@ -204,38 +278,23 @@ function initializePhotoViewer() {
+     clearTimeout(loadingTimer);
+     stage.setAttribute('aria-busy', 'false');
+     document.documentElement.classList.remove('photo-viewer-open');
+-    if (viewerBreakpoint.matches) opener?.focus({ preventScroll: true });
++    opener?.focus({ preventScroll: true });
+   });
+ 
+-  function updateInteraction() {
+-    const enabled = viewerBreakpoint.matches;
+-    if (!enabled) closeViewer(true);
+-    photographs.forEach((image, position) => {
+-      image.classList.toggle('photo-viewer-trigger', enabled);
+-      if (enabled) {
+-        image.tabIndex = 0;
+-        image.setAttribute('role', 'button');
+-        image.setAttribute('aria-haspopup', 'dialog');
+-        image.setAttribute('aria-controls', 'photo-viewer');
+-        image.setAttribute('aria-label', `${text('labelEnlarge', 'Agrandir la photographie {n} sur {total}', { n: position + 1, total: photographs.length })}${image.alt ? `${document.documentElement.lang.startsWith('fr') ? ' : ' : ': '}${image.alt}` : ''}`);
+-      } else {
+-        originalAttributes.get(image).forEach((value, name) => {
+-          if (value === null) image.removeAttribute(name);
+-          else image.setAttribute(name, value);
+-        });
+-      }
+-    });
+-  }
+   photographs.forEach((image, position) => {
++    image.classList.add('photo-viewer-trigger');
++    image.tabIndex = 0;
++    image.setAttribute('role', 'button');
++    image.setAttribute('aria-haspopup', 'dialog');
++    image.setAttribute('aria-controls', 'photo-viewer');
++    image.setAttribute('aria-label', `${text('labelEnlarge', 'Agrandir la photographie {n} sur {total}', { n: position + 1, total: photographs.length })}${image.alt ? `${document.documentElement.lang.startsWith('fr') ? ' : ' : ': '}${image.alt}` : ''}`);
+     image.addEventListener('click', () => openViewer(image, position));
+     image.addEventListener('keydown', event => {
+-      if (!viewerBreakpoint.matches || (event.key !== 'Enter' && event.key !== ' ')) return;
++      if (event.key !== 'Enter' && event.key !== ' ') return;
+       event.preventDefault();
+       openViewer(image, position);
+     });
+   });
+-  viewerBreakpoint.addEventListener('change', updateInteraction);
+-  updateInteraction();
+ 
+   // Quiet mode: controls fade out when the mouse rests (see _photo-viewer.scss).
+   let quietTimer;
+@@ -270,6 +329,17 @@ function initializePhotoViewer() {
+     thumbnail.alt = '';
+     thumbnail.loading = 'lazy';
+     thumbnail.decoding = 'async';
++    // The prints are large on the wall: the browser picks, from the article's
++    // own WebP versions, the one that suits their size on screen (at most
++    // 360px high, see _photo-viewer.scss).
++    const ratio = image.getAttribute('width') && image.getAttribute('height')
++      ? image.getAttribute('width') / image.getAttribute('height')
++      : 1.5;
++    thumbnail.dataset.ratio = ratio;
++    if (image.srcset) {
++      thumbnail.srcset = image.srcset;
++      thumbnail.sizes = `${Math.round(360 * ratio)}px`;
++    }
+     thumbnail.src = image.currentSrc || image.src;
+     if (image.getAttribute('width') && image.getAttribute('height')) {
+       thumbnail.style.aspectRatio = `${image.getAttribute('width')} / ${image.getAttribute('height')}`;
+@@ -283,6 +353,26 @@ function initializePhotoViewer() {
+   const step = (element, keyframes) => reducedMotion.matches
+     ? undefined
+     : element.animate(keyframes, { duration: 500, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' });
++  // The size slider (27 November 2026): it sets the height of the prints,
++  // from small to as tall as the room allows. Once released, each print asks
++  // the browser for the WebP version that suits its new size.
++  const thumbnails = frames.map(frame => frame.querySelector('img'));
++  function fitSizer() {
++    const roomHeight = room.clientHeight;
++    if (!roomHeight) return;
++    sizer.max = Math.max(Number(sizer.min) + 40, Math.round(roomHeight * 0.78));
++    if (!wall.style.getPropertyValue('--wall-print-height')) {
++      sizer.value = Math.round(parseFloat(getComputedStyle(thumbnails[0]).height)) || sizer.value;
++    }
++  }
++  sizer.addEventListener('input', () => {
++    wall.style.setProperty('--wall-print-height', `${sizer.value}px`);
++  });
++  sizer.addEventListener('change', () => {
++    thumbnails.forEach(thumbnail => {
++      if (thumbnail.srcset) thumbnail.sizes = `${Math.round(sizer.value * thumbnail.dataset.ratio)}px`;
++    });
++  });
+   function enterRoom() {
+     if (!room.hidden || closing) return;
+     clearTransition();
+@@ -294,6 +384,7 @@ function initializePhotoViewer() {
+     dialog.classList.add('is-room');
+     stage.hidden = true;
+     room.hidden = false;
++    fitSizer();
+     overview.setAttribute('aria-pressed', 'true');
+     overview.setAttribute('aria-label', overview.dataset.labelBack || 'Revenir à la photographie');
+     step(room, [{ opacity: 0, transform: 'scale(1.08)' }, { opacity: 1, transform: 'scale(1)' }]);
+@@ -319,6 +410,10 @@ function initializePhotoViewer() {
+   overview.dataset.labelOverview = overview.getAttribute('aria-label');
+   dialog.dataset.labelOverview = overview.getAttribute('aria-label');
+   overview.hidden = photographs.length < 2;
++  // No wall on phones: leave it if the window narrows while it is shown.
++  phone.addEventListener('change', () => {
++    if (phone.matches && !room.hidden) leaveRoom(index);
++  });
+   overview.addEventListener('click', () => (room.hidden ? enterRoom() : leaveRoom(index)));
+   dialog.addEventListener('close', () => {
+     room.hidden = true;
+@@ -339,7 +434,7 @@ function initializePhotoViewer() {
+   });
+   dialog.addEventListener('keydown', event => {
+     if (event.key === 'Tab') {
+-      const controls = Array.from(dialog.querySelectorAll('button:not([disabled])'))
++      const controls = Array.from(dialog.querySelectorAll('button:not([disabled]), input'))
+         .filter(button => !button.closest('[hidden]') && button.getClientRects().length);
+       const first = controls[0];
+       const last = controls[controls.length - 1];

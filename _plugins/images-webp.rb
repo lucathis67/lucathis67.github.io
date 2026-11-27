@@ -10,11 +10,12 @@
 #   qui suffit à la largeur affichée et à la densité de l'écran ;
 # - sizes : la largeur d'affichage de la photo, déduite de son bloc (rangée de
 #   photos, photo et texte, carte de l'accueil…), sauf si la page en donne déjà
-#   une ;
-# - data-viewer-src : la plus grande version WebP, ouverte par le visualiseur.
+#   une.
 #
 # Le JPEG d'origine reste dans src : c'est lui que reçoivent les très rares
-# navigateurs qui ignorent srcset. Les images qui ont déjà un srcset et les
+# navigateurs qui ignorent srcset, et c'est lui qu'ouvre le visualiseur de
+# photos (27 novembre 2026, au lieu de la plus grande version WebP) : la photo
+# y est affichée en grand, sans seconde compression. Les images qui ont déjà un srcset et les
 # images Open Graph (balises <meta>) ne sont pas touchées : Facebook,
 # WhatsApp et les messageries attendent un JPEG.
 module LucathisWebp
@@ -122,7 +123,6 @@ module LucathisWebp
 
       attributes = +" srcset=\"#{list.map { |file, width| "#{baseurl}#{file} #{width}w" }.join(', ')}\""
       attributes << " sizes=\"#{sizes_for(tag, ancestors)}\"" unless tag =~ /\ssizes\s*=/i
-      attributes << " data-viewer-src=\"#{baseurl}#{list.last.first}\"" unless tag =~ /\sdata-viewer-src\s*=/i
       parts[index] = tag.sub(%r{\s*/?>\z}) { |ending| "#{attributes}#{ending}" }
     end
 
