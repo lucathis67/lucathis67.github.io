@@ -1,0 +1,225 @@
+@use "breakpoints" as bp;
+
+// "Page d'album" (28 November 2026): first drawn for À propos, then used by
+// the articles. An opening plate (photograph, label, title, standfirst),
+// the two editorial rules, chapters in the narrow reading column with a
+// roman numeral, photo plates between them. Written mobile first.
+
+// ---------------------------------------------------------------- À propos
+
+.album-opening {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--gutter-mobile) 0;
+  text-align: center;
+}
+.album-portrait {
+  display: block;
+  max-width: 480px;
+  margin-inline: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.album-opening-text .eyebrow {
+  margin: 0 0 12px;
+}
+.album-opening .page-title {
+  max-width: none;
+  text-align: inherit;
+  margin: 0 0 20px;
+  padding: 0;
+}
+.album-opening .standfirst {
+  max-width: 36em;
+  margin: 0 auto;
+  color: var(--color-heading);
+}
+
+// The two rules (_includes/ornament.html), as at the end of an article.
+.album-mark {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-section-inner) 0;
+  color: var(--color-text);
+  opacity: 0.55;
+}
+.album-mark .ornament {
+  width: min(120px, 40vw);
+  height: auto;
+}
+
+.album-chapter {
+  box-sizing: border-box;
+  width: min(100%, var(--reading-width));
+  margin: 0 auto;
+  padding-inline: var(--gutter-mobile);
+}
+.album-chapter-number {
+  margin: 0 0 8px;
+  text-align: center;
+}
+.album-chapter .section-title {
+  margin: 0 0 var(--space-heading-after);
+  text-align: center;
+}
+.album-chapter p:last-child {
+  margin-bottom: 0;
+}
+
+// Photo plates between the chapters: a pair (as in the articles), then one
+// wide photograph with its caption.
+.album-plate,
+.photo-row.album-plate {
+  margin: var(--space-block) 0;
+}
+.photo-row.album-plate img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.album-plate-wide img {
+  display: block;
+}
+.album-plate-wide figcaption {
+  margin-top: 12px;
+  padding-inline: var(--gutter-mobile);
+  font-family: var(--font-body);
+  font-size: var(--text-size-small);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+.album-plate-wide figcaption .text-link {
+  margin-left: 0.6em;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+@include bp.above-mobile {
+  .album-opening {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: 64px;
+    padding: 40px 0 0;
+    text-align: left;
+  }
+  .album-portrait {
+    max-width: none;
+    aspect-ratio: 2 / 3;
+  }
+  .album-opening-text {
+    max-width: 520px;
+  }
+  .album-opening .page-title {
+    font-size: clamp(2.6rem, 4vw, 3.6rem);
+  }
+  .album-chapter {
+    padding-inline: 0;
+  }
+  .album-plate-wide figcaption {
+    padding-inline: 0;
+  }
+}
+
+
+// ---------------------------------------------------------------- Articles
+
+// Landscape opening: the photograph across the whole column, then the label
+// and the title on the left, the standfirst on the right, in two equal
+// columns (a 5/7 split broke the longer titles over three lines). On phones, the photograph runs edge to edge
+// and the text is centred below it, as on À propos.
+.reportage-opening-wide {
+  padding-top: var(--space-5);
+}
+.reportage-opening-image {
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.reportage-opening-text {
+  text-align: center;
+}
+.reportage-opening-wide .reportage-opening-text {
+  padding: var(--space-5) var(--gutter-mobile) 0;
+}
+.reportage-opening .eyebrow {
+  margin: 0 0 12px;
+}
+.reportage-opening .page-title {
+  max-width: none;
+  margin: 0 0 20px;
+  padding: 0;
+  text-align: inherit;
+}
+.reportage-opening .standfirst {
+  max-width: 36em;
+  margin: 0 auto;
+  color: var(--color-heading);
+}
+.reportage-opening + .album-mark {
+  margin-bottom: 0;
+}
+
+// Chapters: each text block that opens with a title gets its roman numeral
+// above it, and the title is centred, as on À propos. Practical advice
+// (.article-practical, such as how to book the cathedral) stays out of the
+// story and is not numbered (Lucas, 28 November 2026).
+.reportage-album {
+  counter-reset: album-chapter;
+}
+.reportage-album .article-text-bloc:not(.article-practical):has(> .section-title:first-child) {
+  counter-increment: album-chapter;
+}
+.reportage-album .article-text-bloc:not(.article-practical):has(> .section-title:first-child)::before {
+  content: counter(album-chapter, upper-roman);
+  display: block;
+  margin: 0 0 8px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  line-height: 1.7;
+  text-align: center;
+  color: var(--color-text);
+}
+.reportage-album .article-text-bloc > .section-title:first-child {
+  margin-bottom: var(--space-heading-after);
+  text-align: center;
+}
+
+@include bp.above-mobile {
+  .reportage-opening-wide {
+    padding-top: 40px;
+  }
+  .reportage-opening-wide .reportage-opening-text {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 64px;
+    align-items: end;
+    padding: 32px 0 0;
+    text-align: left;
+  }
+  .reportage-opening-wide .eyebrow {
+    grid-column: 1 / -1;
+  }
+  .reportage-opening-wide .page-title {
+    margin: 0;
+    font-size: clamp(2.3rem, 3.4vw, 3.1rem);
+  }
+  .reportage-opening-wide .standfirst {
+    max-width: none;
+    margin: 0;
+    padding-bottom: 0.3em;
+  }
+  .album-opening .reportage-opening-text {
+    text-align: left;
+  }
+  .album-opening.reportage-opening .standfirst {
+    margin: 0;
+  }
+  .album-opening.reportage-opening .page-title {
+    font-size: clamp(2.6rem, 4vw, 3.6rem);
+  }
+}

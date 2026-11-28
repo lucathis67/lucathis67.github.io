@@ -29,6 +29,7 @@ module LucathisWebp
     "profile-hero" => ->(_) { "100vw" },
     "profile-portrait" => ->(_) { "(max-width: 520px) 100vw, 520px" },
     "album-portrait" => ->(_) { "(max-width: 800px) 100vw, 480px" },
+    "reportage-opening-image" => ->(_) { "(max-width: 1200px) 100vw, 1200px" },
     "album-plate-wide" => ->(_) { "(max-width: 1200px) 100vw, 1200px" },
     "contact-portrait" => ->(_) { "(max-width: 800px) 480px, 370px" },
     "landing-about" => ->(_) { "(max-width: 800px) 320px, 360px" },
