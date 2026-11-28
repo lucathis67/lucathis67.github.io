@@ -36,12 +36,13 @@
   white-space: nowrap;
 }
 .home-lede {
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
   padding: 40px var(--gutter-mobile);
   text-align: center;
   font-size: 1.1rem;
   font-style: italic;
+  font-weight: 450;
   color: var(--color-heading);
 }
 .home-une .home-introduction {
