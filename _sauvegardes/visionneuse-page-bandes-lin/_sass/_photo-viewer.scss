@@ -1,0 +1,729 @@
+@use "breakpoints" as bp;
+
+// Gallery enhancement leaves the hand-authored image rows intact.
+.photo-viewer-trigger {
+  cursor: zoom-in;
+}
+.photo-viewer-trigger:focus-visible {
+  outline: 2px solid var(--color-heading);
+  outline-offset: 5px;
+}
+html.photo-viewer-open {
+  overflow: hidden;
+}
+.photo-viewer:not([open]),
+.photo-viewer [hidden] {
+  display: none;
+}
+.photo-viewer {
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  border: 0;
+  background: transparent;
+  color: var(--color-background);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+.photo-viewer[open] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  // The number now sits in the mat: the bars around the print are thinner,
+  // so the photograph shows larger (27 November 2026).
+  grid-template-rows: 64px minmax(0, 1fr) 40px;
+}
+// Fully opaque: the viewer is a separate room, nothing of the article shows
+// through (27 November 2026).
+.photo-viewer::backdrop {
+  background: var(--color-viewer-backdrop);
+}
+// A gallery wall (27 November 2026): dark wood laid on the diagonal, felt
+// more than seen (assets/textures/wall-wood-diagonal-darker.webp: "Dark
+// Wood" from Poly Haven, CC0, turned 45 degrees on a seamless tile,
+// recoloured to the wall colour and darkened to a quarter, saved without
+// loss so that its faint grain survives; its 544px tile is shown at 272px, a
+// fine grain that stays sharp on dense screens; the textures tried before
+// are wall-wood-diagonal-dark.webp, wall-wood-diagonal.webp, wall-wood.webp,
+// wall-wood-raw.webp, wall-linen-charcoal.webp and wall-linen.webp). A very slight warmth of mahogany rises from the lower
+// part of the wall; a soft spotlight from above the print fades into the
+// corners.
+$wall-light:
+  radial-gradient(ellipse 60% 55% at 50% 30%, rgb(255 246 230 / 7%), transparent 70%),
+  // Deeper shadows towards the corners (27 November 2026, evening).
+  radial-gradient(ellipse 120% 100% at 50% 40%, transparent 22%, rgb(0 0 0 / 86%)),
+  linear-gradient(to bottom, transparent 25%, rgb(74 34 24 / 22%));
+$wall-texture: url("../textures/wall-wood-diagonal-darker.webp") repeat;
+.photo-viewer[open] {
+  background: $wall-light, $wall-texture, var(--color-viewer-backdrop);
+  background-size: auto, auto, auto, 272px, auto;
+}
+// On the wall (27 November 2026): the two fixed bands are dressed in the
+// original linen, recoloured to the wall colour and kept as faint as the
+// wood (assets/textures/wall-linen-black.webp, from wall-linen.webp, saved
+// without loss), and the wood belongs to the wall of prints itself: it
+// scrolls with them (background-attachment: local), while the light and
+// the shadows stay in place.
+.photo-viewer.is-room {
+  background: url("../textures/wall-linen-black.webp") repeat, var(--color-viewer-backdrop);
+}
+.photo-viewer.is-room .photo-viewer-room {
+  background: $wall-light, $wall-texture, var(--color-viewer-backdrop);
+  background-size: auto, auto, auto, 272px, auto;
+  background-attachment: scroll, scroll, scroll, local, scroll;
+}
+.photo-viewer-toolbar {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 0 28px 0 32px;
+}
+.photo-viewer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.75;
+}
+// Fine rule arrows, no circle (27 November 2026): the arrow brightens and
+// moves forward a little on hover (no movement if less motion is wanted,
+// see _motion.scss). The clickable area stays as large as before.
+.photo-viewer-previous,
+.photo-viewer-next {
+  flex-basis: 64px;
+  width: 64px;
+}
+.photo-viewer-button:hover {
+  opacity: 1;
+}
+.photo-viewer-button:focus-visible {
+  outline: 2px solid var(--color-background);
+  outline-offset: 5px;
+}
+.photo-viewer-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  margin-inline: 96px;
+  touch-action: pan-y;
+}
+.photo-viewer-paper {
+  --print-edge-feather: 0.85px;
+  box-sizing: content-box;
+  line-height: 0;
+  // Background-only grain never overlays or filters the photograph.
+  background-color: #fff;
+  background-image: url("../textures/fine-art-paper.svg");
+  background-repeat: repeat;
+  background-size: var(--paper-texture-size);
+  // A subpixel paper-coloured halo softens the cut edge without blurring it.
+  // Hung on the wall: a close, soft contact shadow, then a wider one cast
+  // downwards by the spotlight.
+  box-shadow:
+    0 0 1px 0.5px rgb(255 255 255 / 65%),
+    0 3px 6px rgb(0 0 0 / 28%),
+    0 36px 60px -14px rgb(0 0 0 / 55%);
+}
+.photo-viewer-image {
+  background: #fff;
+  display: block;
+  max-width: none;
+  height: auto;
+  object-fit: contain;
+}
+// Feather only the outermost pixel of the image into the textured mat.
+// The centre remains fully opaque and sharp; no blur filter is applied.
+@supports (mask-composite: intersect) {
+  .photo-viewer-image {
+    mask-image:
+      linear-gradient(to right, transparent, #000 var(--print-edge-feather), #000 calc(100% - var(--print-edge-feather)), transparent),
+      linear-gradient(to bottom, transparent, #000 var(--print-edge-feather), #000 calc(100% - var(--print-edge-feather)), transparent);
+    mask-composite: intersect;
+  }
+}
+.photo-viewer-message {
+  position: absolute;
+  max-width: 38ch;
+  margin: 0;
+  color: inherit;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  text-align: center;
+}
+.photo-viewer-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+// The counter stays as a live region for screen readers; on screen, the
+// number is written in the mat (below).
+.photo-viewer-counter {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.photo-viewer-paper {
+  position: relative;
+}
+// The photograph's number, in the top band to the left of the wall button
+// (27 November 2026), in the near-white of the controls. Same typography as
+// when it was written in the mat.
+.photo-viewer-edition {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  // Tabular figures: every wheel of the counter has the same width.
+  font-variant-numeric: oldstyle-nums tabular-nums;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.8;
+  white-space: nowrap;
+  pointer-events: none;
+  // Seen from icon to icon, the number then sits as far from the wall button
+  // as the wall button from the close button.
+  margin-right: 14px;
+}
+// Each character in its own window: the figures roll inside it, and fade at
+// its top and bottom edges as on the drum of a mechanical counter.
+.photo-viewer-digit {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  // Room for the descenders of the old-style figures.
+  padding-block: 0.3em;
+  margin-block: -0.3em;
+  white-space: pre;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+.photo-viewer-digit > span {
+  display: block;
+}
+.photo-viewer-digit > .is-incoming {
+  position: absolute;
+  inset: 0.3em 0 auto;
+}
+// On the wall, the number of a single print no longer applies.
+.photo-viewer.is-room .photo-viewer-edition {
+  display: none;
+}
+// In its place on the wall, a fine slider sets the size of the prints
+// (27 November 2026): a hairline track and a small round head, in the
+// near-white of the controls.
+.photo-viewer-size {
+  display: none;
+  width: 112px;
+  height: 24px;
+  margin: 0 14px 0 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.8;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.photo-viewer.is-room .photo-viewer-size {
+  display: block;
+}
+.photo-viewer-size:hover,
+.photo-viewer-size:focus-visible {
+  opacity: 1;
+}
+.photo-viewer-size:focus-visible {
+  outline: 2px solid var(--color-background);
+  outline-offset: 5px;
+}
+.photo-viewer-size::-webkit-slider-runnable-track {
+  height: 1px;
+  background: currentColor;
+}
+.photo-viewer-size::-moz-range-track {
+  height: 1px;
+  background: currentColor;
+}
+.photo-viewer-size::-webkit-slider-thumb {
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+  -webkit-appearance: none;
+}
+.photo-viewer-size::-moz-range-thumb {
+  width: 9px;
+  height: 9px;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+.photo-viewer-previous,
+.photo-viewer-next {
+  position: absolute;
+  top: calc(50% - 24px);
+  border: 0;
+  border-radius: 0;
+  opacity: 0.8;
+}
+.photo-viewer-previous:hover,
+.photo-viewer-next:hover {
+  background: transparent;
+  opacity: 1;
+}
+.photo-viewer-previous { left: 24px; }
+.photo-viewer-next { right: 24px; }
+
+// Phone version (27 November 2026): a lighter room. Plain black, no linen
+// and no spotlight, the print with its equal mat as wide as the screen
+// allows; a swipe moves from one photograph to the next (photo-viewer.js),
+// so there are no arrows, and no wall.
+@include bp.mobile {
+  .photo-viewer[open] {
+    grid-template-rows: 56px minmax(0, 1fr) 24px;
+    background: #000;
+  }
+  .photo-viewer::backdrop {
+    background: #000;
+  }
+  .photo-viewer-toolbar {
+    gap: 4px;
+    padding-inline: 16px 4px;
+  }
+  .photo-viewer-stage {
+    margin-inline: 12px;
+  }
+  .photo-viewer-paper {
+    box-shadow: 0 0 1px 0.5px rgb(255 255 255 / 65%);
+  }
+  .photo-viewer-footer,
+  .photo-viewer-overview,
+  .photo-viewer-room {
+    display: none;
+  }
+}
+
+// A temporary, inaccessible print preserves the outgoing image during a change.
+.photo-viewer-transition {
+  position: absolute;
+  margin: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .photo-viewer.is-opening,
+  .photo-viewer.is-opening::backdrop {
+    animation: viewer-fade-in 410ms ease-in-out both;
+  }
+  .photo-viewer.is-closing,
+  .photo-viewer.is-closing::backdrop {
+    animation: viewer-fade-out 410ms ease-in-out both;
+  }
+}
+@keyframes viewer-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes viewer-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+// Quiet mode (27 November 2026): when the mouse rests, the arrows and the
+// close button fade away and the pointer hides, leaving the print alone on
+// the wall. Any movement, key or focus brings them back (photo-viewer.js).
+.photo-viewer-toolbar,
+.photo-viewer-footer {
+  transition: opacity 600ms ease;
+}
+.photo-viewer.is-quiet .photo-viewer-toolbar,
+.photo-viewer.is-quiet .photo-viewer-footer {
+  opacity: 0;
+}
+.photo-viewer.is-quiet,
+.photo-viewer.is-quiet * {
+  cursor: none;
+}
+
+// Room overview (27 November 2026): every photograph of the story hung on
+// the wall as a small matted print, in the same light. The current one is
+// marked by a fine line beneath it.
+.photo-viewer-room {
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  place-items: center;
+  padding: 16px 96px 32px;
+  transform-origin: 50% 40%;
+}
+.photo-viewer-wall {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  // The height of the prints, set by the slider in the top band
+  // (photo-viewer.js); margins, mats and gaps follow it.
+  --wall-print-height: clamp(180px, 34vh, 360px);
+  gap: calc(var(--wall-print-height) * 0.2) calc(var(--wall-print-height) * 0.22);
+  max-width: 1600px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.photo-viewer-wall li {
+  margin: 0;
+  padding: 0;
+}
+.photo-viewer-frame {
+  position: relative;
+  display: block;
+  // Equal mat on all four sides (27 November 2026), the same for every print
+  // on the wall, so that the frames of a row line up whatever their format.
+  padding: calc(var(--wall-print-height) * 0.07);
+  border: 0;
+  line-height: 0;
+  background: #fff url("../textures/fine-art-paper.svg") repeat;
+  background-size: var(--paper-texture-size);
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 28%),
+    0 18px 30px -10px rgb(0 0 0 / 55%);
+  cursor: pointer;
+}
+.photo-viewer-frame img {
+  display: block;
+  width: auto;
+  height: var(--wall-print-height);
+  max-width: none;
+  object-fit: cover;
+}
+.photo-viewer-frame[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  bottom: calc(var(--wall-print-height) * -0.067);
+  height: 1px;
+  background: var(--color-background);
+  opacity: 0.8;
+}
+.photo-viewer-frame:focus-visible {
+  outline: 2px solid var(--color-background);
+  outline-offset: 6px;
+}
+// On hover, the print does not move: only its shadow deepens and spreads,
+// slowly, as if it stood a little further from the wall (27 November 2026).
+@media (hover: hover) {
+  .photo-viewer-frame:hover {
+    box-shadow:
+      0 3px 6px rgb(0 0 0 / 30%),
+      0 30px 48px -12px rgb(0 0 0 / 62%);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .photo-viewer-frame {
+    transition: box-shadow 700ms ease;
+  }
+}
+// In the room, the arrows step aside.
+.photo-viewer.is-room .photo-viewer-previous,
+.photo-viewer.is-room .photo-viewer-next {
+  visibility: hidden;
+}
+// In the room, the fixed bands above and below the wall carry a caption
+// (27 November 2026): the story's title at the top, as on a gallery's
+// exhibition wall, and the signature at the bottom. Both in the near-white of
+// the controls; they appear with the room and leave with it.
+.photo-viewer-toolbar {
+  position: relative;
+}
+.photo-viewer-room-text {
+  margin: 0;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.photo-viewer.is-room .photo-viewer-room-text {
+  visibility: visible;
+}
+// The title is centred in the window, clear of the buttons on the right.
+.photo-viewer-title {
+  position: absolute;
+  inset-inline: 168px;
+  top: 50%;
+  transform: translateY(-50%);
+  // Cormorant Garamond, finer than the page titles (500).
+  font-family: var(--font-display);
+  // Discreet, close to the signature below (27 November 2026).
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+.photo-viewer.is-room .photo-viewer-title {
+  opacity: 0.85;
+}
+// The signature in the brand's own typeface, as in the site's header.
+.photo-viewer-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.photo-viewer.is-room .photo-viewer-brand {
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .photo-viewer-room-text {
+    transition: opacity 500ms ease, visibility 0s linear 500ms;
+  }
+  .photo-viewer.is-room .photo-viewer-room-text {
+    transition: opacity 500ms ease 150ms, visibility 0s;
+  }
+}
+.photo-viewer.is-room .photo-viewer-overview {
+  opacity: 1;
+}
+// The wall button shows four frames, then a single one on the wall: it leads
+// back to the photograph alone (27 November 2026).
+.photo-viewer-icon-single,
+.photo-viewer-overview[aria-pressed="true"] .photo-viewer-icon-wall {
+  display: none;
+}
+.photo-viewer-overview[aria-pressed="true"] .photo-viewer-icon-single {
+  display: block;
+}
+
+// ---------------------------------------------------------------------------
+// Album page (27 November 2026, trial): the whole window is a page of an
+// album. The linen of the cover frames it, like the cloth of a hardcover
+// turned over onto the board (assets/textures/album-linen.webp:
+// "Rough Linen" from Poly Haven, CC0, recoloured to a light flax); the rest
+// is the site's own paper, on which the photograph is printed with generous
+// margins, without a mat. The controls, the title and the signature are
+// printed in ink on the same page. The wall becomes a page of small prints.
+// The dark gallery above is kept untouched: set $viewer-album to false to
+// bring it back. The two earlier linen versions are saved in _sauvegardes/
+// (visionneuse-album-lin and visionneuse-album-lin-retouches).
+$viewer-album: true;
+@if $viewer-album {
+  $album-linen: url("../textures/album-linen.webp") repeat;
+  // The site's paper: its texture over its colour (a colour alone may only
+  // close a list of backgrounds, hence the flat gradient).
+  $page-texture: url("../textures/fine-art-paper.svg") repeat;
+  $page-colour: linear-gradient(var(--color-background), var(--color-background));
+  .photo-viewer {
+    // Read by photo-viewer.js: no mat around the photograph. The slow page
+    // turn and the two-page spreads (--viewer-turn and --viewer-spreads,
+    // set to 1) are left off.
+    --viewer-mat: 0;
+    --viewer-turn: 0;
+    --viewer-spreads: 0;
+    // Linen on each side (widened on 27 November 2026, evening).
+    --page-edge: 36px;
+    color: var(--color-heading);
+  }
+  .photo-viewer::backdrop {
+    background: #e6decf;
+  }
+  // The page, set into its linen (27 November 2026, evening): the top and
+  // bottom bands, as tall as in the gallery, are linen and carry the
+  // controls, the title and the signature; an even edge of linen runs down
+  // each side; the paper fills the rest, set slightly into the cloth.
+  // Both bands the same height (27 November 2026, evening).
+  .photo-viewer {
+    --page-top: 64px;
+    --page-bottom: 64px;
+  }
+  .photo-viewer[open],
+  .photo-viewer.is-room {
+    grid-template-rows: var(--page-top) minmax(0, 1fr) var(--page-bottom);
+    background: $album-linen, #e6decf;
+    background-size: 512px, auto;
+  }
+  .photo-viewer[open]::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: calc(var(--page-top) + env(safe-area-inset-top, 0px));
+    bottom: calc(var(--page-bottom) + env(safe-area-inset-bottom, 0px));
+    left: var(--page-edge);
+    right: var(--page-edge);
+    background: $page-texture, var(--color-background);
+    background-size: var(--paper-texture-size), auto;
+    // A faint line marks the edge of the paper on the cloth.
+    box-shadow: inset 0 0 0 0.5px rgb(61 46 32 / 22%);
+    pointer-events: none;
+  }
+  // On the wall only, the page is set into the cover (27 November 2026,
+  // evening): the linen casts a soft shade over the edges of the paper,
+  // deeper under its upper edge, and the lip below catches a little light.
+  .photo-viewer.is-room::before {
+    box-shadow:
+      inset 0 0 0 0.5px rgb(61 46 32 / 22%),
+      inset 0 3px 6px -2px rgb(61 46 32 / 16%),
+      inset 0 0 10px rgb(61 46 32 / 6%),
+      0 1px 0 rgb(255 252 244 / 45%);
+  }
+  // At rest, the buttons fade but the number stays printed on the page.
+  .photo-viewer.is-quiet .photo-viewer-toolbar {
+    opacity: 1;
+  }
+  .photo-viewer.is-quiet .photo-viewer-toolbar > :not(.photo-viewer-edition) {
+    opacity: 0;
+    transition-duration: 600ms;
+  }
+  // The photograph printed on the page: no mat, no shadow, no feathered
+  // edge; the page's margins around it.
+  .photo-viewer-stage {
+    margin: 64px calc(var(--page-edge) + 128px);
+  }
+  // The arrows on the page, closer to the photograph.
+  .photo-viewer-previous { left: calc(var(--page-edge) + 56px); }
+  .photo-viewer-next { right: calc(var(--page-edge) + 56px); }
+  // The photograph's number, printed in the bottom right corner of the page.
+  .photo-viewer-edition {
+    position: fixed;
+    right: calc(var(--page-edge) + 28px);
+    bottom: calc(var(--page-bottom) + env(safe-area-inset-bottom, 0px) + 22px);
+    margin: 0;
+  }
+  .photo-viewer-paper {
+    background: none;
+    box-shadow: none;
+  }
+  .photo-viewer-image {
+    mask-image: none;
+  }
+  .photo-viewer-button:focus-visible,
+  .photo-viewer-size:focus-visible,
+  .photo-viewer-frame:focus-visible {
+    outline-color: var(--viewer-ink);
+  }
+  // Rich ink (27 November 2026, evening): every control, the number, the
+  // title and the signature in a deep, warm black, fully opaque and a
+  // little heavier than the site's charcoal.
+  .photo-viewer {
+    --viewer-ink: #15110d;
+    color: var(--viewer-ink);
+  }
+  .photo-viewer-button,
+  .photo-viewer-previous,
+  .photo-viewer-next,
+  .photo-viewer-edition,
+  .photo-viewer-size,
+  .photo-viewer.is-room .photo-viewer-title,
+  .photo-viewer.is-room .photo-viewer-brand {
+    opacity: 1;
+  }
+  .photo-viewer-button svg [stroke] {
+    stroke-width: 1.5;
+  }
+  // The arrows are drawn as filled shapes: a stroke of the same ink thickens
+  // them (about 0.8px at their size).
+  .photo-viewer-previous path,
+  .photo-viewer-next path {
+    stroke: currentColor;
+    stroke-width: 18;
+    stroke-linejoin: round;
+  }
+  .photo-viewer-title,
+  .photo-viewer-brand {
+    font-weight: 500;
+  }
+  .photo-viewer-edition {
+    font-weight: 500;
+  }
+  .photo-viewer-size::-webkit-slider-runnable-track { height: 1.5px; }
+  .photo-viewer-size::-moz-range-track { height: 1.5px; }
+  .photo-viewer-size::-webkit-slider-thumb {
+    width: 11px;
+    height: 11px;
+    margin-top: -4.75px;
+  }
+  .photo-viewer-size::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+  }
+  .photo-viewer-frame[aria-current="true"]::after {
+    height: 1.5px;
+  }
+  // The wall as a page of small prints, on the page itself: the prints
+  // scroll on the paper and slip under the linen bands.
+  .photo-viewer.is-room .photo-viewer-room {
+    background: none;
+  }
+  .photo-viewer-frame {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+  @media (hover: hover) {
+    .photo-viewer-frame:hover {
+      box-shadow: none;
+    }
+    .photo-viewer-frame img {
+      transition: opacity 400ms ease;
+    }
+    .photo-viewer-frame:hover img {
+      opacity: 0.88;
+    }
+  }
+  .photo-viewer-frame[aria-current="true"]::after {
+    bottom: calc(var(--wall-print-height) * -0.08);
+    background: var(--viewer-ink);
+    opacity: 0.85;
+  }
+  @include bp.mobile {
+    .photo-viewer {
+      --page-edge: 14px;
+      --page-top: 52px;
+      --page-bottom: 52px;
+    }
+    .photo-viewer[open] {
+      background: $album-linen, #e6decf;
+      background-size: 512px, auto;
+    }
+    .photo-viewer::backdrop {
+      background: #e6decf;
+    }
+    .photo-viewer-stage {
+      margin: 44px 16px;
+    }
+    .photo-viewer-edition {
+      right: calc(var(--page-edge) + 16px);
+      bottom: calc(var(--page-bottom) + env(safe-area-inset-bottom, 0px) + 14px);
+    }
+    .photo-viewer-paper {
+      box-shadow: none;
+    }
+  }
+}

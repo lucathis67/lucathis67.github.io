@@ -25,7 +25,9 @@
   --color-border: #e2dcd3;
   // Photo viewer: a dark mahogany gallery wall, covered in linen
   // (27 November 2026, was #211d1a; texture in _photo-viewer.scss).
-  --color-viewer-backdrop: #231713;
+  // Almost black, under the wall's wood texture (27 November 2026, late
+  // evening; was #0f0d0b, #1d1916, #29231f, and mahogany #231713 before).
+  --color-viewer-backdrop: #080706;
   // Mobile menu: a deep warm charcoal (darkened on 27 November 2026, from
   // #2a221d).
   --color-menu-background: #211d1a;

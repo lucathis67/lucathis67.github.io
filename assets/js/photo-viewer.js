@@ -9,20 +9,19 @@ function initializePhotoViewer() {
     .filter(image => !image.closest('a, button'));
   if (!photographs.length) return;
 
-  // Below 800px, preserve the ordinary inline photographs without triggers.
-  const viewerBreakpoint = matchMedia('(min-width: 800px)');
+  // Phone version below 800px (27 November 2026): the same viewer, lighter,
+  // without the wall (see _photo-viewer.scss; keep aligned with
+  // _breakpoints.scss). Every width now opens the viewer.
+  const phone = matchMedia('(max-width: 800px)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   // Wording comes from _data/translations.yml through data attributes on the dialog.
   const text = (key, fallback, values = {}) => Object.entries(values)
     .reduce((result, [name, value]) => result.replace(`{${name}}`, value), dialog.dataset[key] || fallback);
-  const managedAttributes = ['tabindex', 'role', 'aria-haspopup', 'aria-controls', 'aria-label'];
-  const originalAttributes = new Map(photographs.map(image => [
-    image, new Map(managedAttributes.map(name => [name, image.getAttribute(name)]))
-  ]));
 
   const stage = dialog.querySelector('.photo-viewer-stage');
   const paper = dialog.querySelector('.photo-viewer-paper');
   const displayed = dialog.querySelector('.photo-viewer-image');
+  const facing = dialog.querySelector('.photo-viewer-facing');
   const message = dialog.querySelector('.photo-viewer-message');
   const counter = dialog.querySelector('.photo-viewer-counter');
   const edition = dialog.querySelector('.photo-viewer-edition');
@@ -32,11 +31,13 @@ function initializePhotoViewer() {
   const overview = dialog.querySelector('.photo-viewer-overview');
   const room = dialog.querySelector('.photo-viewer-room');
   const wall = dialog.querySelector('.photo-viewer-wall');
+  const sizer = dialog.querySelector('.photo-viewer-size');
   let index = 0;
   let opener;
   let request = 0;
   let loadingTimer;
   let dimensions;
+  let facingDimensions;
   let touchStart;
   let suppressClickUntil = 0;
   let transitions = [];
@@ -45,6 +46,34 @@ function initializePhotoViewer() {
   let closeTimer;
   const fadeDuration = 410;
   const slideDuration = 900;
+  // Options read from _photo-viewer.scss (27 November 2026): --viewer-turn
+  // turns the pages slowly, --viewer-spreads opens two portraits side by side
+  // on wide screens, --viewer-mat sets the mat around the print (a share of
+  // its longer side; 0 when the photograph is printed on the page itself).
+  const option = name => getComputedStyle(dialog).getPropertyValue(name).trim();
+  const turnPages = () => option('--viewer-turn') === '1';
+  // Two-page spreads: on a wide screen, two portraits that follow each other
+  // face each other, as in an open album. The pairs are made from the start
+  // of the story; a landscape or a lone portrait keeps a page to itself.
+  const wide = matchMedia('(min-width: 1200px) and (min-aspect-ratio: 5/4)');
+  const isPortrait = image => {
+    const width = Number(image.getAttribute('width')) || image.naturalWidth;
+    const height = Number(image.getAttribute('height')) || image.naturalHeight;
+    return width > 0 && height > width;
+  };
+  let spreads = [];
+  function makeSpreads() {
+    spreads = [];
+    const paired = option('--viewer-spreads') === '1' && wide.matches;
+    for (let position = 0; position < photographs.length;) {
+      const end = paired && position + 1 < photographs.length
+        && isPortrait(photographs[position]) && isPortrait(photographs[position + 1])
+        ? position + 1 : position;
+      for (let member = position; member <= end; member++) spreads[member] = { start: position, end };
+      position = end + 1;
+    }
+  }
+  makeSpreads();
   function clearTransition() {
     transitions.forEach(animation => animation.cancel());
     transitions = [];
@@ -53,14 +82,45 @@ function initializePhotoViewer() {
   }
   reducedMotion.addEventListener('change', clearTransition);
 
-  // Fine-art mat (27 November 2026): equal margins on three sides, 6% of the
-  // print's longer side, and a bottom margin twice as deep, as in real
-  // framing, which gives the photograph's number room to breathe.
-  const matRatio = 0.06;
-  const matBottomFactor = 2;
+  // Fine-art mat (27 November 2026): 6% of the print's longer side, equal on
+  // all four edges again since the photograph's number moved to the top band.
+  const matOption = () => {
+    const value = parseFloat(option('--viewer-mat'));
+    return Number.isFinite(value) ? value : 0.06;
+  };
+  let matRatio = 0.06;
+  const matBottomFactor = 1;
+  function fitSpread(availableWidth, availableHeight) {
+    // Both portraits at the same height, a mat around the pair and twice the
+    // mat between them, where the album folds.
+    const unit = 1000;
+    const left = dimensions.width / dimensions.height * unit;
+    const right = facingDimensions.width / facingDimensions.height * unit;
+    const mat = unit * matRatio;
+    const scale = Math.min(
+      availableWidth / (left + right + 4 * mat),
+      availableHeight / (unit + 2 * mat),
+      Math.min(dimensions.height, facingDimensions.height) / unit
+    );
+    if (scale <= 0) return;
+    const side = mat * scale;
+    displayed.style.width = `${left * scale}px`;
+    displayed.style.height = `${unit * scale}px`;
+    facing.style.width = `${right * scale}px`;
+    facing.style.height = `${unit * scale}px`;
+    paper.style.padding = `${side}px`;
+    paper.style.setProperty('--mat-side', `${side}px`);
+    paper.style.setProperty('--mat-bottom', `${side}px`);
+    paper.style.setProperty('--fold', `${side * 2 + left * scale}px`);
+  }
   function fitPrint() {
     if (!dialog.open || !dimensions) return;
+    matRatio = matOption();
     const { width: availableWidth, height: availableHeight } = stage.getBoundingClientRect();
+    if (facingDimensions) {
+      fitSpread(availableWidth, availableHeight);
+      return;
+    }
     const { width, height } = dimensions;
     const mat = Math.max(width, height) * matRatio;
     const scale = Math.min(
@@ -78,6 +138,80 @@ function initializePhotoViewer() {
     paper.style.setProperty('--mat-bottom', `${bottom}px`);
   }
 
+  // The number turns like the wheels of a mechanical counter (27 November
+  // 2026): each character sits in its own window, and only the figures that
+  // change roll, upwards when moving forward, downwards when moving back.
+  // The units turn first, the tens a moment later. Without motion if less
+  // motion is wanted.
+  let editionValue = '';
+  let editionRolls = [];
+  // Snaps a roll still under way to its end at once, so that a quick
+  // succession of photographs never stacks figures in a window. The
+  // animations' own promises settle too late for that (asynchronously).
+  function stopRolls() {
+    editionRolls.forEach(({ animations, settle }) => {
+      animations.forEach(animation => animation.cancel());
+      settle();
+    });
+    editionRolls = [];
+  }
+  function writeEdition(value) {
+    stopRolls();
+    edition.replaceChildren(...Array.from(value, character => {
+      const window = document.createElement('span');
+      window.className = 'photo-viewer-digit';
+      const face = document.createElement('span');
+      face.textContent = character;
+      window.append(face);
+      return window;
+    }));
+    editionValue = value;
+  }
+  function setEdition(value, direction) {
+    if (value === editionValue) return;
+    const previous = editionValue;
+    if (!previous || previous.length !== value.length || !direction || reducedMotion.matches || !dialog.open) {
+      writeEdition(value);
+      return;
+    }
+    stopRolls();
+    const windows = Array.from(edition.children);
+    const changed = Array.from(value).map((character, position) => position)
+      .filter(position => value[position] !== previous[position]);
+    changed.forEach(position => {
+      const window = windows[position];
+      const outgoingFace = window.firstElementChild;
+      const incomingFace = document.createElement('span');
+      incomingFace.textContent = value[position];
+      incomingFace.className = 'is-incoming';
+      window.append(incomingFace);
+      // Positions further left (tens) turn a little after the units.
+      const delay = (changed[changed.length - 1] - position) * 70;
+      const options = { duration: 520, delay, easing: 'cubic-bezier(0.5, 0, 0.15, 1)', fill: 'backwards' };
+      const leaving = outgoingFace.animate(
+        [{ transform: 'translateY(0)' }, { transform: `translateY(${-110 * direction}%)` }],
+        { ...options, fill: 'forwards' }
+      );
+      const arriving = incomingFace.animate(
+        [{ transform: `translateY(${110 * direction}%)` }, { transform: 'translateY(0)' }],
+        options
+      );
+      const roll = {
+        animations: [leaving, arriving],
+        settle() {
+          outgoingFace.remove();
+          incomingFace.classList.remove('is-incoming');
+        }
+      };
+      arriving.finished.then(() => {
+        roll.settle();
+        editionRolls = editionRolls.filter(item => item !== roll);
+      }, () => {});
+      editionRolls.push(roll);
+    });
+    editionValue = value;
+  }
+
   const sourceFor = image => image.dataset.viewerSrc || image.src || image.currentSrc;
   function warmNeighbour(offset) {
     if (photographs.length < 2) return;
@@ -89,16 +223,21 @@ function initializePhotoViewer() {
   async function showPhotograph(newIndex, direction = 0) {
     if (closing) return;
     clearTransition();
-    index = (newIndex + photographs.length) % photographs.length;
+    const previousIndex = index;
+    index = spreads[(newIndex + photographs.length) % photographs.length].start;
     const current = photographs[index];
+    const partner = spreads[index].end !== index ? photographs[spreads[index].end] : undefined;
     const token = ++request;
     clearTimeout(loadingTimer);
     stage.setAttribute('aria-busy', 'true');
     const canTransition = direction && !paper.hidden && !reducedMotion.matches;
     message.hidden = true;
-    counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(photographs.length).padStart(2, '0')}`;
-    edition.textContent = counter.textContent;
-    counter.setAttribute('aria-label', text('labelCounter', 'Photographie {n} sur {total}', { n: index + 1, total: photographs.length }));
+    const number = position => String(position + 1).padStart(2, '0');
+    counter.textContent = `${number(index)}${partner ? `–${number(index + 1)}` : ''} / ${number(photographs.length - 1)}`;
+    setEdition(counter.textContent, direction || Math.sign(index - previousIndex));
+    counter.setAttribute('aria-label', partner
+      ? text('labelCounterSpread', 'Photographies {n} et {m} sur {total}', { n: index + 1, m: index + 2, total: photographs.length })
+      : text('labelCounter', 'Photographie {n} sur {total}', { n: index + 1, total: photographs.length }));
     loadingTimer = setTimeout(() => {
       if (token !== request || !dialog.open) return;
       message.textContent = text('labelLoading', 'Chargement de la photographie…');
@@ -107,8 +246,13 @@ function initializePhotoViewer() {
 
     const image = new Image();
     image.src = sourceFor(current);
+    let facingImage;
+    if (partner) {
+      facingImage = new Image();
+      facingImage.src = sourceFor(partner);
+    }
     try {
-      await image.decode();
+      await Promise.all([image.decode(), facingImage?.decode()]);
       if (token !== request || !dialog.open) return;
       let stageBounds;
       if (canTransition && !reducedMotion.matches) {
@@ -124,20 +268,46 @@ function initializePhotoViewer() {
       dimensions = { width: image.naturalWidth, height: image.naturalHeight };
       displayed.src = image.src;
       displayed.alt = current.alt;
+      facingDimensions = facingImage ? { width: facingImage.naturalWidth, height: facingImage.naturalHeight } : undefined;
+      facing.hidden = !facingImage;
+      paper.classList.toggle('is-spread', Boolean(facingImage));
+      if (facingImage) {
+        facing.src = facingImage.src;
+        facing.alt = partner.alt;
+      } else {
+        facing.removeAttribute('src');
+        facing.style.width = facing.style.height = '';
+      }
       paper.hidden = false;
       fitPrint();
       if (outgoing) {
         // Walking along the wall (27 November 2026): the old print slides away
         // and fades while the new one arrives from the other side, both at
         // once, slowly. Skipped when less motion is wanted (see canTransition).
-        const distance = Math.min(120, stageBounds.width * 0.08) * direction;
-        const options = { duration: slideDuration, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' };
+        // In the album, a page turns (27 November 2026): a slow cross-fade
+        // with only a slight drift, the new page settling as the old one
+        // lifts away.
+        const turning = turnPages();
+        const distance = (turning ? Math.min(28, stageBounds.width * 0.02) : Math.min(120, stageBounds.width * 0.08)) * direction;
+        const options = turning
+          ? { duration: 1200, easing: 'cubic-bezier(0.35, 0, 0.25, 1)' }
+          : { duration: slideDuration, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' };
+        // The old page has mostly lifted before the new one appears, so the
+        // two photographs barely overlap.
         transitions = [
-          outgoing.animate([
+          outgoing.animate(turning ? [
+            { opacity: 1, transform: 'translateX(0)' },
+            { opacity: 0, transform: `translateX(${-distance * 0.6}px)`, offset: 0.6 },
+            { opacity: 0, transform: `translateX(${-distance}px)` }
+          ] : [
             { opacity: 1, transform: 'translateX(0)' },
             { opacity: 0, transform: `translateX(${-distance}px)` }
           ], { ...options, fill: 'forwards' }),
-          paper.animate([
+          paper.animate(turning ? [
+            { opacity: 0, transform: `translateX(${distance}px)` },
+            { opacity: 0, transform: `translateX(${distance * 0.7}px)`, offset: 0.3 },
+            { opacity: 1, transform: 'translateX(0)' }
+          ] : [
             { opacity: 0, transform: `translateX(${distance}px)` },
             { opacity: 1, transform: 'translateX(0)' }
           ], options)
@@ -154,6 +324,7 @@ function initializePhotoViewer() {
       }
       warmNeighbour(1);
       warmNeighbour(-1);
+      if (spreads[index].end !== index) warmNeighbour(2);
     } catch {
       if (token !== request || !dialog.open) return;
       paper.hidden = true;
@@ -169,10 +340,12 @@ function initializePhotoViewer() {
   }
 
   function openViewer(image, position) {
-    if (!viewerBreakpoint.matches || dialog.open) return;
+    if (dialog.open) return;
     opener = image;
     dimensions = undefined;
     paper.hidden = true;
+    writeEdition('');
+    makeSpreads();
     closing = false;
     dialog.classList.remove('is-closing');
     dialog.classList.add('is-opening');
@@ -204,38 +377,23 @@ function initializePhotoViewer() {
     clearTimeout(loadingTimer);
     stage.setAttribute('aria-busy', 'false');
     document.documentElement.classList.remove('photo-viewer-open');
-    if (viewerBreakpoint.matches) opener?.focus({ preventScroll: true });
+    opener?.focus({ preventScroll: true });
   });
 
-  function updateInteraction() {
-    const enabled = viewerBreakpoint.matches;
-    if (!enabled) closeViewer(true);
-    photographs.forEach((image, position) => {
-      image.classList.toggle('photo-viewer-trigger', enabled);
-      if (enabled) {
-        image.tabIndex = 0;
-        image.setAttribute('role', 'button');
-        image.setAttribute('aria-haspopup', 'dialog');
-        image.setAttribute('aria-controls', 'photo-viewer');
-        image.setAttribute('aria-label', `${text('labelEnlarge', 'Agrandir la photographie {n} sur {total}', { n: position + 1, total: photographs.length })}${image.alt ? `${document.documentElement.lang.startsWith('fr') ? ' : ' : ': '}${image.alt}` : ''}`);
-      } else {
-        originalAttributes.get(image).forEach((value, name) => {
-          if (value === null) image.removeAttribute(name);
-          else image.setAttribute(name, value);
-        });
-      }
-    });
-  }
   photographs.forEach((image, position) => {
+    image.classList.add('photo-viewer-trigger');
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-haspopup', 'dialog');
+    image.setAttribute('aria-controls', 'photo-viewer');
+    image.setAttribute('aria-label', `${text('labelEnlarge', 'Agrandir la photographie {n} sur {total}', { n: position + 1, total: photographs.length })}${image.alt ? `${document.documentElement.lang.startsWith('fr') ? ' : ' : ': '}${image.alt}` : ''}`);
     image.addEventListener('click', () => openViewer(image, position));
     image.addEventListener('keydown', event => {
-      if (!viewerBreakpoint.matches || (event.key !== 'Enter' && event.key !== ' ')) return;
+      if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
       openViewer(image, position);
     });
   });
-  viewerBreakpoint.addEventListener('change', updateInteraction);
-  updateInteraction();
 
   // Quiet mode: controls fade out when the mouse rests (see _photo-viewer.scss).
   let quietTimer;
@@ -270,6 +428,17 @@ function initializePhotoViewer() {
     thumbnail.alt = '';
     thumbnail.loading = 'lazy';
     thumbnail.decoding = 'async';
+    // The prints are large on the wall: the browser picks, from the article's
+    // own WebP versions, the one that suits their size on screen (at most
+    // 360px high, see _photo-viewer.scss).
+    const ratio = image.getAttribute('width') && image.getAttribute('height')
+      ? image.getAttribute('width') / image.getAttribute('height')
+      : 1.5;
+    thumbnail.dataset.ratio = ratio;
+    if (image.srcset) {
+      thumbnail.srcset = image.srcset;
+      thumbnail.sizes = `${Math.round(360 * ratio)}px`;
+    }
     thumbnail.src = image.currentSrc || image.src;
     if (image.getAttribute('width') && image.getAttribute('height')) {
       thumbnail.style.aspectRatio = `${image.getAttribute('width')} / ${image.getAttribute('height')}`;
@@ -283,6 +452,26 @@ function initializePhotoViewer() {
   const step = (element, keyframes) => reducedMotion.matches
     ? undefined
     : element.animate(keyframes, { duration: 500, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' });
+  // The size slider (27 November 2026): it sets the height of the prints,
+  // from small to as tall as the room allows. Once released, each print asks
+  // the browser for the WebP version that suits its new size.
+  const thumbnails = frames.map(frame => frame.querySelector('img'));
+  function fitSizer() {
+    const roomHeight = room.clientHeight;
+    if (!roomHeight) return;
+    sizer.max = Math.max(Number(sizer.min) + 40, Math.round(roomHeight * 0.78));
+    if (!wall.style.getPropertyValue('--wall-print-height')) {
+      sizer.value = Math.round(parseFloat(getComputedStyle(thumbnails[0]).height)) || sizer.value;
+    }
+  }
+  sizer.addEventListener('input', () => {
+    wall.style.setProperty('--wall-print-height', `${sizer.value}px`);
+  });
+  sizer.addEventListener('change', () => {
+    thumbnails.forEach(thumbnail => {
+      if (thumbnail.srcset) thumbnail.sizes = `${Math.round(sizer.value * thumbnail.dataset.ratio)}px`;
+    });
+  });
   function enterRoom() {
     if (!room.hidden || closing) return;
     clearTransition();
@@ -294,6 +483,7 @@ function initializePhotoViewer() {
     dialog.classList.add('is-room');
     stage.hidden = true;
     room.hidden = false;
+    fitSizer();
     overview.setAttribute('aria-pressed', 'true');
     overview.setAttribute('aria-label', overview.dataset.labelBack || 'Revenir à la photographie');
     step(room, [{ opacity: 0, transform: 'scale(1.08)' }, { opacity: 1, transform: 'scale(1)' }]);
@@ -319,6 +509,10 @@ function initializePhotoViewer() {
   overview.dataset.labelOverview = overview.getAttribute('aria-label');
   dialog.dataset.labelOverview = overview.getAttribute('aria-label');
   overview.hidden = photographs.length < 2;
+  // No wall on phones: leave it if the window narrows while it is shown.
+  phone.addEventListener('change', () => {
+    if (phone.matches && !room.hidden) leaveRoom(index);
+  });
   overview.addEventListener('click', () => (room.hidden ? enterRoom() : leaveRoom(index)));
   dialog.addEventListener('close', () => {
     room.hidden = true;
@@ -328,9 +522,15 @@ function initializePhotoViewer() {
     overview.setAttribute('aria-label', dialog.dataset.labelOverview);
   });
 
+  // One page (or one spread) at a time.
+  const following = () => spreads[index].end + 1;
+  wide.addEventListener('change', () => {
+    makeSpreads();
+    if (dialog.open && room.hidden && !closing) showPhotograph(index);
+  });
   close.addEventListener('click', closeViewer);
   previous.addEventListener('click', () => showPhotograph(index - 1, -1));
-  next.addEventListener('click', () => showPhotograph(index + 1, 1));
+  next.addEventListener('click', () => showPhotograph(following(), 1));
   previous.hidden = next.hidden = photographs.length < 2;
   dialog.addEventListener('cancel', event => {
     event.preventDefault();
@@ -339,7 +539,7 @@ function initializePhotoViewer() {
   });
   dialog.addEventListener('keydown', event => {
     if (event.key === 'Tab') {
-      const controls = Array.from(dialog.querySelectorAll('button:not([disabled])'))
+      const controls = Array.from(dialog.querySelectorAll('button:not([disabled]), input'))
         .filter(button => !button.closest('[hidden]') && button.getClientRects().length);
       const first = controls[0];
       const last = controls[controls.length - 1];
@@ -353,7 +553,7 @@ function initializePhotoViewer() {
       return;
     }
     if (!room.hidden) return;
-    const destinations = { ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: photographs.length - 1 };
+    const destinations = { ArrowLeft: index - 1, ArrowRight: following(), Home: 0, End: photographs.length - 1 };
     if (!(event.key in destinations)) return;
     event.preventDefault();
     showPhotograph(destinations[event.key], event.key === 'ArrowLeft' || event.key === 'Home' ? -1 : 1);
@@ -374,7 +574,7 @@ function initializePhotoViewer() {
     touchStart = undefined;
     if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     suppressClickUntil = performance.now() + 350;
-    showPhotograph(index + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    showPhotograph(dx < 0 ? following() : index - 1, dx < 0 ? 1 : -1);
   });
 
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fitPrint).observe(stage);

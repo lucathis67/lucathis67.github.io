@@ -1,13 +1,14 @@
 @use "breakpoints" as bp;
+@use "linen";
 
 // One quiet primary action at the end of each story, rather than repeated prompts.
+// Set like a page in a linen-bound album (27 November 2026, as in the photo
+// viewer; see _linen.scss).
 .contact-invitation {
   margin-top: var(--space-section);
   padding: var(--space-block) 32px;
-  border-top: var(--border-default);
-  background: var(--color-background-warm) var(--paper-texture) repeat;
-  background-size: var(--paper-texture-size);
   text-align: center;
+  @include linen.page(10px);
 }
 .contact-invitation .eyebrow {
   margin: 0 0 16px;
@@ -95,6 +96,7 @@ a.button-link:hover {
 @include bp.tablet-only { .site-footer { margin-inline: 24px; } }
 @include bp.mobile {
   .contact-invitation {
+    --linen-edge: 7px;
     padding: var(--space-block) var(--gutter-mobile);
   }
   .site-footer {

@@ -68,7 +68,7 @@ Then make the WebP versions of the new photographs, from the root of the site:
 sh scripts/vignettes.sh
 ```
 
-It writes `photo-400.webp`, `photo-800.webp`, `photo-1600.webp` and `photo-2400.webp` (only the widths the original reaches, plus its own width when it falls in between) next to each JPEG of `images/`, and skips the ones that already exist. It needs `cwebp`, installed once with `brew install webp`. Keep writing ordinary `<img src="/images/…/photo.jpg">` tags: at build time, `_plugins/images-webp.rb` adds `srcset` (the WebP versions), `sizes` (deduced from the block: photo row, photo and text, homepage card…) and `data-viewer-src` (the largest WebP, for the photo viewer). The JPEG stays in `src` as a fallback and in Open Graph images. An image that already has a `srcset`, or its own `sizes`, keeps it.
+It writes `photo-400.webp`, `photo-800.webp`, `photo-1600.webp` and `photo-2400.webp` (only the widths the original reaches, plus its own width when it falls in between) next to each JPEG of `images/`, and skips the ones that already exist. It needs `cwebp`, installed once with `brew install webp`. Keep writing ordinary `<img src="/images/…/photo.jpg">` tags: at build time, `_plugins/images-webp.rb` adds `srcset` (the WebP versions), `sizes` (deduced from the block: photo row, photo and text, homepage card…) The JPEG stays in `src` as a fallback and in Open Graph images, and the photo viewer opens it at full size (no second compression of the large print). An image that already has a `srcset`, or its own `sizes`, keeps it.
 
 Write image rows and text blocks directly in HTML, including your own attributes. For repeated image markup, the optional helper is:
 
@@ -207,7 +207,7 @@ Optional manual HTML attributes:
 
 `data-viewer-src` selects an alternative full-size image. Add `data-no-viewer` to opt an image out. Images already inside links or buttons keep their authored actions and are not turned into gallery triggers.
 
-The viewer is enabled only at viewport widths of **800px and above**. Below 800px, the photographs retain their original attributes and normal cursor, and do not open the viewer. Resizing an open viewer below that threshold closes it and restores page scrolling; growing the window enables the controls again without a reload. The independent mobile navigation breakpoint remains unchanged.
+The viewer opens at every width. Up to **800px** (aligned with `_sass/_breakpoints.scss`), it shows a lighter phone version: plain black background, the print with its equal mat, a swipe to move between photographs, no arrows and no wall overview. Narrowing the window while the wall is shown returns to the current photograph. The independent mobile navigation breakpoint remains unchanged.
 
 The white mat has a very faint, seamless paper grain from `assets/textures/fine-art-paper.svg`. It is applied only as the paper container’s background; the image has its own solid white backing, with no texture overlay, blend mode or colour filter. The texture is generated locally with SVG noise and adds no external requests or dependencies. Its intensity can be adjusted through the SVG’s component-transfer values.
 
