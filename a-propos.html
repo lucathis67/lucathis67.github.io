@@ -4,37 +4,56 @@ ref: a-propos
 title: "À propos de Lucas Mathis | Photographe à Strasbourg"
 description: "Découvrez Lucas Mathis, photographe installé près de Strasbourg. Une approche humaine et naturelle de la photographie de mariage et de couple en Alsace."
 permalink: "/a-propos.html"
-main_class: "profile-page"
+main_class: "album-page"
 heading: "Bonjour, moi c'est Lucas !"
-hero_image: "/images/infos/infos-1-265.jpg"
+og_image: "/images/infos/infos-1-265.jpg"
 og_image_alt: "Un aperçu du regard photographique de Lucas Mathis, en Alsace."
 ---
+<section class="album-opening" aria-labelledby="page-title">
+  <img class="album-portrait" src="{{ "/images/infos/infos-1-261.jpg" | relative_url }}" alt="Portrait en pied de Lucas Mathis, assis contre un mur de grès rose, souriant face à l’objectif." width="800" height="1200" loading="eager" fetchpriority="high">
+  <div class="album-opening-text">
+    <p class="eyebrow">À propos</p>
+    <h1 class="page-title" id="page-title">{{ page.heading | escape }}</h1>
+    <p class="standfirst">Je suis photographe de mariages et de couples installé près de Strasbourg, en Alsace. J’aime photographier les liens entre les personnes : une façon de se regarder, un geste familier, un moment partagé dont on sera heureux de retrouver la trace quelques années plus tard.</p>
+  </div>
+</section>
 
-<div class="profile-panel">
-      <div class="profile-intro">
-        <p>
-          Je suis photographe de mariages et de couples installé près de Strasbourg, en Alsace. J’aime photographier les liens entre les personnes : une façon de se regarder, un geste familier, un moment partagé dont on sera heureux de retrouver la trace quelques années plus tard. 
-        </p>
-      </div>
-      <img class="profile-portrait" src="{{ "/images/infos/infos-1-261.jpg" | relative_url }}" alt="Portrait en pied de Lucas Mathis face à l'objectif" height="1200" width="800">
-      <div class="profile-details">
-        <h2 class="section-title">La photographie, au fil des rencontres</h2>
-        <p>
-          J’ai découvert la photographie il y a plus de dix ans auprès de Leslie Maron, une photographe de mariage américaine qui m’en a transmis les bases artistiques et techniques.
-        </p>
-        <p>Depuis, mon appareil m’a accompagné dans mes voyages, mes rencontres et les différentes étapes de ma vie. Il m’a souvent donné l’occasion de faire connaissance avec des personnes que je n’aurais peut-être jamais rencontrées autrement. Il m’a aussi appris à regarder avec davantage d’attention le monde qui m’entoure.</p>
-        <p>Avec les années, mes propres photographies ont pris une importance que je ne mesurais pas toujours au moment de les réaliser. J’y retrouve des visages, des lieux, des moments de vie. Cette expérience nourrit aujourd’hui le soin que j’apporte aux images que je réalise pour vous.</p>
-        <h2 class="section-title">Prendre le temps de faire connaissance</h2>
-        <p>
-          Être photographié n’est pas toujours une habitude et je le comprends très bien. C'est pourquoi avant un mariage ou une séance, j’aime prendre le temps d’échanger avec vous, pour découvrir votre histoire et ce que vous souhaitez garder de ce moment.
-        </p>
-        <p>Lors d’une séance de couple, cela peut commencer par une promenade et une conversation. Peu à peu, l’appareil prend moins de place et les gestes deviennent plus spontanés. Je reste attentif à ce qui se passe entre vous, tout en vous accompagnant lorsque vous en avez besoin.</p>
-        <p>Lors d’un mariage, cette même attention guide mon regard : je suis le déroulement de la journée, les personnes qui vous entourent, les moments attendus et ceux qui surviennent sans prévenir. Je cherche à écrire une histoire en images dans laquelle vous puissiez vous reconnaître.</p>
-        <h2 class="section-title">Des photographies qui traversent les années</h2>
-        <p>Il m’arrive de retrouver chez des amis une photographie que j’ai prise longtemps auparavant, dans un cadre ou en fond d’écran. Cela me touche toujours de voir qu’une image a trouvé sa place dans leur quotidien.</p>
-        <p>C’est aussi ce que je souhaite pour les vôtres : qu’elles vous accompagnent et qu’en les regardant, vous retrouviez quelque chose de ce que vous avez vécu. L’atmosphère d’une journée, la présence d’un proche, votre manière si unique d’être ensemble à cette période de votre vie.</p>
-        <p>Qu’il s’agisse d’un mariage ou d’une promenade à deux, j’y apporte la même attention, avec l’envie de créer des images qui vous ressemblent et que vous aurez plaisir à retrouver.</p>
-      </div>
-    </div>
+<div class="album-mark">{% include ornament.html type="filets" %}</div>
+
+<section class="album-chapter" aria-labelledby="chapitre-parcours">
+  <p class="eyebrow album-chapter-number">I <span>·</span> Parcours</p>
+  <h2 class="section-title" id="chapitre-parcours">La photographie, au fil des rencontres</h2>
+  <p>J’ai découvert la photographie il y a plus de dix ans auprès de Leslie Maron, une photographe de mariage américaine qui m’en a transmis les bases artistiques et techniques.</p>
+  <p>Depuis, mon appareil m’a accompagné dans mes voyages, mes rencontres et les différentes étapes de ma vie. Il m’a souvent donné l’occasion de faire connaissance avec des personnes que je n’aurais peut-être jamais rencontrées autrement. Il m’a aussi appris à regarder avec davantage d’attention le monde qui m’entoure.</p>
+  <p>Avec les années, mes propres photographies ont pris une importance que je ne mesurais pas toujours au moment de les réaliser. J’y retrouve des visages, des lieux, des moments de vie. Cette expérience nourrit aujourd’hui le soin que j’apporte aux images que je réalise pour vous.</p>
+</section>
+
+<div class="photo-row album-plate">
+  <img src="{{ "/images/infos/infos-1-265.jpg" | relative_url }}" alt="Un appareil photo argentique posé sur un tissu à motifs de fleurs, en noir et blanc." width="1600" height="900">
+  <img src="{{ "/images/contact/contact-1-270.jpg" | relative_url }}" alt="Des feuilles d’arbre, vertes et dorées, traversées par la lumière du soleil." width="2400" height="1600">
+</div>
+
+<section class="album-chapter" aria-labelledby="chapitre-approche">
+  <p class="eyebrow album-chapter-number">II <span>·</span> Approche</p>
+  <h2 class="section-title" id="chapitre-approche">Prendre le temps de faire connaissance</h2>
+  <p>Être photographié n’est pas toujours une habitude et je le comprends très bien. C'est pourquoi avant un mariage ou une séance, j’aime prendre le temps d’échanger avec vous, pour découvrir votre histoire et ce que vous souhaitez garder de ce moment.</p>
+  <p>Lors d’une séance de couple, cela peut commencer par une promenade et une conversation. Peu à peu, l’appareil prend moins de place et les gestes deviennent plus spontanés. Je reste attentif à ce qui se passe entre vous, tout en vous accompagnant lorsque vous en avez besoin.</p>
+  <p>Lors d’un mariage, cette même attention guide mon regard : je suis le déroulement de la journée, les personnes qui vous entourent, les moments attendus et ceux qui surviennent sans prévenir. Je cherche à écrire une histoire en images dans laquelle vous puissiez vous reconnaître.</p>
+</section>
+
+<figure class="album-plate album-plate-wide">
+  <img src="{{ "/images/mariage-cathedrale/mariage-cathedrale-365.jpg" | relative_url }}" alt="Laure et Nicolas se tiennent à la sortie de la chapelle, devant la haie d'honneur des invités qui soufflent des bulles de savon." width="2400" height="1600">
+  <figcaption>Laure et Nicolas à la sortie de la cathédrale de Strasbourg. <a class="text-link" href="{{ '/articles/mariage-cathedrale-strasbourg.html' | relative_url }}">Voir le reportage <span aria-hidden="true">→</span></a></figcaption>
+</figure>
+
+<section class="album-chapter" aria-labelledby="chapitre-images">
+  <p class="eyebrow album-chapter-number">III <span>·</span> Vos images</p>
+  <h2 class="section-title" id="chapitre-images">Des photographies qui traversent les années</h2>
+  <p>Il m’arrive de retrouver chez des amis une photographie que j’ai prise longtemps auparavant, dans un cadre ou en fond d’écran. Cela me touche toujours de voir qu’une image a trouvé sa place dans leur quotidien.</p>
+  <p>C’est aussi ce que je souhaite pour les vôtres : qu’elles vous accompagnent et qu’en les regardant, vous retrouviez quelque chose de ce que vous avez vécu. L’atmosphère d’une journée, la présence d’un proche, votre manière si unique d’être ensemble à cette période de votre vie.</p>
+  <p>Qu’il s’agisse d’un mariage ou d’une promenade à deux, j’y apporte la même attention, avec l’envie de créer des images qui vous ressemblent et que vous aurez plaisir à retrouver.</p>
+</section>
+
+<div class="album-mark">{% include ornament.html type="filets" %}</div>
 
 {% include contact-invitation.html %}
