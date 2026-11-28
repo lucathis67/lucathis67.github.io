@@ -1,0 +1,26 @@
+// Trial (28 November 2026): EB Garamond alone, in place of Cormorant
+// Garamond for the brand title, page and section titles, cards and the
+// viewer; Source Sans is unchanged. To go back to Cormorant, delete the
+// `@use "trial-eb-garamond";` line in assets/css/styles.scss.
+
+:root {
+  --font-display: "EB Garamond", "EB Garamond fallback", Georgia, serif;
+}
+
+// EB Garamond is wider and darker than Cormorant at the same size: every
+// title is set about 10% smaller (font-size-adjust brings its x-height,
+// 0.40 of the size, down to 0.36) and one step lighter.
+$titles: "h1:not(.brand-subtitle), h2:not(.eyebrow), h3:not(.service-included-title), summary, .brand-title, .footer-brand, .mobile-menu-brand, .mobile-menu-heading, .service-overview-name, .story-navigation-title, .photo-viewer-title, .photo-viewer-brand";
+
+html :is(#{$titles}) {
+  font-size-adjust: 0.36;
+  font-weight: 400;
+}
+// The brand keeps a little more weight, as decided for Cormorant.
+html :is(.brand-title, .footer-brand, .mobile-menu-brand, .photo-viewer-brand) {
+  font-weight: 450;
+}
+.site-header[data-masthead].is-condensed .brand-title,
+.site-header[data-masthead].is-fixed .brand-title {
+  font-weight: 450;
+}

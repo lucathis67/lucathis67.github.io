@@ -1,0 +1,25 @@
+// Trial (28 November 2026): hybrid. EB Garamond for every title as in
+// _trial-eb-garamond.scss, except the brand title and the page titles (H1),
+// which keep Cormorant Garamond. In assets/css/styles.scss, `@use
+// "trial-hybrid";` shows this version, `@use "trial-eb-garamond";` EB
+// Garamond alone, and no line at all Cormorant as before.
+@use "trial-eb-garamond";
+
+$cormorant: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+
+html :is(.brand-title, .footer-brand, .mobile-menu-brand, .mobile-menu-heading, .photo-viewer-brand, h1.page-title) {
+  font-family: $cormorant;
+  font-size-adjust: none;
+  font-weight: 500;
+}
+// Every occurrence of the brand name stays in Cormorant, the footer's
+// included (its link states outweigh the rule above).
+.footer-brand:link, .footer-brand:visited, .footer-brand:active {
+  font-family: $cormorant;
+  font-size-adjust: none;
+  font-weight: 500;
+}
+.site-header[data-masthead].is-condensed .brand-title,
+.site-header[data-masthead].is-fixed .brand-title {
+  font-weight: 500;
+}
