@@ -2,10 +2,29 @@
 layout: default
 ---
 <div class="reportage">
+  {%- if page.opening_image %}
+  {%- comment -%}
+    Ouverture « page d'album » (28 novembre 2026, comme À propos) : la photo
+    de tête, puis l'étiquette, le titre et le chapeau. Photo horizontale par
+    défaut (planche sur toute la colonne, titre et chapeau dessous, côte à
+    côte) ; opening_portrait: true pour une photo verticale (photo à gauche,
+    texte à droite, comme À propos).
+  {%- endcomment %}
+  <header class="reportage-opening {% if page.opening_portrait %}album-opening{% else %}reportage-opening-wide{% endif %}">
+    <img class="{% if page.opening_portrait %}album-portrait{% else %}reportage-opening-image{% endif %}" src="{{ page.opening_image | relative_url }}" alt="{{ page.opening_alt | escape }}" width="{{ page.opening_width }}" height="{{ page.opening_height }}" loading="eager" fetchpriority="high">
+    <div class="reportage-opening-text">
+      {% if page.category or page.location %}<p class="eyebrow kicker">{% if page.category %}<span class="kicker-category">{{ page.category | escape }}</span>{% endif %}{% if page.category and page.location %}<span class="kicker-separator" aria-hidden="true"> · </span>{% endif %}{{ page.location | escape }}</p>{% endif %}
+      <h1 class="page-title">{{ page.heading | default: page.title | escape }}</h1>
+      {% if page.chapeau %}<p class="standfirst">{{ page.chapeau | escape }}</p>{% endif %}
+    </div>
+  </header>
+  <div class="album-mark">{% include ornament.html type="filets" %}</div>
+  {%- else %}
   <div class="reportage-heading">
     <h1 class="page-title">{{ page.heading | default: page.title | escape }}</h1>
   </div>
-  <div class="reportage-content">
+  {%- endif %}
+  <div class="reportage-content{% if page.opening_image %} reportage-album{% endif %}">
     {{ content }}
   </div>
   {%- comment -%} Fin du récit, comme le fleuron qui clôt un chapitre. {%- endcomment %}

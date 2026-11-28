@@ -5,7 +5,9 @@ function initializePhotoViewer() {
   if (!content || !dialog || typeof dialog.showModal !== 'function') return;
 
   // Keep deliberately linked images and explicit opt-outs available as authored.
-  const photographs = Array.from(content.querySelectorAll('img:not([data-no-viewer])'))
+  // The opening photograph of an album-style article (28 November 2026)
+  // sits above the content and opens the series.
+  const photographs = Array.from(document.querySelectorAll('.reportage-opening img:not([data-no-viewer]), .reportage-content img:not([data-no-viewer])'))
     .filter(image => !image.closest('a, button'));
   if (!photographs.length) return;
 
