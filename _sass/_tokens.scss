@@ -12,7 +12,11 @@
   --font-body: "EB Garamond", "EB Garamond fallback", Georgia, serif;
   --font-serif: "EB Garamond", "EB Garamond fallback", Georgia, serif;
   --font-sans: "Source Sans 3", "Source Sans 3 fallback", Arial, sans-serif;
-  --font-display: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  // Titles in EB Garamond, set a little smaller and lighter (_title-fonts.scss);
+  // the brand name and the page titles (H1) in Cormorant Garamond
+  // (28 November 2026).
+  --font-display: "EB Garamond", "EB Garamond fallback", Georgia, serif;
+  --font-brand: "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --brand-title-size: clamp(2.4rem, 4.2vw, 3.8rem);
   // At least 0.72rem (about 12px) for every small uppercase label
   // (accessibility audit, 27 November 2026).
@@ -28,9 +32,9 @@
   // Almost black, under the wall's wood texture (27 November 2026, late
   // evening; was #0f0d0b, #1d1916, #29231f, and mahogany #231713 before).
   --color-viewer-backdrop: #080706;
-  // Mobile menu: a deep warm charcoal (darkened on 27 November 2026, from
-  // #2a221d).
-  --color-menu-background: #211d1a;
+  // Ink: the mobile menu's text, a deep warm charcoal (it was the menu's
+  // background until 28 November 2026, when the menu turned to paper).
+  --color-ink: #211d1a;
   --paper-texture-size: 256px;
   --paper-texture: url("../textures/fine-art-paper.svg");
   --surface-paper: var(--color-background) var(--paper-texture) repeat;
@@ -70,7 +74,7 @@
 }
 // Type scale on phones (28 November 2026): six steps, each about 1.15 to
 // 1.2 times the one below, applied in _type-mobile.scss. Body 18px, lead
-// (standfirsts, homepage lede) 20px, then four title sizes in Cormorant:
+// (standfirsts, homepage lede) 20px, then four title sizes:
 // small titles (FAQ questions, offers, steps) 22px, cards 26px, sections
 // 30px, page titles 36px. Labels and buttons in Source Sans keep their own
 // sizes (12 to 14px).

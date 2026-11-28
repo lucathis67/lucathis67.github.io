@@ -1,4 +1,20 @@
 // JavaScript-enhanced mobile dialog and its controls. Fallback links live in navigation.
+//
+// The menu (28 November 2026) is a page of the album: the site's paper, ink
+// text, and the linen only on its bottom strip (e-mail and Instagram), as on
+// the footer. It rises from the bottom of the screen up to the brand title's
+// row, which never moves; its links sit low and to the right, within reach of
+// the thumb, on one column; the current page is in italics, pointed at by the
+// viewer's arrow. Contact is a plain link here (the filled button stays on
+// desktop). Set aside the same day: the dark charcoal menu with its wave from
+// the top right corner, a linen frame around the whole screen, the links
+// aligned right.
+
+// The viewer's arrow (_includes/gallery-arrow.html: the tip of EB Garamond's
+// → glyph, drawn out into a tapering rule), as a mask.
+$arrow: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-330 -480 1290 376'%3E%3Cpath transform='scale(1 -1)' d='M719 112Q709 112 709 119Q709 120 709.0 121.0Q709 122 710 123Q722 154 738.0 180.5Q754 207 771.5 229.0Q789 251 806 269Q700 281 600 281H-310Q-320 281 -320 292Q-320 303 -310 303H600Q700 303 806 315Q790 332 773.0 353.5Q756 375 741.0 399.5Q726 424 716 449Q710 463 712.0 467.5Q714 472 720 472Q727 472 735.0 469.0Q743 466 747 461Q768 439 790.0 417.5Q812 396 835.0 376.0Q858 356 883.5 338.0Q909 320 938 305Q950 298 950 292Q950 288 948.5 286.0Q947 284 937 279Q908 264 882.5 246.0Q857 228 834.0 208.0Q811 188 789.0 166.5Q767 145 746 123Q742 119 734.0 115.5Q726 112 719 112Z'/%3E%3C/svg%3E";
+$ease-in-place: cubic-bezier(.22, .75, .2, 1);
+$ease-away: cubic-bezier(.55, 0, .7, .4);
 
 .menu-toggle {
   display: none;
@@ -25,23 +41,23 @@ html.menu-open {
   padding: 0 var(--space-5) var(--space-7);
   padding-top: env(safe-area-inset-top, 0px);
   border: 0;
-  background: var(--color-menu-background);
-  color: var(--color-background);
+  background: var(--paper-texture) repeat, var(--color-background);
+  background-size: var(--paper-texture-size), auto;
+  color: var(--color-ink);
   overflow-y: auto;
+  // Left edge of the links' column: half the content's width, but never so
+  // far right that the e-mail address (about 150px) overflows the margin,
+  // which only happens on the smallest screens (320px).
+  --menu-column: min(50%, 100% - 152px);
 }
 
 .mobile-menu[open] {
   display: flex;
   flex-direction: column;
-  animation: menu-wave-in 650ms cubic-bezier(.22, .75, .2, 1) both;
 }
 
 .mobile-menu::backdrop {
   background: transparent;
-}
-
-.mobile-menu.is-closing {
-  animation: menu-wave-out 400ms ease-in both;
 }
 
 .mobile-menu-heading {
@@ -53,7 +69,10 @@ html.menu-open {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   column-gap: var(--space-2);
-  border-bottom: 1px solid rgb(252 251 248 / 20%);
+  // The rule is drawn just below the row, on the exact line of the header's
+  // own (first) rule, so that the two never show side by side while the menu
+  // opens or closes.
+  box-shadow: 0 1px 0 var(--color-border);
   font-family: var(--font-display);
   font-size: var(--menu-brand-size, var(--brand-title-size));
   font-weight: 400;
@@ -129,21 +148,23 @@ html.menu-open {
   outline: none;
 }
 
+// The links, low and on one column (see --menu-column), Contact last, closest
+// to the thumb; the top of the screen stays empty.
 .mobile-menu nav {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-end;
   gap: clamp(18px, 4vh, var(--space-8));
-  padding: var(--space-8) 0;
+  padding: var(--space-8) 0 var(--space-section-inner) var(--menu-column);
 }
 
 .mobile-menu nav ul {
   list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: clamp(18px, 4vh, var(--space-8));
   margin: 0;
   padding: 0;
@@ -164,62 +185,47 @@ html.menu-open {
   font-size: clamp(26px, 7vw, 42px);
   font-weight: 300;
   line-height: 1.1;
-  color: var(--color-background);
+  color: var(--color-ink);
   border: none;
-  text-align: right;
+  text-align: left;
 }
 
 .mobile-menu nav a:hover {
   opacity: .75;
 }
 
-// Current page: in italics, same weight (27 November 2026; real Source Sans
-// italic, see fonts.css).
+// Current page: in italics, same weight (real Source Sans italic, see
+// fonts.css), and pointed at from the left by the viewer's arrow, which hangs
+// in the left half without shifting anything. Contact included.
 .mobile-menu nav a[aria-current="page"] {
+  position: relative;
   font-style: italic;
 }
-
-// Contact, as everywhere else, the one filled button (27 November 2026):
-// ivory on the dark menu, set a little apart under the other links.
-.mobile-menu nav .nav-cta {
-  margin-top: var(--space-2);
-}
-.mobile-menu nav .nav-cta a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 48px;
-  padding: 12px 26px;
-  border: 1px solid var(--color-background);
-  background: var(--color-background);
-  color: var(--color-menu-background);
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1.5;
-}
-.mobile-menu nav .nav-cta a:hover {
-  opacity: 1;
-  background: transparent;
-  color: var(--color-background);
-}
-.mobile-menu nav .nav-cta a:focus-visible {
-  // The button's own text colour is the menu background: the focus ring
-  // stays ivory so that it shows against the menu.
-  outline-color: var(--color-background);
-}
-.mobile-menu nav .nav-cta a[aria-current="page"] {
-  font-style: normal;
+.mobile-menu nav a[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.45em);
+  width: 1.5em;
+  height: calc(1.5em * 16 / 56);
+  margin-top: calc(-1.5em * 8 / 56);
+  background: currentColor;
+  -webkit-mask: url("#{$arrow}") no-repeat center / 100% 100%;
+  mask: url("#{$arrow}") no-repeat center / 100% 100%;
+  pointer-events: none;
 }
 
-// Colophon: a fine rule, then the e-mail and Instagram in small capitals, as
-// in the site footer.
+// Bottom strip: the e-mail and Instagram in small capitals, as in the site
+// footer, on linen from edge to edge and down to the bottom of the screen,
+// with no rule above; their text keeps the links' column.
 .mobile-menu-colophon {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--space-2);
-  padding-top: var(--space-5);
-  border-top: 1px solid rgb(252 251 248 / 20%);
+  margin: 0 calc(var(--space-5) * -1) calc(var(--space-7) * -1);
+  padding: var(--space-5) var(--space-5) calc(var(--space-7) + env(safe-area-inset-bottom, 0px)) calc(var(--space-5) + var(--menu-column));
+  background: url("../textures/album-linen.webp") repeat center top / 512px, #e6decf;
 }
 .mobile-menu-colophon a {
   display: inline-flex;
@@ -233,16 +239,113 @@ html.menu-open {
   font-weight: 500;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--color-background);
+  color: var(--color-ink);
   opacity: 0.75;
 }
 .mobile-menu-colophon a:hover {
   opacity: 1;
 }
 
-@media (prefers-reduced-motion: reduce) {
+// Motion. The menu rises like a page from the bottom of the screen and stops
+// under the brand title's row, which never moves. Its elements slide into
+// place from right to left as the page reaches them, from the bottom up: the
+// strip's links first, Accueil last; the current page's arrow comes just
+// after its link. On closing, the same in reverse: Accueil leaves first, then
+// the page goes back down. A tap on a link plays the links' exit before the
+// next page loads (script.js, `is-leaving`).
+@keyframes menu-page-rise {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@keyframes menu-page-fall {
+  from { transform: none; }
+  to { transform: translateY(100%); }
+}
+// The linen strip travels with the page: the same distance, the same pace.
+@keyframes menu-strip-rise {
+  from { transform: translateY(calc(100dvh - var(--menu-heading-height, 82px))); }
+  to { transform: none; }
+}
+@keyframes menu-strip-fall {
+  from { transform: none; }
+  to { transform: translateY(calc(100dvh - var(--menu-heading-height, 82px))); }
+}
+@keyframes menu-item-in {
+  from { opacity: 0; transform: translateX(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes menu-item-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateX(28px); }
+}
+@keyframes menu-current-arrow {
+  from { opacity: 0; transform: translateX(-0.6em); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  // The dialog itself stays still and clear; the paper is drawn twice: once
+  // behind the title's row, still, and once as the rising page.
   .mobile-menu[open],
   .mobile-menu.is-closing {
-    animation: none;
+    background: transparent;
+  }
+  .mobile-menu::before,
+  .mobile-menu::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background: var(--paper-texture) repeat, var(--color-background);
+    background-size: var(--paper-texture-size), auto;
+    pointer-events: none;
+  }
+  .mobile-menu::after {
+    top: 0;
+    height: var(--menu-heading-height, 82px);
+  }
+  .mobile-menu::before {
+    top: var(--menu-heading-height, 82px);
+    bottom: 0;
+    box-shadow: 0 -10px 30px rgb(33 29 26 / 12%);
+  }
+  .mobile-menu[open]::before {
+    animation: menu-page-rise 560ms $ease-in-place both;
+  }
+  .mobile-menu.is-closing::before {
+    animation: menu-page-fall 300ms $ease-away 130ms both;
+  }
+  .mobile-menu[open] .mobile-menu-colophon {
+    animation: menu-strip-rise 560ms $ease-in-place both;
+  }
+  .mobile-menu.is-closing .mobile-menu-colophon {
+    animation: menu-strip-fall 300ms $ease-away 130ms both;
+  }
+
+  // Order from the bottom up (the links sit in two lists).
+  .mobile-menu nav .nav-end li:nth-child(2) { --menu-item: 1; }
+  .mobile-menu nav .nav-end li:nth-child(1) { --menu-item: 2; }
+  .mobile-menu nav .nav-start li:nth-child(3) { --menu-item: 3; }
+  .mobile-menu nav .nav-start li:nth-child(2) { --menu-item: 4; }
+  .mobile-menu nav .nav-start li:nth-child(1) { --menu-item: 5; }
+  .mobile-menu-colophon > * { --menu-item: 0; }
+
+  .mobile-menu[open] nav li,
+  .mobile-menu[open] .mobile-menu-colophon > * {
+    animation: menu-item-in 480ms $ease-in-place both;
+    animation-delay: calc(160ms + var(--menu-item, 0) * 50ms);
+  }
+  .mobile-menu[open]:not(.is-closing):not(.is-leaving) nav a[aria-current="page"]::before {
+    animation: menu-current-arrow 420ms $ease-in-place both;
+    animation-delay: calc(160ms + var(--menu-item, 0) * 50ms + 260ms);
+  }
+  // Closing, or leaving for another page: the links go; when leaving, the
+  // page stays until the next one replaces it.
+  .mobile-menu.is-closing nav li,
+  .mobile-menu.is-closing .mobile-menu-colophon > *,
+  .mobile-menu.is-leaving nav li,
+  .mobile-menu.is-leaving .mobile-menu-colophon > * {
+    animation: menu-item-out 220ms ease-in both;
+    animation-delay: calc((5 - var(--menu-item, 0)) * 22ms);
   }
 }

@@ -58,6 +58,37 @@ html {
 .site-header[data-masthead].is-condensed {
   --masthead-title-gap: 0px;
 }
+// The rule is double (28 November 2026): two fine rules, the paper between
+// them so that photos never show through, interrupted around the brand title
+// on the homepage like the single one (same mask). Once the page's own first
+// rule has slid beneath the header (script.js, initializeHeaderRule), the
+// second rule slides up into the first and they close into one.
+@property --rule-shift {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 3px;
+}
+.site-header[data-masthead].is-fixed::after {
+  --rule-shift: 3px;
+  bottom: -4px;
+  height: 4px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-border) 0 1px,
+    var(--color-background) 1px var(--rule-shift),
+    var(--color-border) var(--rule-shift) calc(var(--rule-shift) + 1px),
+    transparent calc(var(--rule-shift) + 1px)
+  );
+  transition: --rule-shift 450ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+.site-header[data-masthead].is-rule-merged::after {
+  --rule-shift: 0px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header[data-masthead].is-fixed::after {
+    transition: none;
+  }
+}
 .site-header[data-masthead].is-fixed + main {
   margin-top: var(--masthead-height, 0px);
 }

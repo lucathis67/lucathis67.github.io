@@ -479,7 +479,7 @@ $wall-texture: url("../textures/wall-wood-diagonal-darker.webp") repeat;
   inset-inline: 168px;
   top: 50%;
   transform: translateY(-50%);
-  // Cormorant Garamond, finer than the page titles (500).
+  // EB Garamond, like the other titles (_title-fonts.scss).
   font-family: var(--font-display);
   // Discreet, close to the signature below (27 November 2026).
   font-size: 1.15rem;
@@ -523,7 +523,7 @@ $wall-texture: url("../textures/wall-wood-diagonal-darker.webp") repeat;
 }
 
 // ---------------------------------------------------------------------------
-// Album page (27 November 2026, trial): the whole window is a page of an
+// Album page (27 November 2026): the whole window is a page of an
 // album. The linen of the cover frames it, like the cloth of a hardcover
 // turned over onto the board (assets/textures/album-linen.webp:
 // "Rough Linen" from Poly Haven, CC0, recoloured to a light flax); the rest
@@ -556,9 +556,9 @@ $viewer-album: true;
   }
   // The page, set into its linen (27 November 2026, late evening): a thin
   // edge of linen, the same on all four sides, and the paper fills the rest,
-  // controls, title and signature included. At each corner, a fine diagonal
-  // runs from the corner of the page to the corner of the window, where the
-  // cloth of a hardcover is mitred and turned over the board.
+  // controls, title and signature included. Plain linen: the line at the
+  // edge of the paper and the mitred corners were removed on 28 November
+  // 2026.
   .photo-viewer {
     --page-top: 64px;
     --page-bottom: 56px;
@@ -583,22 +583,6 @@ $viewer-album: true;
     right: var(--page-edge);
     background: $page-texture, var(--color-background);
     background-size: var(--paper-texture-size), auto;
-    // A faint line marks the edge of the paper on the cloth.
-    box-shadow: inset 0 0 0 0.5px rgb(61 46 32 / 22%);
-    pointer-events: none;
-  }
-  // The mitred corners: a fine fold line with a glint of light beside it.
-  $mitre-down: linear-gradient(45deg, transparent calc(50% - 0.75px), rgb(61 46 32 / 30%) calc(50% - 0.25px), rgb(255 252 244 / 55%) calc(50% + 0.5px), transparent calc(50% + 1px));
-  $mitre-up: linear-gradient(-45deg, transparent calc(50% - 0.75px), rgb(61 46 32 / 30%) calc(50% - 0.25px), rgb(255 252 244 / 55%) calc(50% + 0.5px), transparent calc(50% + 1px));
-  .photo-viewer[open]::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    inset: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
-    background: $mitre-down, $mitre-up, $mitre-up, $mitre-down;
-    background-size: var(--page-edge) var(--page-edge);
-    background-position: left top, right top, left bottom, right bottom;
-    background-repeat: no-repeat;
     pointer-events: none;
   }
   // At rest, the buttons fade but the number stays printed on the page.

@@ -1,9 +1,18 @@
 @use "breakpoints" as bp;
 
 // Shared type and reading rhythm. Components supply their own layouts.
+// The paper is drawn as images (texture over a flat layer of its colour), so
+// that the background colour proper only shows where Safari stretches the
+// page past its ends (the elastic overscroll): paper at the top, under the
+// header, and the linen of the footer's strip at the bottom (`is-near-end`,
+// set by script.js once past the middle of the page; 28 November 2026).
 html {
-  background: var(--surface-paper);
-  background-size: var(--paper-texture-size);
+  background-color: var(--color-background);
+  background-image: var(--paper-texture), linear-gradient(var(--color-background), var(--color-background));
+  background-size: var(--paper-texture-size), auto;
+}
+html.is-near-end {
+  background-color: #e6decf;
 }
 body {
   background: transparent;
@@ -76,6 +85,12 @@ a.skip-link:focus {
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--color-heading);
   outline-offset: 5px;
+}
+// After a touch or a click, no focus ring until a key is pressed (script.js,
+// initializeFocusRings): Safari would otherwise ring what was just tapped.
+// It outweighs every component's own focus style, hence !important.
+html.is-pointer :focus-visible {
+  outline: none !important;
 }
 address {
   display: inline;

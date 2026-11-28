@@ -135,12 +135,13 @@ Edit `assets/css/styles.scss` only to change the stylesheet's module order. Jeky
 | `_sass/_navigation.scss` | Desktop menu and inline navigation fallback |
 | `_sass/_editorial.scss` | Homepage cards, article text and photograph arrangements |
 | `_sass/_profile.scss` | About/Contact hero, panel and portrait |
-| `_sass/_mobile-menu.scss` | Mobile dialog, controls and keyboard focus |
+| `_sass/_mobile-menu.scss` | Mobile dialog (paper and ink, linen bottom strip, rise from the bottom, current-page arrow), controls and keyboard focus |
 | `_sass/_closing.scss` | Shared closing invitation, primary action and footer |
 | `_sass/_linen.scss` | The linen-bound page mixin (`linen.page($edge)`), see « Linen » below |
 | `_sass/_photo-viewer.scss` | Photograph viewer (album page) |
-| `_sass/_trial-header-footer.scss` | Double rule under the header, header links within the central column, linen footer strip |
-| `_sass/_trial-menu-linen.scss` | Mobile menu as an album page (ink on paper, linen edge) |
+| `_sass/_masthead.scss` | Fixed, shrinking header and its double rule |
+| `_sass/_type-mobile.scss` | Type scale on phones (sizes from `_tokens.scss`) |
+| `_sass/_title-fonts.scss` | Title faces: EB Garamond for titles, Cormorant Garamond for the brand name and page titles |
 | `_sass/_motion.scss` | Animation keyframes and content animation |
 
 ### Conventions
@@ -199,7 +200,7 @@ The native modal dialog makes the background inert. Tab and Shift+Tab remain wit
 - `assets/js/photo-viewer.js`: album collection, loading, keyboard/touch handling and responsive print sizing.
 - `_sass/_photo-viewer.scss`: the album page (and, kept behind `$viewer-album`, the former dark gallery).
 
-Images remain uncropped. Since 27 November 2026 the viewer is an album page: the whole window is the site's paper inside a thin, even linen edge with mitred corners, the photograph is printed on the page with generous margins and no mat, and every control, the title and the photograph's number (bottom right, still visible when the controls fade at rest) are printed in rich ink. On the wall, the story's title is set apart by the editorial double rule and the prints scroll beneath the white top band. Setting `$viewer-album: false` at the end of `_sass/_photo-viewer.scss` brings back the dark gallery with its matted prints (`matRatio` / `--viewer-mat`); earlier versions are saved in `_sauvegardes/`.
+Images remain uncropped. Since 27 November 2026 the viewer is an album page: the whole window is the site's paper inside a thin, even, plain linen edge, the photograph is printed on the page with generous margins and no mat, and every control, the title and the photograph's number (bottom right, still visible when the controls fade at rest) are printed in rich ink. On the wall, the story's title is set apart by the editorial double rule and the prints scroll beneath the white top band. Setting `$viewer-album: false` at the end of `_sass/_photo-viewer.scss` brings back the dark gallery with its matted prints (`matRatio` / `--viewer-mat`); earlier versions are saved in `_sauvegardes/`.
 
 The viewer opens the original JPEG at full size (the page itself shows the WebP versions) and preloads the neighbouring photographs, so that moving from one to the next is immediate.
 
@@ -223,10 +224,9 @@ The print boundaries are slightly softened: a subpixel white halo on the paper e
 
 Light linen (`assets/textures/album-linen.webp`, « Rough Linen » from Poly Haven, CC0, recoloured to natural flax) evokes the cloth of a bound wedding album. It is part of the art direction, and kept rare:
 
-- An **album page** is a thin, even linen edge on all four sides, mitred at the corners (a fine diagonal from the corner of the page to the corner of the frame), the site's paper inside, and ink for controls and text. Use the `linen.page($edge)` mixin from `_sass/_linen.scss` rather than copying it.
-- In use: the photograph viewer, the contact invitation, the bottom strip of the footer (full window width, no rule above it) and the mobile menu (ink on paper instead of charcoal).
-- Tried and set aside: a linen band under the header (replaced by the double rule) and a linen frame around the price row of Prestations.
-- To remove one of the trial modules, delete its `@use` line in `assets/css/styles.scss`.
+- An **album page** is a thin, even, plain linen edge on all four sides (no line at the edge of the paper and no mitred corners since 28 November 2026), the site's paper inside, and ink for controls and text. Use the `linen.page($edge)` mixin from `_sass/_linen.scss` rather than copying it.
+- In use: the photograph viewer, the contact invitation, the bottom strip of the footer (full window width, no rule above it) and the bottom strip of the mobile menu (e-mail and Instagram).
+- Tried and set aside: a linen band under the header (replaced by the double rule), a linen frame around the price row of Prestations and a linen frame around the whole mobile menu.
 
 ## English version (removed)
 
@@ -240,4 +240,4 @@ The site was bilingual from 26 to 27 November 2026, then returned to French only
 
 ### Validated typography
 
-The site locally hosts EB Garamond for headings and reading text, and Source Sans 3 for supporting text and controls. Variable files cover the declared weights (normal and italic for EB Garamond, normal only for Source Sans 3, which the site never sets in italic); each family retains its license. `assets/css/fonts.css` registers them, and `_sass/_tokens.scss` defines the active families, shared paragraph sizing and brand scale. Retired Cormorant Garamond and DM Sans assets have been removed.
+The site locally hosts EB Garamond for titles and reading text, Cormorant Garamond for the brand name and the page titles (H1), and Source Sans 3 for supporting text and controls (its italic only marks the current page in the mobile menu). Variable files cover the declared weights; each family retains its license. `assets/css/fonts.css` registers them, `_sass/_tokens.scss` defines the active families (`--font-display`, `--font-brand`), shared paragraph sizing and brand scale, and `_sass/_title-fonts.scss` sets which titles use which face. Retired DM Sans assets have been removed.

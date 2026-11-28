@@ -1,0 +1,29 @@
+// Title faces (28 November 2026). Every title is in EB Garamond
+// (--font-display), except the brand name, wherever it appears, and the page
+// titles (H1), which keep Cormorant Garamond (--font-brand): more assured and
+// approachable than Cormorant throughout, while the brand keeps its own
+// voice. Compared the same day with EB Garamond alone and Cormorant alone.
+// Loaded last, so that it overrides the components' weights.
+
+// EB Garamond is wider and darker than Cormorant at the same size: titles are
+// set about 10% smaller (font-size-adjust brings its x-height, 0.40 of the
+// size, down to 0.36) and one step lighter.
+$titles: "h1:not(.brand-subtitle), h2:not(.eyebrow), h3:not(.service-included-title), summary, .brand-title, .footer-brand, .mobile-menu-brand, .mobile-menu-heading, .service-overview-name, .story-navigation-title, .photo-viewer-title, .photo-viewer-brand";
+
+html :is(#{$titles}) {
+  font-size-adjust: 0.36;
+  font-weight: 400;
+}
+
+// The brand name and the page titles in Cormorant, at weight 500.
+html :is(.brand-title, .footer-brand, .mobile-menu-brand, .mobile-menu-heading, .photo-viewer-brand, h1.page-title) {
+  font-family: var(--font-brand);
+  font-size-adjust: none;
+  font-weight: 500;
+}
+// The footer's brand too (its link states outweigh the rule above).
+.footer-brand:link, .footer-brand:visited, .footer-brand:active {
+  font-family: var(--font-brand);
+  font-size-adjust: none;
+  font-weight: 500;
+}
