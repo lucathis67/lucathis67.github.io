@@ -52,6 +52,15 @@
 .service-section:first-of-type {
   border-top: 0;
 }
+// On phones, a link to an offer lands with its photograph right against the
+// header's rule (28 November 2026): the page's scroll padding and the
+// section's top padding are taken back (the photograph slips just under the
+// rule, so no sliver of paper shows between them).
+@include bp.mobile {
+  .service-section {
+    scroll-margin-top: calc(-1 * var(--space-5) - var(--space-section-inner));
+  }
+}
 .service-photograph {
   display: block;
 }

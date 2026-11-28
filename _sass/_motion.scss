@@ -85,18 +85,16 @@ a.text-link:hover span {
 
 // Buttons (27 November 2026): every button behaves like the header's Contact
 // button, its colours swapping gently on hover (--button-transition in
-// _tokens.scss). Header and mobile menu Contact, invitation and Contact page buttons,
+// _tokens.scss). Header Contact, invitation and Contact page buttons,
 // Prestations buttons and the photo viewer's buttons. The swap is immediate
 // for visitors who prefer less motion, as with the card underlines above.
 .site-header .nav-cta a,
-.mobile-menu nav .nav-cta a,
 a.button-link,
 .photo-viewer-button {
   transition: var(--button-transition);
 }
 @media (prefers-reduced-motion: reduce) {
   .site-header .nav-cta a,
-  .mobile-menu nav .nav-cta a,
   a.button-link,
   .photo-viewer-button {
     transition: none;
@@ -115,14 +113,4 @@ a.button-link,
   .photo-viewer-next:hover svg {
     transform: translateX(4px);
   }
-}
-
-@keyframes menu-wave-in {
-  from { clip-path: ellipse(0% 0% at 100% 0%); }
-  to { clip-path: ellipse(150% 150% at 100% 0%); }
-}
-
-@keyframes menu-wave-out {
-  from { clip-path: ellipse(150% 150% at 100% 0%); }
-  to { clip-path: ellipse(0% 0% at 100% 0%); }
 }

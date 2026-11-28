@@ -36,9 +36,16 @@
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   column-gap: var(--space-6);
-  // Measured from the edges of the window, not from the content column.
-  padding-inline: var(--space-8);
+  // Above 1200px, the links line up with the edges of the central content
+  // column (28 November 2026; below, the menu button takes their place).
+  padding-inline: max(var(--space-5), (100% - var(--layout-max-width)) / 2);
   border-bottom: var(--border-default);
+}
+// Up to 1400px, the content keeps 24px more on each side (see _closing.scss).
+@media screen and (width > bp.$nav-hamburger-max) and (max-width: bp.$tablet-max) {
+  .site-header {
+    padding-inline: calc(max(0px, (100% - var(--layout-max-width)) / 2) + 24px);
+  }
 }
 .site-brand {
   grid-row: 1;

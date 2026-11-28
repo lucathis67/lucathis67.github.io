@@ -94,7 +94,8 @@ function initializeSite() {
     dialog.classList.toggle("pointer-open", event.detail > 0);
     // The menu heading takes the header's current height and title size (full
     // or thin), so the brand and the close button sit where they were.
-    dialog.style.setProperty("--menu-heading-height", `${header.offsetHeight}px`);
+    // Unrounded, so that the menu's rule falls exactly on the header's.
+    dialog.style.setProperty("--menu-heading-height", `${header.getBoundingClientRect().height}px`);
     dialog.classList.toggle("is-full", !header.classList.contains("is-condensed"));
     const brandTitle = header.querySelector(".brand-title");
     if (brandTitle) {
@@ -116,8 +117,29 @@ function initializeSite() {
   dialog.addEventListener("animationend", event => {
     if (event.target === dialog && closing) finishClose();
   });
+  // A link of the menu: the links leave first, as when the menu closes, while
+  // the page stays, then the browser goes to the new page (28 November 2026,
+  // _mobile-menu.scss). A modified click (new tab, etc.) or reduced
+  // motion goes straight there, as before.
   mobileNav.addEventListener("click", event => {
-    if (event.target.closest("a")) finishClose();
+    const link = event.target.closest("a");
+    if (!link) return;
+    const leaveSlowly = !matchMedia("(prefers-reduced-motion: reduce)").matches
+      && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      && event.button === 0
+      && !link.target
+      && link.origin === location.origin;
+    if (!leaveSlowly) return finishClose();
+    event.preventDefault();
+    dialog.classList.add("is-leaving");
+    setTimeout(() => { location.href = link.href; }, 320);
+  });
+  // Back to this page from the history: the menu is closed again.
+  window.addEventListener("pageshow", event => {
+    if (event.persisted && dialog.open) {
+      dialog.classList.remove("is-leaving");
+      finishClose();
+    }
   });
   matchMedia("(max-width: 1200px)").addEventListener("change", event => {
     if (!event.matches && dialog.open) finishClose();
@@ -201,9 +223,72 @@ function initializeMasthead() {
   document.fonts?.ready.then(measure);
 }
 
+// Double rule under the header (28 November 2026, _masthead.scss):
+// it closes into a single rule once the first rule of the page has slid
+// beneath the header — on the homepage, the one above the front page; on the
+// other pages, as soon as the page scrolls. `is-rule-merged` on the header.
+function initializeHeaderRule() {
+  const header = document.querySelector(".site-header[data-masthead]");
+  if (!header) return;
+  const marker = document.querySelector(".home-une .home-introduction");
+  let scheduled = false;
+  const update = () => {
+    scheduled = false;
+    const merged = marker
+      ? marker.getBoundingClientRect().top <= header.getBoundingClientRect().bottom
+      : window.scrollY > 8;
+    header.classList.toggle("is-rule-merged", merged);
+  };
+  window.addEventListener("scroll", () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
+
+// Safari's elastic overscroll shows the page's background colour: past the
+// middle of the page, it takes the linen of the footer's strip, so the bottom
+// end never flashes paper-white under it (_base.scss, `is-near-end`).
+function initializeOverscroll() {
+  const root = document.documentElement;
+  let scheduled = false;
+  const update = () => {
+    scheduled = false;
+    const end = root.scrollHeight - window.innerHeight;
+    root.classList.toggle("is-near-end", end > 0 && window.scrollY > end / 2);
+  };
+  window.addEventListener("scroll", () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
+
+// Focus rings for the keyboard only (28 November 2026). Safari on iPhone
+// counts the focus that scripts give (the photo when the viewer closes, the
+// viewer's buttons when it opens) as keyboard focus, and left a dark square
+// on what had just been tapped. A touch or a click sets `is-pointer` on
+// <html>, which hides the rings (_base.scss); the first key pressed brings
+// them back.
+function initializeFocusRings() {
+  const root = document.documentElement;
+  document.addEventListener("pointerdown", () => root.classList.add("is-pointer"), { capture: true, passive: true });
+  document.addEventListener("keydown", event => {
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    root.classList.remove("is-pointer");
+  }, { capture: true });
+}
+
 function initialize() {
+  initializeFocusRings();
   initializeSite();
   initializeMasthead();
+  initializeHeaderRule();
+  initializeOverscroll();
 }
 
 if (document.readyState === "loading") {
