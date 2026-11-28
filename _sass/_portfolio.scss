@@ -56,6 +56,25 @@ a.portfolio-image-link:active {
   margin: 12px 0 0;
   text-wrap: pretty;
 }
+// As on the homepage's cards (28 November 2026, see _editorial.scss): the
+// standfirst in roman, the title at 500. The element names outweigh
+// _type-mobile.scss and _title-fonts.scss, loaded later.
+.portfolio-story h2.portfolio-title {
+  font-weight: 500;
+  line-height: 1.12;
+}
+.portfolio-story p.portfolio-accroche {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+@include bp.mobile {
+  .portfolio-story p.portfolio-accroche {
+    line-height: 1.5;
+  }
+}
 
 @include bp.above-mobile {
   .portfolio-list {

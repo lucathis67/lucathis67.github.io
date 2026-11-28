@@ -79,6 +79,28 @@
   margin-top: 24px;
   margin-bottom: 0;
 }
+// Easier to read (28 November 2026, as in the Portfolio): the standfirst in
+// roman rather than italics (four or five lines of italic tire the eye,
+// above all on a phone), without letter-spacing and with a little more
+// leading; the title a step weightier (500) than the other EB Garamond
+// titles, so that it stands out from it. The element names outweigh
+// _type-mobile.scss and _title-fonts.scss, loaded later.
+.home-une .story-card h2.article-title {
+  font-weight: 500;
+  line-height: 1.12;
+}
+.home-une .story-card p.standfirst {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+@include bp.mobile {
+  .home-une .story-card p.standfirst {
+    line-height: 1.5;
+  }
+}
 
 // Openings and narrative chapters have distinct spacing; photographs stay uncropped.
 .reportage-heading {
