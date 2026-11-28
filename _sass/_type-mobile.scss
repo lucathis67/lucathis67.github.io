@@ -1,0 +1,61 @@
+@use "breakpoints" as bp;
+
+// Type scale on phones (28 November 2026): one size per level, set by the
+// tokens of _tokens.scss, so that a page title always outranks a section
+// title, which outranks a card title, and so on. Loaded last, so that it
+// overrides the sizes the components set for phones; desktop is unchanged.
+@include bp.mobile {
+  // Page titles (H1).
+  .page-title,
+  .page-introduction .page-title,
+  .reportage-heading .page-title,
+  .profile-hero .page-title {
+    font-size: var(--type-title-1);
+    line-height: 1.08;
+  }
+
+  // Section titles, the contact invitation and the footer's brand.
+  .section-title,
+  .landing-about .section-title,
+  .home-services .section-title,
+  .service-description .section-title,
+  .service-steps .section-title,
+  .service-faq .section-title,
+  .contact-invitation h2,
+  .footer-brand:link, .footer-brand:visited, .footer-brand:active {
+    font-size: var(--type-title-2);
+    line-height: 1.1;
+  }
+
+  // Card titles: homepage front page and Portfolio.
+  .article-title,
+  .main-container-row .une-secondary .article-title,
+  .portfolio-title,
+  .portfolio-entry-wide .portfolio-title {
+    font-size: var(--type-title-3);
+    line-height: 1.1;
+  }
+
+  // Small titles: offers, steps, FAQ questions, next story.
+  .story-navigation-title,
+  .service-overview-name,
+  .service-steps h3,
+  .service-faq summary {
+    font-size: var(--type-title-4);
+    line-height: 1.2;
+  }
+
+  // Lead: the italic sentence under a title, and the homepage lede.
+  .standfirst,
+  .main-container-row .une-secondary .standfirst,
+  .portfolio-accroche,
+  .home-lede {
+    font-size: var(--type-lead);
+    line-height: 1.45;
+  }
+
+  // Small print, one step below the body.
+  .service-price-note {
+    font-size: var(--text-size-small);
+  }
+}

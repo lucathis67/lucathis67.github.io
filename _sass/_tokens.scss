@@ -68,6 +68,23 @@
   // Every rem-based size follows this root size (106.25% = 17px by default).
   font-size: 106.25%;
 }
+// Type scale on phones (28 November 2026): six steps, each about 1.15 to
+// 1.2 times the one below, applied in _type-mobile.scss. Body 18px, lead
+// (standfirsts, homepage lede) 20px, then four title sizes in Cormorant:
+// small titles (FAQ questions, offers, steps) 22px, cards 26px, sections
+// 30px, page titles 36px. Labels and buttons in Source Sans keep their own
+// sizes (12 to 14px).
+@include bp.mobile {
+  :root {
+    --text-size: 1.0625rem;
+    --text-leading: 1.65;
+    --type-lead: 1.1875rem;
+    --type-title-4: 1.3rem;
+    --type-title-3: 1.55rem;
+    --type-title-2: 1.775rem;
+    --type-title-1: 2.125rem;
+  }
+}
 @include bp.mobile {
   :root {
     --space-section: 48px;

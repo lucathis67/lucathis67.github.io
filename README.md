@@ -137,6 +137,10 @@ Edit `assets/css/styles.scss` only to change the stylesheet's module order. Jeky
 | `_sass/_profile.scss` | About/Contact hero, panel and portrait |
 | `_sass/_mobile-menu.scss` | Mobile dialog, controls and keyboard focus |
 | `_sass/_closing.scss` | Shared closing invitation, primary action and footer |
+| `_sass/_linen.scss` | The linen-bound page mixin (`linen.page($edge)`), see « Linen » below |
+| `_sass/_photo-viewer.scss` | Photograph viewer (album page) |
+| `_sass/_trial-header-footer.scss` | Double rule under the header, header links within the central column, linen footer strip |
+| `_sass/_trial-menu-linen.scss` | Mobile menu as an album page (ink on paper, linen edge) |
 | `_sass/_motion.scss` | Animation keyframes and content animation |
 
 ### Conventions
@@ -177,9 +181,9 @@ Add its module to `assets/css/styles.scss` with `@use`. Component modules follow
 
 `_sass/_landing.scss` styles homepage content; `_sass/_header.scss` styles the shared masthead. The former Glide carousel was removed on 25 November 2026 and remains available in the git history.
 
-Navigation labels and destinations come from `_data/navigation.yml`. Every page shares one fixed header: FR / EN switcher on the left, brand title centred, links on the right; it slims down once the page title has scrolled past (`_sass/_masthead.scss`). Up to 1200 px the links give way to the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
+Navigation labels and destinations come from `_data/navigation.yml`. Every page shares one fixed header: brand title centred, Accueil, Portfolio and Prestations on its left, À propos and Contact on its right; above 1200 px the links line up with the edges of the central content column. Its bottom line is a double fine rule. It slims down once the page title has scrolled past (`_sass/_masthead.scss`). Up to 1200 px the links give way to the shared dialog menu. The shared contact invitation is `_includes/contact-invitation.html`.
 
-The active design uses warm ivory, brown charcoal text and an earthy menu background with the shared paper texture. Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
+The active design uses warm ivory, brown charcoal text and the shared paper texture, with light linen as its signature accent (see « Linen » below). Shared colours, typography, spacing and texture size live in `_sass/_tokens.scss`; saved palette comparisons remain in `_design/palettes.json` as references only.
 
 For new articles, set a unique numeric `publication_order` in front matter. The Portfolio updates automatically; the homepage front page selection remains manual. `heading` supplies the article title in its page, homepage card and Portfolio entry. `category`, `location`, `cover_image` and `cover_alt` provide supporting metadata. Image includes and the article template remain available for future content.
 
@@ -193,9 +197,11 @@ The native modal dialog makes the background inert. Tab and Shift+Tab remain wit
 
 - `_includes/photo-viewer.html`: shared dialog and controls.
 - `assets/js/photo-viewer.js`: album collection, loading, keyboard/touch handling and responsive print sizing.
-- `_sass/_photo-viewer.scss`: theme-coloured dark backdrop and white print mat.
+- `_sass/_photo-viewer.scss`: the album page (and, kept behind `$viewer-album`, the former dark gallery).
 
-Images remain uncropped. The mat takes up approximately 20% of the print's width in total (10% on each side), with equal physical padding on all four edges. Adjust `matRatio` in `photo-viewer.js` to change the proportion; 0.125 corresponds to that 20% total. Print sizing respects the available stage in landscape and portrait layouts. White paper remains white regardless of the selected site palette; the dark backdrop uses `--color-viewer-backdrop` (a neutral, earthy charcoal).
+Images remain uncropped. Since 27 November 2026 the viewer is an album page: the whole window is the site's paper inside a thin, even linen edge with mitred corners, the photograph is printed on the page with generous margins and no mat, and every control, the title and the photograph's number (bottom right, still visible when the controls fade at rest) are printed in rich ink. On the wall, the story's title is set apart by the editorial double rule and the prints scroll beneath the white top band. Setting `$viewer-album: false` at the end of `_sass/_photo-viewer.scss` brings back the dark gallery with its matted prints (`matRatio` / `--viewer-mat`); earlier versions are saved in `_sauvegardes/`.
+
+The viewer opens the original JPEG at full size (the page itself shows the WebP versions) and preloads the neighbouring photographs, so that moving from one to the next is immediate.
 
 Optional manual HTML attributes:
 
@@ -207,11 +213,20 @@ Optional manual HTML attributes:
 
 `data-viewer-src` selects an alternative full-size image. Add `data-no-viewer` to opt an image out. Images already inside links or buttons keep their authored actions and are not turned into gallery triggers.
 
-The viewer opens at every width. Up to **800px** (aligned with `_sass/_breakpoints.scss`), it shows a lighter phone version: plain black background, the print with its equal mat, a swipe to move between photographs, no arrows and no wall overview. Narrowing the window while the wall is shown returns to the current photograph. The independent mobile navigation breakpoint remains unchanged.
+The viewer opens at every width. Up to **800px** (aligned with `_sass/_breakpoints.scss`), it shows a lighter phone version: the same album page with a thinner linen edge, a swipe to move between photographs, no arrows and no wall overview. Narrowing the window while the wall is shown returns to the current photograph. The independent mobile navigation breakpoint remains unchanged.
 
 The white mat has a very faint, seamless paper grain from `assets/textures/fine-art-paper.svg`. It is applied only as the paper container’s background; the image has its own solid white backing, with no texture overlay, blend mode or colour filter. The texture is generated locally with SVG noise and adds no external requests or dependencies. Its intensity can be adjusted through the SVG’s component-transfer values.
 
 The print boundaries are slightly softened: a subpixel white halo on the paper edge, and a 0.85px opacity feather around the photograph. The image centre remains sharp, with no blur filter and no modification to the source file. Adjust `--print-edge-feather` in `_sass/_photo-viewer.scss` to tune the photograph boundary. Browsers without intersecting CSS masks keep a normal image edge.
+
+## Linen
+
+Light linen (`assets/textures/album-linen.webp`, « Rough Linen » from Poly Haven, CC0, recoloured to natural flax) evokes the cloth of a bound wedding album. It is part of the art direction, and kept rare:
+
+- An **album page** is a thin, even linen edge on all four sides, mitred at the corners (a fine diagonal from the corner of the page to the corner of the frame), the site's paper inside, and ink for controls and text. Use the `linen.page($edge)` mixin from `_sass/_linen.scss` rather than copying it.
+- In use: the photograph viewer, the contact invitation, the bottom strip of the footer (full window width, no rule above it) and the mobile menu (ink on paper instead of charcoal).
+- Tried and set aside: a linen band under the header (replaced by the double rule) and a linen frame around the price row of Prestations.
+- To remove one of the trial modules, delete its `@use` line in `assets/css/styles.scss`.
 
 ## English version (removed)
 
