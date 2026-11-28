@@ -1,5 +1,10 @@
 ---
 layout: default
 ---
-{% include profile-hero.html %}
+{%- comment -%}
+  À propos et Contact (28 novembre 2026) : chaque page compose elle-même son
+  ouverture (planche d'album pour À propos, colonne principale et colonne de
+  côté pour Contact). L'ancien bandeau photo (profile-hero.html) n'est plus
+  appelé.
+{%- endcomment %}
 {{ content }}
